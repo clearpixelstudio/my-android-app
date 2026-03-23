@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShopIndia Admin Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #f43f5e; --primary-dark: #e11d48; --secondary: #6366f1;
+  --success: #10b981; --warning: #f59e0b; --danger: #ef4444;
+  --bg: #0f172a; --sidebar: #1e293b; --card: #1e293b;
+  --text: #f1f5f9; --text-muted: #94a3b8; --border: #334155;
+  --font: 'Nunito', sans-serif;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; }
+
+/* LOGIN */
+#login-screen {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+.login-box {
+  background: #1e293b; border: 1px solid var(--border); border-radius: 16px;
+  padding: 40px; width: 380px; text-align: center;
+}
+.login-logo { font-size: 28px; font-weight: 900; color: var(--primary); margin-bottom: 8px; }
+.login-box h2 { font-size: 18px; color: var(--text-muted); margin-bottom: 28px; }
+.form-field { margin-bottom: 16px; text-align: left; }
+.form-field label { font-size: 12px; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 5px; }
+.form-field input { width: 100%; background: #0f172a; border: 1.5px solid var(--border); color: var(--text); border-radius: 8px; padding: 11px 14px; font-size: 14px; font-family: var(--font); outline: none; transition: border 0.2s; }
+.form-field input:focus { border-color: var(--primary); }
+.login-btn { width: 100%; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; border: none; border-radius: 10px; padding: 14px; font-size: 15px; font-weight: 800; cursor: pointer; font-family: var(--font); margin-top: 8px; }
+
+/* ADMIN LAYOUT */
+#admin-app { display: none; min-height: 100vh; }
+.admin-layout { display: flex; min-height: 100vh; }
+
+/* SIDEBAR */
+.sidebar {
+  width: 240px; background: var(--sidebar); border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; position: fixed; top: 0; bottom: 0; left: 0; z-index: 50;
+}
+.sidebar-logo { padding: 22px 20px; border-bottom: 1px solid var(--border); font-size: 20px; font-weight: 900; color: var(--primary); }
+.sidebar-logo span { color: var(--text-muted); font-size: 12px; font-weight: 600; display: block; }
+.sidebar-nav { flex: 1; padding: 12px 0; overflow-y: auto; }
+.nav-group-title { font-size: 10px; font-weight: 800; color: var(--text-muted); padding: 12px 20px 6px; letter-spacing: 1px; text-transform: uppercase; }
+.nav-link { display: flex; align-items: center; gap: 10px; padding: 10px 20px; cursor: pointer; font-size: 13px; font-weight: 700; color: var(--text-muted); transition: all 0.2s; }
+.nav-link:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+.nav-link.active { color: var(--primary); background: rgba(244,63,94,0.1); border-right: 3px solid var(--primary); }
+.nav-link .icon { font-size: 17px; width: 20px; text-align: center; }
+.sidebar-footer { padding: 16px 20px; border-top: 1px solid var(--border); }
+.sidebar-user { display: flex; align-items: center; gap: 10px; }
+.user-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800; }
+.user-info { font-size: 13px; font-weight: 700; }
+.user-role { font-size: 11px; color: var(--text-muted); }
+
+/* MAIN */
+.main { margin-left: 240px; flex: 1; display: flex; flex-direction: column; }
+.topbar { background: var(--sidebar); border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
+.topbar-title { font-size: 18px; font-weight: 800; }
+.topbar-actions { display: flex; gap: 10px; }
+.btn { padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; border: none; font-family: var(--font); display: flex; align-items: center; gap: 6px; }
+.btn-primary { background: var(--primary); color: white; }
+.btn-secondary { background: var(--border); color: var(--text); }
+.btn-success { background: var(--success); color: white; }
+.btn-danger { background: var(--danger); color: white; }
+.btn-sm { padding: 5px 10px; font-size: 12px; }
+
+/* CONTENT */
+.content { padding: 24px; flex: 1; overflow-y: auto; }
+
+/* PAGES */
+.admin-page { display: none; }
+.admin-page.active { display: block; }
+
+/* CARDS */
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+.stat-card {
+  background: var(--card); border-radius: 12px; padding: 20px;
+  border: 1px solid var(--border); position: relative; overflow: hidden;
+}
+.stat-label { font-size: 12px; color: var(--text-muted); font-weight: 700; margin-bottom: 8px; }
+.stat-value { font-size: 28px; font-weight: 900; margin-bottom: 4px; }
+.stat-sub { font-size: 12px; color: var(--text-muted); }
+.stat-icon { position: absolute; top: 16px; right: 16px; font-size: 28px; opacity: 0.3; }
+
+.card { background: var(--card); border-radius: 12px; border: 1px solid var(--border); }
+.card-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.card-title { font-size: 15px; font-weight: 800; }
+.card-body { padding: 20px; }
+
+/* TABLE */
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+thead { background: rgba(255,255,255,0.05); }
+th { padding: 10px 14px; text-align: left; font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
+td { padding: 12px 14px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: rgba(255,255,255,0.03); }
+
+/* BADGES */
+.badge { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; }
+.badge-pending { background: rgba(245,158,11,0.15); color: var(--warning); }
+.badge-confirmed { background: rgba(99,102,241,0.15); color: var(--secondary); }
+.badge-ordered { background: rgba(16,185,129,0.1); color: #34d399; }
+.badge-shipped { background: rgba(6,182,212,0.15); color: #22d3ee; }
+.badge-delivered { background: rgba(16,185,129,0.15); color: var(--success); }
+
+/* FORMS */
+.form-group { margin-bottom: 16px; }
+.form-group label { font-size: 12px; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 5px; }
+.form-group input, .form-group select, .form-group textarea {
+  width: 100%; background: #0f172a; border: 1.5px solid var(--border); color: var(--text);
+  border-radius: 8px; padding: 10px 14px; font-size: 14px; font-family: var(--font); outline: none;
+}
+.form-group input:focus, .form-group select:focus { border-color: var(--primary); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+
+/* PRODUCT GRID */
+.products-admin-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.product-admin-card { background: #0f172a; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+.product-admin-card img { width: 100%; height: 140px; object-fit: cover; }
+.product-admin-info { padding: 12px; }
+.product-admin-name { font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+.product-admin-price { font-size: 16px; font-weight: 900; color: var(--primary); margin-bottom: 8px; }
+.product-admin-actions { display: flex; gap: 6px; }
+
+/* TOAST */
+.toast { position: fixed; top: 20px; right: 20px; background: #1e293b; border: 1px solid var(--border); color: var(--text); padding: 12px 20px; border-radius: 10px; font-size: 13px; font-weight: 700; z-index: 9999; box-shadow: 0 8px 24px rgba(0,0,0,0.3); display: none; }
+.toast.show { display: block; }
+
+/* MODAL */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 100; align-items: center; justify-content: center; }
+.modal-overlay.open { display: flex; }
+.modal { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; width: 540px; max-height: 80vh; overflow-y: auto; }
+.modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.modal-title { font-size: 18px; font-weight: 800; }
+.modal-close { background: none; border: none; color: var(--text-muted); font-size: 20px; cursor: pointer; }
+
+/* UPLOAD */
+.upload-area { border: 2px dashed var(--border); border-radius: 8px; padding: 24px; text-align: center; cursor: pointer; }
+.upload-area:hover { border-color: var(--primary); }
+
+/* RESPONSIVE */
+@media (max-width: 1024px) { .stats-grid { grid-template-columns: repeat(2,1fr); } }
+@media (max-width: 768px) { .sidebar { display: none; } .main { margin-left: 0; } }
+</style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- LOGIN SCREEN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">Shop<span style="color:#ffd700">India</span></div>
+    <h2>Admin Dashboard</h2>
+    <div class="form-field">
+      <label>Username</label>
+      <input type="text" id="admin-user" placeholder="admin" value="admin">
+    </div>
+    <div class="form-field">
+      <label>Password</label>
+      <input type="password" id="admin-pass" placeholder="••••••••" value="shopindia123" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <button class="login-btn" onclick="doLogin()">Login to Dashboard →</button>
+    <p style="font-size:11px;color:var(--text-muted);margin-top:14px">Default: admin / shopindia123</p>
+  </div>
+</div>
+
+<!-- ADMIN APP -->
+<div id="admin-app">
+  <div class="admin-layout">
+    
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="sidebar-logo">
+        ShopIndia
+        <span>Admin Panel</span>
+      </div>
+      <div class="sidebar-nav">
+        <div class="nav-group-title">Main</div>
+        <div class="nav-link active" onclick="switchPage('dashboard',this)"><span class="icon">📊</span> Dashboard</div>
+        <div class="nav-link" onclick="switchPage('orders',this)"><span class="icon">📦</span> Orders</div>
+        <div class="nav-link" onclick="switchPage('products',this)"><span class="icon">🛍️</span> Products</div>
+        <div class="nav-link" onclick="switchPage('categories',this)"><span class="icon">🏷️</span> Categories</div>
+        
+        <div class="nav-group-title">Management</div>
+        <div class="nav-link" onclick="switchPage('payments',this)"><span class="icon">💰</span> Payments</div>
+        <div class="nav-link" onclick="switchPage('customers',this)"><span class="icon">👥</span> Customers</div>
+        <div class="nav-link" onclick="switchPage('reviews',this)"><span class="icon">⭐</span> Reviews</div>
+        
+        <div class="nav-group-title">Settings</div>
+        <div class="nav-link" onclick="switchPage('settings',this)"><span class="icon">⚙️</span> Settings</div>
+        <div class="nav-link" onclick="window.open('index.html','_blank')"><span class="icon">🌐</span> View Store</div>
+        <div class="nav-link" onclick="whatsappSupport()"><span class="icon">💬</span> WhatsApp</div>
+        <div class="nav-link" onclick="doLogout()"><span class="icon">🚪</span> Logout</div>
+      </div>
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="user-avatar">A</div>
+          <div><div class="user-info">Admin</div><div class="user-role">Super Admin</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main">
+      <div class="topbar">
+        <div class="topbar-title" id="page-title">📊 Dashboard</div>
+        <div class="topbar-actions">
+          <button class="btn btn-secondary" onclick="exportData()">📥 Export CSV</button>
+          <button class="btn btn-primary" onclick="showAddProduct()">+ Add Product</button>
+        </div>
+      </div>
+      
+      <div class="content">
+
+        <!-- DASHBOARD -->
+        <div class="admin-page active" id="pg-dashboard">
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon">📦</div>
+              <div class="stat-label">Total Orders</div>
+              <div class="stat-value" id="stat-orders">0</div>
+              <div class="stat-sub">All time</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">💰</div>
+              <div class="stat-label">Total Revenue</div>
+              <div class="stat-value" id="stat-revenue">₹0</div>
+              <div class="stat-sub">Estimated</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">⏳</div>
+              <div class="stat-label">Pending Orders</div>
+              <div class="stat-value" id="stat-pending">0</div>
+              <div class="stat-sub">Needs action</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">🛍️</div>
+              <div class="stat-label">Products</div>
+              <div class="stat-value" id="stat-products">16</div>
+              <div class="stat-sub">Active listings</div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-bottom:20px">
+            <div class="card-header">
+              <div class="card-title">📋 Recent Orders</div>
+              <button class="btn btn-secondary btn-sm" onclick="switchPage('orders',document.querySelector('.nav-link:nth-child(4)'))">View All</button>
+            </div>
+            <div class="card-body" style="padding:0">
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Order ID</th><th>Customer</th><th>Amount</th><th>Status</th><th>Date</th><th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="recent-orders-table">
+                    <tr><td colspan="6" style="text-align:center;padding:30px;color:var(--text-muted)">No orders yet</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+            <div class="card">
+              <div class="card-header"><div class="card-title">📊 Order Status</div></div>
+              <div class="card-body">
+                <div id="status-breakdown"></div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header"><div class="card-title">ℹ️ Quick Info</div></div>
+              <div class="card-body">
+                <div style="font-size:13px;line-height:2">
+                  <div>🏪 <strong>Store:</strong> ShopIndia</div>
+                  <div>📲 <strong>UPI:</strong> tanvir786@ptaxis</div>
+                  <div>💬 <strong>WhatsApp:</strong> 7866048085</div>
+                  <div>📦 <strong>Fulfillment:</strong> Manual Dropshipping</div>
+                  <div>🚚 <strong>Partners:</strong> Meesho, Amazon, Flipkart</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ORDERS -->
+        <div class="admin-page" id="pg-orders">
+          <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap">
+            <input type="text" placeholder="Search by Order ID or Name..." id="order-search" oninput="filterOrders()" style="background:#1e293b;border:1.5px solid var(--border);color:var(--text);border-radius:8px;padding:9px 14px;font-size:13px;font-family:var(--font);outline:none;flex:1;min-width:200px">
+            <select onchange="filterOrdersByStatus(this.value)" style="background:#1e293b;border:1.5px solid var(--border);color:var(--text);border-radius:8px;padding:9px 14px;font-size:13px;font-family:var(--font);outline:none">
+              <option value="">All Status</option>
+              <option>Payment Verification Pending</option>
+              <option>Confirmed</option>
+              <option>Ordered</option>
+              <option>Shipped</option>
+              <option>Delivered</option>
+            </select>
+          </div>
+          <div class="card">
+            <div class="card-body" style="padding:0">
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr><th>Order ID</th><th>Customer</th><th>Phone</th><th>Address</th><th>Items</th><th>Amount</th><th>Status</th><th>Screenshot</th><th>Actions</th></tr>
+                  </thead>
+                  <tbody id="all-orders-table"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PRODUCTS -->
+        <div class="admin-page" id="pg-products">
+          <div class="products-admin-grid" id="admin-products-grid"></div>
+        </div>
+
+        <!-- CATEGORIES -->
+        <div class="admin-page" id="pg-categories">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">🏷️ All Categories</div>
+              <button class="btn btn-primary btn-sm" onclick="showAddCategory()">+ Add Category</button>
+            </div>
+            <div class="card-body" style="padding:0">
+              <table>
+                <thead><tr><th>Icon</th><th>Category Name</th><th>Products</th><th>Actions</th></tr></thead>
+                <tbody id="categories-table"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAYMENTS -->
+        <div class="admin-page" id="pg-payments">
+          <div class="card">
+            <div class="card-header"><div class="card-title">💰 Payment Screenshots</div></div>
+            <div class="card-body" style="padding:0">
+              <table>
+                <thead><tr><th>Order ID</th><th>Customer</th><th>Amount</th><th>Screenshot</th><th>Status</th><th>Action</th></tr></thead>
+                <tbody id="payments-table"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- CUSTOMERS -->
+        <div class="admin-page" id="pg-customers">
+          <div class="card">
+            <div class="card-header"><div class="card-title">👥 Customers</div></div>
+            <div class="card-body" style="padding:0">
+              <table>
+                <thead><tr><th>Name</th><th>Phone</th><th>City</th><th>State</th><th>Orders</th><th>Total Spent</th></tr></thead>
+                <tbody id="customers-table"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- REVIEWS -->
+        <div class="admin-page" id="pg-reviews">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">⭐ Customer Reviews</div>
+            </div>
+            <div class="card-body" style="padding:0">
+              <table>
+                <thead><tr><th>Customer</th><th>Product</th><th>Rating</th><th>Review</th><th>Action</th></tr></thead>
+                <tbody id="reviews-table">
+                  <tr><td colspan="5" style="text-align:center;padding:30px;color:var(--text-muted)">No reviews yet</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- SETTINGS -->
+        <div class="admin-page" id="pg-settings">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+            <div class="card">
+              <div class="card-header"><div class="card-title">🏪 Store Settings</div></div>
+              <div class="card-body">
+                <div class="form-group">
+                  <label>Store Name</label>
+                  <input type="text" value="ShopIndia">
+                </div>
+                <div class="form-group">
+                  <label>UPI ID</label>
+                  <input type="text" value="tanvir786@ptaxis">
+                </div>
+                <div class="form-group">
+                  <label>WhatsApp Number</label>
+                  <input type="text" value="7866048085">
+                </div>
+                <div class="form-group">
+                  <label>Delivery Days (Min)</label>
+                  <input type="number" value="3">
+                </div>
+                <div class="form-group">
+                  <label>Delivery Days (Max)</label>
+                  <input type="number" value="7">
+                </div>
+                <button class="btn btn-primary" onclick="showToast('Settings saved!','success')">Save Settings</button>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header"><div class="card-title">🔐 Admin Access</div></div>
+              <div class="card-body">
+                <div class="form-group">
+                  <label>Current Password</label>
+                  <input type="password" placeholder="Enter current password">
+                </div>
+                <div class="form-group">
+                  <label>New Password</label>
+                  <input type="password" placeholder="New password">
+                </div>
+                <div class="form-group">
+                  <label>Confirm Password</label>
+                  <input type="password" placeholder="Confirm password">
+                </div>
+                <button class="btn btn-primary" onclick="showToast('Password updated!','success')">Update Password</button>
+              </div>
+            </div>
+          </div>
+          <div class="card" style="margin-top:16px">
+            <div class="card-header"><div class="card-title">📢 Notification Settings</div></div>
+            <div class="card-body">
+              <div style="font-size:13px;color:var(--text-muted)">WhatsApp notifications to 7866048085 are active for all new orders.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADD PRODUCT MODAL -->
+<div class="modal-overlay" id="product-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title">➕ Add New Product</div>
+      <button class="modal-close" onclick="closeModal('product-modal')">✕</button>
+    </div>
+    <div class="form-group">
+      <label>Product Name *</label>
+      <input type="text" id="p-name" placeholder="Enter product name">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Selling Price (₹) *</label>
+        <input type="number" id="p-price" placeholder="349">
+      </div>
+      <div class="form-group">
+        <label>Original Price (₹) *</label>
+        <input type="number" id="p-orig" placeholder="999">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Category *</label>
+      <select id="p-category">
+        <option>Kurti Saree and Lehanga</option>
+        <option>Women Western</option>
+        <option>Lingerie</option>
+        <option>Men</option>
+        <option>Kids and Toys</option>
+        <option>Home and Kitchen</option>
+        <option>Beauty and Health</option>
+        <option>Jewellery and Accessories</option>
+        <option>Bags and Footwear</option>
+        <option>Electronics</option>
+        <option>Sports and Fitness</option>
+        <option>Car and Motorbike</option>
+        <option>Office and Supplies</option>
+        <option>Grocery</option>
+        <option>Books</option>
+        <option>Pet Supplies</option>
+        <option>Musical Instruments</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Product Image URL</label>
+      <input type="text" id="p-img" placeholder="https://...">
+    </div>
+    <div class="form-group">
+      <label>Product Video URL (Optional - auto plays if set)</label>
+      <input type="text" id="p-video" placeholder="https://... mp4 URL">
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea id="p-desc" rows="3" style="resize:vertical;background:#0f172a;border:1.5px solid var(--border);color:var(--text);border-radius:8px;padding:10px 14px;font-size:14px;font-family:var(--font);width:100%;outline:none" placeholder="Product description..."></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Rating (0-5)</label>
+        <input type="number" id="p-rating" placeholder="4.5" step="0.1" min="0" max="5">
+      </div>
+      <div class="form-group">
+        <label>Review Count</label>
+        <input type="number" id="p-reviews" placeholder="1234">
+      </div>
+    </div>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-secondary" onclick="closeModal('product-modal')" style="flex:1">Cancel</button>
+      <button class="btn btn-primary" onclick="saveProduct()" style="flex:1">✅ Save Product</button>
+    </div>
+  </div>
+</div>
+
+<!-- ORDER DETAIL MODAL -->
+<div class="modal-overlay" id="order-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">📦 Order Details</div>
+      <button class="modal-close" onclick="closeModal('order-modal')">✕</button>
+    </div>
+    <div id="order-modal-content"></div>
+  </div>
+</div>
+
+<!-- INVOICE MODAL -->
+<div class="modal-overlay" id="invoice-modal">
+  <div class="modal" style="max-width:600px">
+    <div class="modal-header">
+      <div class="modal-title">🧾 Invoice</div>
+      <button class="modal-close" onclick="closeModal('invoice-modal')">✕</button>
+    </div>
+    <div id="invoice-content" style="background:white;color:#1e293b;padding:20px;border-radius:8px"></div>
+    <button class="btn btn-primary" onclick="window.print()" style="margin-top:14px;width:100%">🖨️ Print Invoice</button>
+  </div>
+</div>
+
+<script>
+// ============ DATA ============
+const PRODUCTS_DATA = [
+  {id:1,name:'Floral Print Cotton Kurti Set',category:'Kurti Saree and Lehanga',price:349,orig:799,img:'https://images.unsplash.com/photo-1585744481400-9b5e6cedc30c?w=400&q=80',rating:4.5,reviews:1243,desc:'Beautiful floral print cotton kurti.'},
+  {id:2,name:'Banarasi Silk Saree',category:'Kurti Saree and Lehanga',price:899,orig:2499,img:'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=400&q=80',rating:4.7,reviews:892,desc:'Premium Banarasi silk saree.'},
+  {id:3,name:'Wireless Bluetooth Earphones',category:'Electronics',price:599,orig:1999,img:'https://images.unsplash.com/photo-1572536147248-ac59a8abfa4b?w=400&q=80',rating:4.3,reviews:5621,desc:'High quality wireless earphones.'},
+  {id:4,name:'Korean Style Face Cream SPF50',category:'Beauty and Health',price:249,orig:599,img:'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400&q=80',rating:4.6,reviews:3214,desc:'Lightweight moisturizing cream.'},
+  {id:5,name:'Men Cotton Casual Shirt',category:'Men',price:449,orig:999,img:'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=400&q=80',rating:4.4,reviews:1876,desc:'Breathable cotton shirt for men.'},
+  {id:6,name:'Kids Soft Plush Teddy Bear',category:'Kids and Toys',price:299,orig:699,img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',rating:4.8,reviews:4521,desc:'Super soft teddy bear for kids.'},
+];
+
+let adminProducts = JSON.parse(localStorage.getItem('adminProducts') || JSON.stringify(PRODUCTS_DATA));
+let editingProductId = null;
+let allOrders = [];
+let filteredOrders = [];
+
+// ============ LOGIN ============
+function doLogin() {
+  const user = document.getElementById('admin-user').value;
+  const pass = document.getElementById('admin-pass').value;
+  if(user === 'admin' && pass === 'shopindia123') {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('admin-app').style.display = 'block';
+    loadDashboard();
+  } else {
+    alert('Invalid credentials!\nUsername: admin\nPassword: shopindia123');
+  }
+}
+
+function doLogout() {
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('admin-app').style.display = 'none';
+}
+
+// ============ NAVIGATION ============
+function switchPage(page, el) {
+  document.querySelectorAll('.admin-page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  document.getElementById('pg-'+page).classList.add('active');
+  if(el) el.classList.add('active');
+  
+  const titles = {
+    dashboard:'📊 Dashboard', orders:'📦 Orders', products:'🛍️ Products',
+    categories:'🏷️ Categories', payments:'💰 Payments', customers:'👥 Customers',
+    reviews:'⭐ Reviews', settings:'⚙️ Settings'
+  };
+  document.getElementById('page-title').textContent = titles[page] || page;
+  
+  if(page==='orders') renderOrders();
+  if(page==='products') renderAdminProducts();
+  if(page==='categories') renderCategories();
+  if(page==='payments') renderPayments();
+  if(page==='customers') renderCustomers();
+}
+
+// ============ DASHBOARD ============
+function loadDashboard() {
+  allOrders = JSON.parse(localStorage.getItem('orders') || '[]');
+  filteredOrders = allOrders;
+  
+  document.getElementById('stat-orders').textContent = allOrders.length;
+  document.getElementById('stat-revenue').textContent = '₹' + allOrders.reduce((s,o)=>s+(o.total||0),0).toLocaleString();
+  document.getElementById('stat-pending').textContent = allOrders.filter(o=>o.status.includes('Pending')||o.status==='Pending').length;
+  document.getElementById('stat-products').textContent = adminProducts.length;
+  
+  // Recent orders
+  const tbody = document.getElementById('recent-orders-table');
+  if(allOrders.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:30px;color:var(--text-muted)">No orders yet. Orders from customers will appear here.</td></tr>';
+  } else {
+    tbody.innerHTML = allOrders.slice().reverse().slice(0,5).map(o => `
+      <tr>
+        <td><strong>${o.id}</strong></td>
+        <td>${o.name}</td>
+        <td><strong>₹${o.total}</strong></td>
+        <td><span class="badge ${getBadgeClass(o.status)}">${o.status}</span></td>
+        <td>${new Date(o.createdAt).toLocaleDateString('en-IN')}</td>
+        <td>
+          <button class="btn btn-sm btn-secondary" onclick="viewOrder('${o.id}')">View</button>
+          <button class="btn btn-sm btn-primary" onclick="updateStatus('${o.id}')">Update</button>
+        </td>
+      </tr>
+    `).join('');
+  }
+  
+  // Status breakdown
+  const statuses = ['Payment Verification Pending','Confirmed','Ordered','Shipped','Delivered'];
+  document.getElementById('status-breakdown').innerHTML = statuses.map(s => {
+    const count = allOrders.filter(o=>o.status===s).length;
+    const pct = allOrders.length ? Math.round(count/allOrders.length*100) : 0;
+    return `
+      <div style="margin-bottom:12px">
+        <div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:12px">
+          <span style="color:var(--text-muted)">${s}</span>
+          <span style="font-weight:700">${count}</span>
+        </div>
+        <div style="background:#0f172a;border-radius:4px;height:6px;overflow:hidden">
+          <div style="background:var(--primary);height:100%;width:${pct}%;transition:width 0.5s"></div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function getBadgeClass(status) {
+  if(status.includes('Pending')) return 'badge-pending';
+  if(status==='Confirmed') return 'badge-confirmed';
+  if(status==='Ordered') return 'badge-ordered';
+  if(status==='Shipped') return 'badge-shipped';
+  if(status==='Delivered') return 'badge-delivered';
+  return 'badge-pending';
+}
+
+// ============ ORDERS ============
+function renderOrders() {
+  allOrders = JSON.parse(localStorage.getItem('orders') || '[]');
+  filteredOrders = allOrders;
+  renderOrderTable(allOrders);
+}
+
+function renderOrderTable(orders) {
+  const tbody = document.getElementById('all-orders-table');
+  if(!orders.length) {
+    tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:30px;color:var(--text-muted)">No orders yet.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = orders.slice().reverse().map(o => `
+    <tr>
+      <td><strong>${o.id}</strong></td>
+      <td>${o.name}</td>
+      <td>${o.phone}</td>
+      <td style="font-size:11px;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${o.address}, ${o.city}</td>
+      <td>${o.items?.length||0} items</td>
+      <td><strong>₹${o.total}</strong></td>
+      <td><span class="badge ${getBadgeClass(o.status)}">${o.status}</span></td>
+      <td><button class="btn btn-sm btn-secondary" onclick="viewScreenshot('${o.id}')">📸 View</button></td>
+      <td style="white-space:nowrap">
+        <button class="btn btn-sm btn-primary" onclick="viewOrder('${o.id}')" style="margin-right:4px">View</button>
+        <button class="btn btn-sm btn-success" onclick="updateStatus('${o.id}')" style="margin-right:4px">Update</button>
+        <button class="btn btn-sm btn-secondary" onclick="generateInvoice('${o.id}')">Invoice</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function filterOrders() {
+  const q = document.getElementById('order-search').value.toLowerCase();
+  const filtered = allOrders.filter(o => o.id.toLowerCase().includes(q) || o.name.toLowerCase().includes(q) || o.phone.includes(q));
+  renderOrderTable(filtered);
+}
+
+function filterOrdersByStatus(status) {
+  const filtered = status ? allOrders.filter(o=>o.status===status) : allOrders;
+  renderOrderTable(filtered);
+}
+
+function viewOrder(id) {
+  const o = allOrders.find(x=>x.id===id);
+  if(!o) return;
+  document.getElementById('order-modal-content').innerHTML = `
+    <div style="margin-bottom:16px">
+      <div style="font-size:20px;font-weight:900;color:var(--primary);margin-bottom:8px">${o.id}</div>
+      <div class="form-row" style="gap:12px;margin-bottom:12px">
+        <div><div style="font-size:11px;color:var(--text-muted)">Customer</div><div style="font-weight:700">${o.name}</div></div>
+        <div><div style="font-size:11px;color:var(--text-muted)">Phone</div><div style="font-weight:700">${o.phone}</div></div>
+      </div>
+      <div style="background:#0f172a;border-radius:8px;padding:12px;margin-bottom:12px">
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">Delivery Address</div>
+        <div style="font-size:13px">${o.address}, ${o.city}, ${o.state} - ${o.pin}</div>
+      </div>
+      <div style="margin-bottom:12px">
+        <div style="font-size:12px;font-weight:700;margin-bottom:8px">Order Items</div>
+        ${o.items?.map(item=>`<div style="display:flex;gap:10px;align-items:center;margin-bottom:8px"><img src="${item.img}" style="width:40px;height:40px;border-radius:6px;object-fit:cover"><div style="flex:1;font-size:13px">${item.name}</div><div style="font-weight:800">₹${item.price} × ${item.qty}</div></div>`).join('')||''}
+        <div style="border-top:1px solid var(--border);padding-top:8px;font-size:15px;font-weight:900;color:var(--primary)">Total: ₹${o.total}</div>
+      </div>
+      <div style="margin-bottom:12px">
+        <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:5px">Update Status</label>
+        <select id="status-select-${o.id}" style="width:100%;background:#0f172a;border:1.5px solid var(--border);color:var(--text);border-radius:8px;padding:9px;font-family:var(--font)">
+          <option ${o.status==='Payment Verification Pending'?'selected':''}>Payment Verification Pending</option>
+          <option ${o.status==='Confirmed'?'selected':''}>Confirmed</option>
+          <option ${o.status==='Ordered'?'selected':''}>Ordered</option>
+          <option ${o.status==='Shipped'?'selected':''}>Shipped</option>
+          <option ${o.status==='Delivered'?'selected':''}>Delivered</option>
+        </select>
+      </div>
+      <div style="margin-bottom:12px">
+        <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:5px">Tracking Number</label>
+        <input type="text" placeholder="Enter tracking/AWB number" id="tracking-${o.id}" value="${o.tracking||''}" style="width:100%;background:#0f172a;border:1.5px solid var(--border);color:var(--text);border-radius:8px;padding:9px;font-family:var(--font)">
+      </div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-success" style="flex:1" onclick="saveOrderUpdate('${o.id}')">✅ Save Update</button>
+        <button class="btn btn-secondary" onclick="sendWhatsApp('${o.id}')" style="flex:1">💬 WhatsApp</button>
+      </div>
+    </div>
+  `;
+  openModal('order-modal');
+}
+
+function saveOrderUpdate(id) {
+  const orders = JSON.parse(localStorage.getItem('orders')||'[]');
+  const idx = orders.findIndex(o=>o.id===id);
+  if(idx !== -1) {
+    orders[idx].status = document.getElementById('status-select-'+id).value;
+    orders[idx].tracking = document.getElementById('tracking-'+id).value;
+    localStorage.setItem('orders', JSON.stringify(orders));
+    allOrders = orders;
+    closeModal('order-modal');
+    loadDashboard();
+    renderOrderTable(allOrders);
+    showToast('Order updated successfully!','success');
+  }
+}
+
+function updateStatus(id) {
+  viewOrder(id);
+}
+
+function viewScreenshot(id) {
+  showToast('Screenshot preview: Feature available with backend storage','success');
+}
+
+function generateInvoice(id) {
+  const o = allOrders.find(x=>x.id===id);
+  if(!o) return;
+  document.getElementById('invoice-content').innerHTML = `
+    <div style="font-family:Arial,sans-serif;padding:20px">
+      <div style="text-align:center;margin-bottom:20px">
+        <h1 style="color:#f43f5e">ShopIndia</h1>
+        <p style="color:#666">INVOICE</p>
+        <hr>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:20px">
+        <div><strong>Order ID:</strong> ${o.id}<br><strong>Date:</strong> ${new Date(o.createdAt).toLocaleDateString('en-IN')}</div>
+        <div style="text-align:right"><strong>Bill To:</strong><br>${o.name}<br>${o.phone}<br>${o.city}, ${o.state} ${o.pin}</div>
+      </div>
+      <table style="width:100%;border-collapse:collapse">
+        <thead style="background:#f1f5f9">
+          <tr><th style="padding:8px;border:1px solid #e2e8f0;text-align:left">Product</th><th style="padding:8px;border:1px solid #e2e8f0">Qty</th><th style="padding:8px;border:1px solid #e2e8f0">Price</th><th style="padding:8px;border:1px solid #e2e8f0">Total</th></tr>
+        </thead>
+        <tbody>
+          ${o.items?.map(i=>`<tr><td style="padding:8px;border:1px solid #e2e8f0">${i.name}</td><td style="padding:8px;border:1px solid #e2e8f0;text-align:center">${i.qty}</td><td style="padding:8px;border:1px solid #e2e8f0;text-align:center">₹${i.price}</td><td style="padding:8px;border:1px solid #e2e8f0;text-align:center">₹${i.price*i.qty}</td></tr>`).join('')||''}
+          <tr><td colspan="3" style="padding:8px;font-weight:bold;text-align:right">TOTAL</td><td style="padding:8px;font-weight:bold;color:#f43f5e">₹${o.total}</td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:20px;font-size:11px;color:#666;text-align:center">Thank you for shopping with ShopIndia! • UPI: tanvir786@ptaxis • WA: 7866048085</div>
+    </div>
+  `;
+  openModal('invoice-modal');
+}
+
+function sendWhatsApp(id) {
+  const o = allOrders.find(x=>x.id===id);
+  if(!o) return;
+  const msg = `Hello ${o.name}! Your ShopIndia order ${o.id} status has been updated. Please check the ShopIndia website to track your order. Thank you!`;
+  window.open(`https://wa.me/91${o.phone}?text=${encodeURIComponent(msg)}`,'_blank');
+  closeModal('order-modal');
+}
+
+// ============ PRODUCTS ============
+function renderAdminProducts() {
+  const grid = document.getElementById('admin-products-grid');
+  grid.innerHTML = adminProducts.map(p => `
+    <div class="product-admin-card">
+      <img src="${p.img}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/300x140?text=No+Image'">
+      <div class="product-admin-info">
+        <div class="product-admin-name">${p.name}</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">${p.category}</div>
+        <div class="product-admin-price">₹${p.price} <span style="font-size:12px;text-decoration:line-through;color:var(--text-muted);font-weight:400">₹${p.orig}</span></div>
+        <div class="product-admin-actions">
+          <button class="btn btn-sm btn-secondary" onclick="editProduct(${p.id})" style="flex:1">✏️ Edit</button>
+          <button class="btn btn-sm btn-danger" onclick="deleteProduct(${p.id})">🗑️</button>
+        </div>
+      </div>
+    </div>
+  `).join('') + `
+    <div class="product-admin-card" style="border:2px dashed var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center;min-height:250px;background:transparent" onclick="showAddProduct()">
+      <div style="text-align:center;color:var(--text-muted)">
+        <div style="font-size:36px;margin-bottom:8px">➕</div>
+        <div style="font-size:14px;font-weight:700">Add New Product</div>
+      </div>
+    </div>
+  `;
+}
+
+function showAddProduct() {
+  editingProductId = null;
+  document.getElementById('modal-title').textContent = '➕ Add New Product';
+  ['p-name','p-price','p-orig','p-img','p-video','p-desc','p-rating','p-reviews'].forEach(id => document.getElementById(id).value = '');
+  openModal('product-modal');
+}
+
+function editProduct(id) {
+  const p = adminProducts.find(x=>x.id===id);
+  if(!p) return;
+  editingProductId = id;
+  document.getElementById('modal-title').textContent = '✏️ Edit Product';
+  document.getElementById('p-name').value = p.name;
+  document.getElementById('p-price').value = p.price;
+  document.getElementById('p-orig').value = p.orig;
+  document.getElementById('p-img').value = p.img;
+  document.getElementById('p-video').value = p.video||'';
+  document.getElementById('p-desc').value = p.desc||'';
+  document.getElementById('p-rating').value = p.rating;
+  document.getElementById('p-reviews').value = p.reviews;
+  document.getElementById('p-category').value = p.category;
+  openModal('product-modal');
+}
+
+function saveProduct() {
+  const name = document.getElementById('p-name').value.trim();
+  const price = document.getElementById('p-price').value;
+  const orig = document.getElementById('p-orig').value;
+  
+  if(!name||!price||!orig) { showToast('Fill required fields','error'); return; }
+  
+  const product = {
+    name, price: +price, orig: +orig,
+    category: document.getElementById('p-category').value,
+    img: document.getElementById('p-img').value || 'https://via.placeholder.com/400x400?text=No+Image',
+    video: document.getElementById('p-video').value,
+    desc: document.getElementById('p-desc').value,
+    rating: +document.getElementById('p-rating').value || 4.5,
+    reviews: +document.getElementById('p-reviews').value || 0,
+    badge: Math.round((1-price/orig)*100) + '% OFF'
+  };
+  
+  if(editingProductId) {
+    const idx = adminProducts.findIndex(p=>p.id===editingProductId);
+    adminProducts[idx] = {...adminProducts[idx], ...product};
+    showToast('Product updated!','success');
+  } else {
+    product.id = Date.now();
+    adminProducts.push(product);
+    showToast('Product added!','success');
+  }
+  
+  localStorage.setItem('adminProducts', JSON.stringify(adminProducts));
+  closeModal('product-modal');
+  renderAdminProducts();
+  loadDashboard();
+}
+
+function deleteProduct(id) {
+  if(!confirm('Delete this product?')) return;
+  adminProducts = adminProducts.filter(p=>p.id!==id);
+  localStorage.setItem('adminProducts', JSON.stringify(adminProducts));
+  renderAdminProducts();
+  showToast('Product deleted');
+}
+
+// ============ CATEGORIES ============
+const CATS = [
+  {icon:'🔥',name:'Trending'},{icon:'👗',name:'Kurti Saree and Lehanga'},{icon:'👚',name:'Women Western'},
+  {icon:'💝',name:'Lingerie'},{icon:'👔',name:'Men'},{icon:'🧒',name:'Kids and Toys'},
+  {icon:'🏠',name:'Home and Kitchen'},{icon:'💄',name:'Beauty and Health'},
+  {icon:'💍',name:'Jewellery and Accessories'},{icon:'👜',name:'Bags and Footwear'},
+  {icon:'📱',name:'Electronics'},{icon:'⚽',name:'Sports and Fitness'},
+  {icon:'🚗',name:'Car and Motorbike'},{icon:'📁',name:'Office and Supplies'},
+  {icon:'🥬',name:'Grocery'},{icon:'📚',name:'Books'},
+  {icon:'🐾',name:'Pet Supplies'},{icon:'🎸',name:'Musical Instruments'},
+];
+
+function renderCategories() {
+  document.getElementById('categories-table').innerHTML = CATS.map(c => `
+    <tr>
+      <td style="font-size:22px">${c.icon}</td>
+      <td><strong>${c.name}</strong></td>
+      <td>${adminProducts.filter(p=>p.category===c.name).length}</td>
+      <td>
+        <button class="btn btn-sm btn-secondary">✏️ Edit</button>
+        <button class="btn btn-sm btn-danger" style="margin-left:4px">🗑️</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function showAddCategory() {
+  showToast('Category management: Add from settings');
+}
+
+// ============ PAYMENTS ============
+function renderPayments() {
+  const tbody = document.getElementById('payments-table');
+  const orders = JSON.parse(localStorage.getItem('orders')||'[]');
+  if(!orders.length) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:30px;color:var(--text-muted)">No payments yet</td></tr>';
+    return;
+  }
+  tbody.innerHTML = orders.reverse().map(o => `
+    <tr>
+      <td><strong>${o.id}</strong></td>
+      <td>${o.name}</td>
+      <td><strong>₹${o.total}</strong></td>
+      <td><button class="btn btn-sm btn-secondary" onclick="showToast('Screenshot stored on device - use backend for cloud storage')">📸 View</button></td>
+      <td><span class="badge ${getBadgeClass(o.status)}">${o.status}</span></td>
+      <td>
+        <button class="btn btn-sm btn-success" onclick="quickVerify('${o.id}')">✅ Verify</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function quickVerify(id) {
+  const orders = JSON.parse(localStorage.getItem('orders')||'[]');
+  const idx = orders.findIndex(o=>o.id===id);
+  if(idx !== -1) {
+    orders[idx].status = 'Confirmed';
+    localStorage.setItem('orders', JSON.stringify(orders));
+    renderPayments();
+    showToast('Payment verified! Status → Confirmed','success');
+  }
+}
+
+// ============ CUSTOMERS ============
+function renderCustomers() {
+  const orders = JSON.parse(localStorage.getItem('orders')||'[]');
+  const customerMap = {};
+  orders.forEach(o => {
+    if(!customerMap[o.phone]) customerMap[o.phone] = {name:o.name,phone:o.phone,city:o.city,state:o.state,orders:0,total:0};
+    customerMap[o.phone].orders++;
+    customerMap[o.phone].total += o.total||0;
+  });
+  const customers = Object.values(customerMap);
+  const tbody = document.getElementById('customers-table');
+  if(!customers.length) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:30px;color:var(--text-muted)">No customers yet</td></tr>';
+    return;
+  }
+  tbody.innerHTML = customers.map(c => `
+    <tr>
+      <td><strong>${c.name}</strong></td>
+      <td>${c.phone}</td>
+      <td>${c.city}</td>
+      <td>${c.state}</td>
+      <td>${c.orders}</td>
+      <td><strong>₹${c.total}</strong></td>
+    </tr>
+  `).join('');
+}
+
+// ============ EXPORT ============
+function exportData() {
+  const orders = JSON.parse(localStorage.getItem('orders')||'[]');
+  if(!orders.length) { showToast('No orders to export','error'); return; }
+  
+  const csv = 'Order ID,Customer,Phone,City,State,Pincode,Total,Status,Date\n' + 
+    orders.map(o => `${o.id},${o.name},${o.phone},${o.city},${o.state},${o.pin},${o.total},${o.status},${new Date(o.createdAt).toLocaleDateString('en-IN')}`).join('\n');
+  
+  const blob = new Blob([csv], {type:'text/csv'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `shopindia-orders-${new Date().toLocaleDateString('en-IN').replace(/\//g,'-')}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Orders exported!','success');
+}
+
+// ============ UTILS ============
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+function showToast(msg, type='') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show';
+  if(type==='success') t.style.borderColor='var(--success)';
+  else if(type==='error') t.style.borderColor='var(--danger)';
+  else t.style.borderColor='var(--border)';
+  setTimeout(()=>t.classList.remove('show'), 2500);
+}
+
+function whatsappSupport() {
+  window.open('https://wa.me/917866048085','_blank');
+}
+
+// Close modals on overlay click
+document.querySelectorAll('.modal-overlay').forEach(el => {
+  el.addEventListener('click', e => { if(e.target===el) el.classList.remove('open'); });
+});
+</script>
+</body>
+</html>

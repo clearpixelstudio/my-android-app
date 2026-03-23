@@ -1,3 +1,2 @@
-pluginManagement { repositories { google(); mavenCentral(); gradlePluginPortal() } }
-rootProject.name = "my-android-app"
+rootProject.name = "ShopIndia"
 include ':app'

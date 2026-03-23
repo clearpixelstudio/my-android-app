@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:statusBarColor">@color/colorPrimary</item>
-        <item name="android:navigationBarColor">@color/colorPrimary</item>
-        <item name="android:windowBackground">@color/colorSplash</item>
+
+    <style name="Theme.ShopIndia" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/primary_orange</item>
+        <item name="colorPrimaryVariant">@color/primary_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/secondary_purple</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:statusBarColor">@color/status_bar_color</item>
+        <item name="android:navigationBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar">false</item>
     </style>
-    <style name="SplashTheme" parent="Theme.MaterialComponents.NoActionBar">
-        <item name="android:windowBackground">@drawable/splash_bg</item>
-        <item name="android:statusBarColor">@color/colorSplash</item>
-        <item name="android:navigationBarColor">@color/colorSplash</item>
+
+    <style name="Theme.ShopIndia.Splash" parent="Theme.ShopIndia">
+        <item name="android:windowBackground">@color/splash_bg</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:statusBarColor">@color/splash_bg</item>
+        <item name="android:navigationBarColor">@color/splash_bg</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
     </style>
+
 </resources>

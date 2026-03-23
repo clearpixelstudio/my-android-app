@@ -38,9 +38,9 @@ jobs:
           if [ ! -s "app/keystore/release.jks" ]; then
             echo "Generating new keystore..."
             keytool -genkeypair -keystore app/keystore/release.jks \
-              -storepass "Tanvir@632541123" -keypass "Tanvir@632541123" \
-              -alias "Tanvir@632541123" -keyalg RSA -keysize 2048 -validity 36500 \
-              -dname "CN=App builder,O=App,C=US" 2>/dev/null
+              -storepass "12345678" -keypass "12345678" \
+              -alias "mykey" -keyalg RSA -keysize 2048 -validity 36500 \
+              -dname "CN=Trial,O=App,C=US" 2>/dev/null
             # Save to keystore-data branch for reuse
             git config user.email "ci@androidforge" && git config user.name "AndroidForge CI"
             cp app/keystore/release.jks /tmp/release.jks
