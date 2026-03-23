@@ -48,9 +48,9 @@ jobs:
           mkdir -p app/keystore
           keytool -genkeypair \
             -keystore app/keystore/release.jks \
-            -storepass "Tanvir@786" \
-            -keypass "Tanvir@786" \
-            -alias "Appkye" \
+            -storepass "android123" \
+            -keypass "android123" \
+            -alias "mykey" \
             -keyalg RSA -keysize 2048 -validity 36500 \
             -dname "CN=My App, O=App, C=US" 2>/dev/null
           echo "Keystore ready: $(ls -lh app/keystore/release.jks)"
