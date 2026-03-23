@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">App builder</string>
+    <string name="update_title">Update Available</string>
+    <string name="update_msg">A new version is available! Please update for the latest features and fixes.</string>
+    <string name="offline_title">No Internet</string>
+    <string name="offline_msg">Check your connection and try again.</string>
+</resources>

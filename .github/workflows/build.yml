@@ -1,0 +1,88 @@
+name: Build Signed Android APK
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Accept Android SDK licenses
+        run: |
+          yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses 2>/dev/null || true
+          $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager \
+            "platforms;android-34" "build-tools;34.0.0" 2>/dev/null || true
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
+
+      - name: Restore or create signing keystore
+        run: |
+          mkdir -p app/keystore
+          # Try to get existing keystore from keystore-data branch
+          if git fetch origin keystore-data 2>/dev/null; then
+            git show origin/keystore-data:release.jks > app/keystore/release.jks 2>/dev/null && \
+            echo "Using existing keystore" || echo "Fresh keystore needed"
+          fi
+          if [ ! -s "app/keystore/release.jks" ]; then
+            echo "Generating new keystore..."
+            keytool -genkeypair -keystore app/keystore/release.jks \
+              -storepass "Tanvir@632541123" -keypass "Tanvir@632541123" \
+              -alias "Tanvir@632541123" -keyalg RSA -keysize 2048 -validity 36500 \
+              -dname "CN=App builder,O=App,C=US" 2>/dev/null
+            # Save to keystore-data branch for reuse
+            git config user.email "ci@androidforge" && git config user.name "AndroidForge CI"
+            cp app/keystore/release.jks /tmp/release.jks
+            git fetch origin 2>/dev/null || true
+            git checkout --orphan keystore-data-tmp 2>/dev/null || git checkout -b keystore-data-tmp
+            git rm -rf . 2>/dev/null || true
+            cp /tmp/release.jks release.jks
+            git add release.jks
+            git commit -m "Store signing keystore"
+            git push origin keystore-data-tmp:keystore-data --force 2>/dev/null || true
+            git checkout main 2>/dev/null || git checkout main 2>/dev/null || git checkout master
+          fi
+          echo "Keystore ready: $(ls -lh app/keystore/release.jks)"
+
+      - name: Generate Gradle 8.4 wrapper
+        run: |
+          if [ ! -f "gradlew" ]; then
+            curl -fsSL https://services.gradle.org/distributions/gradle-8.4-bin.zip -o /tmp/g.zip
+            unzip -q /tmp/g.zip -d /tmp/gd
+            /tmp/gd/gradle-8.4/bin/gradle wrapper --gradle-version=8.4 --distribution-type=bin
+          fi
+          chmod +x gradlew
+
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ hashFiles('**/*.gradle*','**/gradle-wrapper.properties') }}
+          restore-keys: gradle-
+
+      - name: Build release APK
+        run: ./gradlew assembleRelease --no-daemon --stacktrace
+
+      - name: Find APK
+        run: find . -name "*.apk" | head -10
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-apk
+          path: app/build/outputs/apk/release/*.apk
+          if-no-files-found: error
+          retention-days: 30

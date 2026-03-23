@@ -1,0 +1,2062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>⚡ AndroidForge Pro — Build Real Android Apps</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0c10;--bg2:#111318;--bg3:#181b22;--bg4:#1e2128;--bg5:#252931;
+  --border:#2d333b;--border2:#444c56;
+  --text:#cdd9e5;--dim:#768390;--dim2:#444c56;
+  --g:#2ea043;--g2:#3fb950;--g3:#57d668;
+  --b:#388bfd;--b2:#58a6ff;
+  --p:#8957e5;--p2:#bc8cff;
+  --a:#d29922;--a2:#e3b341;
+  --r:#da3633;--r2:#f85149;
+  --t:#2b6cb0;--tl:#79c0ff;
+  --mono:'JetBrains Mono',monospace;
+  --ui:'Inter',system-ui,sans-serif;
+  --head:'Space Grotesk',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--ui);min-height:100vh;font-size:14px;line-height:1.5}
+body::before{content:'';position:fixed;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--p) 0%,var(--b) 35%,var(--g) 65%,var(--a) 100%);z-index:1000}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+a{color:var(--b2);text-decoration:none}a:hover{text-decoration:underline}
+code{background:var(--bg4);color:var(--tl);padding:1px 6px;border-radius:4px;font-family:var(--mono);font-size:.88em}
+.h{display:none!important}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ─── LAYOUT ─── */
+.wrap{max-width:960px;margin:0 auto;padding:20px 16px 80px}
+
+/* ─── HEADER ─── */
+.hdr{padding:44px 0 32px;text-align:center}
+.hdr-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(63,185,80,.1);border:1px solid rgba(63,185,80,.3);border-radius:20px;padding:4px 14px;font-size:.73em;color:var(--g2);font-weight:600;letter-spacing:.04em;margin-bottom:16px}
+.hdr-title{font-family:var(--head);font-size:clamp(2.2em,5vw,3.6em);font-weight:800;line-height:1.1;margin-bottom:14px}
+.hdr-title .hl{background:linear-gradient(135deg,var(--b2),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hdr-sub{color:var(--dim);font-size:.9em;max-width:560px;margin:0 auto 20px;line-height:1.7}
+.features-row{display:flex;justify-content:center;flex-wrap:wrap;gap:8px}
+.feat-pill{background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:5px 13px;font-size:.73em;color:var(--dim);display:flex;align-items:center;gap:5px}
+.feat-pill.g{border-color:rgba(63,185,80,.3);color:var(--g2)}
+.feat-pill.b{border-color:rgba(88,166,255,.3);color:var(--b2)}
+.feat-pill.p{border-color:rgba(137,87,229,.3);color:var(--p2)}
+.feat-pill.a{border-color:rgba(227,179,65,.3);color:var(--a2)}
+
+/* ─── STEPPER ─── */
+.stepper{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:2px;margin-bottom:28px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:12px 16px}
+.stp{display:flex;align-items:center;gap:8px;padding:6px 12px;border-radius:8px;cursor:pointer;transition:all .2s;font-size:.78em;color:var(--dim);white-space:nowrap}
+.stp:hover:not(.disabled){color:var(--text);background:var(--bg4)}
+.stp.disabled{pointer-events:none}
+.stp-n{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.8em;flex-shrink:0;transition:all .25s}
+.stp.done .stp-n{background:var(--g);border-color:var(--g);color:#fff}
+.stp.active .stp-n{border-color:var(--b2);color:var(--b2);box-shadow:0 0 0 3px rgba(88,166,255,.15)}
+.stp.active{color:var(--text)}
+.stp-lbl{display:none}@media(min-width:640px){.stp-lbl{display:block}}
+.stp-sep{color:var(--border2);font-size:.9em;padding:0 2px;pointer-events:none}
+
+/* ─── CARD ─── */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:20px;animation:fadeUp .3s ease}
+.card-top{position:relative;overflow:hidden}.card-top::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.card-top.g::before{background:linear-gradient(90deg,transparent,var(--g),var(--g2),transparent)}
+.card-top.b::before{background:linear-gradient(90deg,transparent,var(--b),var(--b2),transparent)}
+.card-top.p::before{background:linear-gradient(90deg,transparent,var(--p),var(--p2),transparent)}
+.card-top.a::before{background:linear-gradient(90deg,transparent,var(--a),var(--a2),transparent)}
+.card-top.r::before{background:linear-gradient(90deg,transparent,var(--r),var(--r2),transparent)}
+.ctitle{font-family:var(--head);font-size:.82em;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:.08em;margin-bottom:22px;display:flex;align-items:center;gap:10px}
+.ctitle-badge{background:var(--bg4);border:1px solid var(--border2);border-radius:6px;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:.9em;color:var(--text);flex-shrink:0;font-family:var(--mono)}
+
+/* ─── FORM ─── */
+.fg{margin-bottom:16px}
+.fl{display:flex;align-items:center;gap:6px;font-size:.78em;font-weight:600;color:var(--dim);letter-spacing:.03em;margin-bottom:7px}
+.fl-req{color:var(--r2);font-size:.9em}
+.fi{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:var(--mono);font-size:.86em;padding:10px 14px;transition:border-color .2s,box-shadow .2s;outline:none}
+.fi:focus{border-color:var(--b2);box-shadow:0 0 0 3px rgba(88,166,255,.12)}
+.fi::placeholder{color:var(--dim2)}
+textarea.fi{resize:vertical;min-height:120px;font-size:.84em;line-height:1.6}
+select.fi{cursor:pointer}
+.fhint{font-size:.73em;color:var(--dim);margin-top:5px;line-height:1.55}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+@media(max-width:580px){.row2,.row3{grid-template-columns:1fr}}
+.divider{height:1px;background:var(--border);margin:20px 0}
+
+/* ─── TOGGLE ─── */
+.toggle-group{display:flex;flex-direction:column;gap:10px}
+.toggle-item{display:flex;align-items:center;justify-content:space-between;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 14px;cursor:pointer;transition:border-color .2s}
+.toggle-item:hover{border-color:var(--border2)}
+.toggle-item.on{border-color:rgba(63,185,80,.4)}
+.ti-left{display:flex;align-items:center;gap:10px}
+.ti-icon{font-size:1.2em;width:28px;text-align:center}
+.ti-info .ti-name{font-weight:600;font-size:.86em;color:var(--text);margin-bottom:2px}
+.ti-info .ti-desc{font-size:.75em;color:var(--dim);line-height:1.4}
+.toggle-sw{width:38px;height:22px;background:var(--bg4);border:1.5px solid var(--border2);border-radius:11px;position:relative;cursor:pointer;transition:all .2s;flex-shrink:0}
+.toggle-sw::after{content:'';position:absolute;top:2px;left:2px;width:14px;height:14px;background:var(--dim);border-radius:50%;transition:all .2s}
+.toggle-sw.on{background:var(--g);border-color:var(--g2)}
+.toggle-sw.on::after{left:18px;background:#fff}
+
+/* ─── TABS ─── */
+.tab-bar{display:flex;gap:4px;background:var(--bg4);border-radius:8px;padding:4px;margin-bottom:18px;flex-wrap:wrap}
+.tab{flex:1;min-width:80px;padding:8px 12px;border-radius:6px;text-align:center;font-size:.78em;font-weight:600;color:var(--dim);cursor:pointer;transition:all .2s;border:none;background:none}
+.tab:hover{color:var(--text)}
+.tab.active{background:var(--bg2);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.4)}
+.tab-content{display:none}.tab-content.active{display:block}
+
+/* ─── BUTTONS ─── */
+.btn{background:transparent;border:1px solid var(--border2);color:var(--text);font-family:var(--ui);font-weight:600;font-size:.82em;padding:9px 18px;cursor:pointer;border-radius:8px;transition:all .2s;text-decoration:none;display:inline-flex;align-items:center;gap:7px;white-space:nowrap;line-height:1.2}
+.btn:hover:not(:disabled){background:var(--bg4);border-color:var(--dim)}
+.btn:disabled{opacity:.38;cursor:not-allowed}
+.btn-primary{background:var(--g);border-color:var(--g);color:#fff;font-weight:700}
+.btn-primary:hover:not(:disabled){background:var(--g2);border-color:var(--g3)}
+.btn-blue{background:var(--b);border-color:var(--b);color:#fff;font-weight:700}
+.btn-blue:hover:not(:disabled){background:var(--b2);border-color:var(--b2)}
+.btn-ghost{border-color:var(--border);color:var(--dim)}
+.btn-ghost:hover:not(:disabled){color:var(--text);border-color:var(--border2)}
+.btn-danger{border-color:var(--r);color:var(--r2)}
+.btn-danger:hover:not(:disabled){background:rgba(218,54,51,.08)}
+.brow{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;align-items:center}
+
+/* ─── DROP ZONE ─── */
+.dz{border:2px dashed var(--border);border-radius:12px;padding:48px 20px;text-align:center;cursor:pointer;transition:all .3s;background:var(--bg3);position:relative}
+.dz:hover,.dz.over{border-color:var(--g);background:rgba(63,185,80,.03)}
+.dz input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.dz-ico{font-size:2.8em;display:block;margin-bottom:12px}
+.dz-title{font-family:var(--head);font-weight:700;font-size:1em;margin-bottom:6px}
+.dz-sub{font-size:.8em;color:var(--dim);line-height:1.6}
+.chip{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--bg3);border:1px solid var(--g);border-radius:8px;margin-top:14px}
+.chip-ico{font-size:1.6em;flex-shrink:0}
+.chip-body{flex:1;min-width:0}
+.chip-name{font-size:.86em;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chip-meta{font-size:.73em;color:var(--dim);margin-top:2px}
+.chip-rm{background:none;border:none;color:var(--dim);cursor:pointer;font-size:1.1em;padding:4px;border-radius:4px;transition:color .2s}
+.chip-rm:hover{color:var(--r2)}
+
+/* ─── LOGO UPLOAD ─── */
+.logo-wrap{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.logo-preview{width:72px;height:72px;border-radius:16px;background:var(--bg4);border:2px dashed var(--border);display:flex;align-items:center;justify-content:center;font-size:2em;overflow:hidden;flex-shrink:0;cursor:pointer;position:relative;transition:border-color .2s}
+.logo-preview:hover{border-color:var(--g)}
+.logo-preview img{width:100%;height:100%;object-fit:cover}
+.logo-preview input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.logo-info{flex:1;min-width:160px}
+.logo-info .logo-title{font-weight:600;font-size:.86em;margin-bottom:4px}
+.logo-info .logo-sub{font-size:.76em;color:var(--dim);line-height:1.5}
+
+/* ─── COLOR PICKER ─── */
+.color-row{display:flex;align-items:center;gap:10px}
+.color-swatch{width:38px;height:38px;border-radius:8px;border:2px solid var(--border);overflow:hidden;cursor:pointer;flex-shrink:0}
+.color-swatch input[type=color]{width:200%;height:200%;border:none;padding:0;margin:-50%;cursor:pointer;opacity:0}
+.color-swatches-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.cs{width:28px;height:28px;border-radius:6px;cursor:pointer;border:2px solid transparent;transition:all .15s;flex-shrink:0}
+.cs:hover,.cs.active{border-color:var(--text);transform:scale(1.1)}
+
+/* ─── TERMINAL ─── */
+.term{background:#02040a;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.term-bar{background:var(--bg3);padding:8px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
+.tdots{display:flex;gap:6px}.tdot{width:10px;height:10px;border-radius:50%}
+.tdot.r{background:#ff5f57}.tdot.y{background:#febc2e}.tdot.g{background:#28c840}
+.term-title{flex:1;text-align:center;font-size:.76em;color:var(--dim)}
+.term-body{padding:14px 16px;font-family:var(--mono);font-size:.8em;line-height:1.65;max-height:420px;overflow-y:auto}
+.ll{word-break:break-all;padding:.3px 0}
+.ll.dim{color:var(--dim2)}.ll.ok{color:var(--g2)}.ll.er{color:var(--r2)}.ll.wa{color:var(--a2)}.ll.cmd{color:var(--b2)}.ll.hd{color:var(--p2);font-weight:700;margin-top:6px}.ll.info{color:var(--tl)}
+
+/* ─── PROGRESS ─── */
+.pb-wrap{margin:16px 0}
+.pb-top{display:flex;justify-content:space-between;font-size:.75em;color:var(--dim);margin-bottom:6px}
+.pb{height:4px;background:var(--bg4);border-radius:2px;overflow:hidden}
+.pbf{height:100%;background:linear-gradient(90deg,var(--p),var(--b),var(--g));transition:width .5s ease;border-radius:2px}
+
+/* ─── STATUS BADGE ─── */
+.sbdg{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:20px;font-size:.75em;font-weight:700;letter-spacing:.03em}
+.sbdg.idle{background:rgba(118,131,144,.1);border:1px solid var(--border2);color:var(--dim)}
+.sbdg.run{background:rgba(56,139,253,.1);border:1px solid rgba(56,139,253,.5);color:var(--b2);animation:pulse 1.5s infinite}
+.sbdg.ok{background:rgba(46,160,67,.1);border:1px solid rgba(46,160,67,.5);color:var(--g2)}
+.sbdg.fail{background:rgba(218,54,51,.1);border:1px solid rgba(218,54,51,.5);color:var(--r2)}
+.elapsed{font-family:var(--mono);font-size:1.3em;color:var(--a2);font-weight:700}
+
+/* ─── INFO BOXES ─── */
+.ibox{background:rgba(56,139,253,.06);border:1px solid rgba(56,139,253,.2);border-radius:8px;padding:12px 14px;font-size:.8em;color:var(--tl);line-height:1.7;margin-top:12px}
+.wbox{background:rgba(210,153,34,.06);border:1px solid rgba(210,153,34,.2);border-radius:8px;padding:12px 14px;font-size:.8em;color:var(--a2);line-height:1.7;margin-top:12px}
+.ebox{background:rgba(218,54,51,.06);border:1px solid rgba(218,54,51,.2);border-radius:8px;padding:12px 14px;font-size:.8em;color:var(--r2);line-height:1.7;margin-top:12px}
+.gbox{background:rgba(46,160,67,.06);border:1px solid rgba(46,160,67,.2);border-radius:8px;padding:12px 14px;font-size:.8em;color:var(--g2);line-height:1.7;margin-top:12px}
+
+/* ─── ANALYSIS ─── */
+.ana-type{display:flex;align-items:center;gap:10px;padding:14px 16px;border-radius:8px;margin-bottom:16px;font-weight:700;font-size:.9em}
+.ana-type.web{background:rgba(88,166,255,.08);border:1px solid rgba(56,139,253,.3);color:var(--b2)}
+.ana-type.and{background:rgba(63,185,80,.08);border:1px solid rgba(46,160,67,.3);color:var(--g2)}
+.ana-type.url{background:rgba(188,140,255,.08);border:1px solid rgba(137,87,229,.3);color:var(--p2)}
+.ana-type.py{background:rgba(227,179,65,.08);border:1px solid rgba(210,153,34,.3);color:var(--a2)}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+@media(max-width:500px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+.stat{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center}
+.stat-v{font-family:var(--head);font-size:1.5em;font-weight:800;margin-bottom:3px}
+.stat-l{font-size:.68em;color:var(--dim);text-transform:uppercase;letter-spacing:.05em}
+.ftree{background:#02040a;border:1px solid var(--border);border-radius:8px;padding:12px 14px;max-height:160px;overflow-y:auto;font-family:var(--mono);font-size:.76em}
+.fti{padding:1px 0;color:var(--dim)}.fti.hl{color:var(--g2)}.fti.more{color:var(--a2)}
+
+/* ─── FEATURE GRID ─── */
+.feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+@media(max-width:500px){.feat-grid{grid-template-columns:1fr}}
+.feat-item{display:flex;align-items:center;gap:8px;font-size:.8em;color:var(--dim);padding:7px 10px;background:var(--bg3);border-radius:6px;border:1px solid var(--border)}
+.feat-item.on{color:var(--text);border-color:var(--border2)}
+
+/* ─── DOWNLOAD ─── */
+.dl-hero{border:1px solid rgba(46,160,67,.4);background:linear-gradient(135deg,rgba(46,160,67,.06),rgba(56,139,253,.03));border-radius:12px;padding:32px 24px;text-align:center}
+.dl-icon{font-size:4em;display:block;margin-bottom:14px}
+.dl-title{font-family:var(--head);font-size:1.5em;font-weight:800;color:var(--g2);margin-bottom:6px}
+.dl-meta{font-size:.84em;color:var(--dim);margin-bottom:22px;line-height:1.8}
+.install-steps{text-align:left;margin-top:20px}
+.is-row{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.is-row:last-child{border:none}
+.is-n{width:26px;height:26px;border-radius:50%;background:var(--bg4);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:.76em;color:var(--b2);flex-shrink:0;margin-top:2px;font-family:var(--mono)}
+.is-body .is-t{font-weight:600;font-size:.86em;color:var(--text);margin-bottom:3px}
+.is-body .is-d{font-size:.78em;color:var(--dim);line-height:1.5}
+
+/* ─── SECTION HEADING ─── */
+.sec-head{font-family:var(--head);font-size:.82em;font-weight:700;color:var(--text);margin:20px 0 12px;display:flex;align-items:center;gap:8px}
+.sec-head::before{content:'';width:3px;height:14px;background:var(--g);border-radius:2px;display:inline-block}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ─── HEADER ─── -->
+<div class="hdr">
+  <div class="hdr-badge">⚡ ANDROIDFORGE PRO v4.0</div>
+  <div class="hdr-title">Build <span class="hl">Real Android APKs</span><br>From Anything, Instantly</div>
+  <div class="hdr-sub">ZIP, Live URL, Pasted HTML, or Python code → Signed APK ready to install on your phone. No Android Studio. No setup. Just build.</div>
+  <div class="features-row">
+    <div class="feat-pill g">⬇ Direct APK Install</div>
+    <div class="feat-pill b">🔄 Auto-Update System</div>
+    <div class="feat-pill p">📢 AdMob Ads</div>
+    <div class="feat-pill a">🐍 Python Support</div>
+    <div class="feat-pill g">🎨 Native Look</div>
+    <div class="feat-pill b">🌐 Live URL</div>
+    <div class="feat-pill g">🔙 Back Navigation</div>
+    <div class="feat-pill p">🖼 Custom Logo</div>
+  </div>
+</div>
+
+<!-- ─── STEPPER ─── -->
+<div class="stepper" id="stepper">
+  <div class="stp active disabled" id="sd1" onclick="tryGoStep(1)"><div class="stp-n">1</div><div class="stp-lbl">GitHub</div></div>
+  <div class="stp-sep">›</div>
+  <div class="stp disabled" id="sd2" onclick="tryGoStep(2)"><div class="stp-n">2</div><div class="stp-lbl">Identity</div></div>
+  <div class="stp-sep">›</div>
+  <div class="stp disabled" id="sd3" onclick="tryGoStep(3)"><div class="stp-n">3</div><div class="stp-lbl">Content</div></div>
+  <div class="stp-sep">›</div>
+  <div class="stp disabled" id="sd4" onclick="tryGoStep(4)"><div class="stp-n">4</div><div class="stp-lbl">Features</div></div>
+  <div class="stp-sep">›</div>
+  <div class="stp disabled" id="sd5" onclick="tryGoStep(5)"><div class="stp-n">5</div><div class="stp-lbl">Review</div></div>
+  <div class="stp-sep">›</div>
+  <div class="stp disabled" id="sd6"><div class="stp-n">6</div><div class="stp-lbl">Build</div></div>
+  <div class="stp-sep">›</div>
+  <div class="stp disabled" id="sd7"><div class="stp-n">7</div><div class="stp-lbl">Install</div></div>
+</div>
+
+<!-- ═══════════ STEP 1: GITHUB ═══════════ -->
+<div id="s1" class="card card-top g">
+  <div class="ctitle"><div class="ctitle-badge">1</div>GITHUB CONFIGURATION</div>
+  <div class="fg">
+    <div class="fl">GitHub Personal Access Token <span class="fl-req">*</span></div>
+    <input type="password" id="ghToken" class="fi" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off">
+    <div class="fhint">Scopes needed: <code>repo</code> + <code>workflow</code> → <a href="https://github.com/settings/tokens/new?scopes=repo,workflow&description=AndroidForge" target="_blank">Create token ↗</a></div>
+  </div>
+  <div class="row2">
+    <div class="fg">
+      <div class="fl">Repository Name <span class="fl-req">*</span></div>
+      <input type="text" id="repoName" class="fi" value="my-android-app">
+      <div class="fhint">Created automatically if it doesn't exist</div>
+    </div>
+    <div class="fg">
+      <div class="fl">Branch</div>
+      <select id="branchName" class="fi">
+        <option value="main" selected>main</option>
+        <option value="master">master</option>
+      </select>
+    </div>
+  </div>
+  <div id="s1err" class="ebox h"></div>
+  <div class="brow">
+    <button class="btn btn-primary" id="s1btn" onclick="doStep1()">Connect to GitHub →</button>
+  </div>
+</div>
+
+<!-- ═══════════ STEP 2: APP IDENTITY ═══════════ -->
+<div id="s2" class="card card-top b h">
+  <div class="ctitle"><div class="ctitle-badge">2</div>APP IDENTITY</div>
+  <div class="row2">
+    <div class="fg">
+      <div class="fl">App Name <span class="fl-req">*</span></div>
+      <input type="text" id="appName" class="fi" placeholder="My Awesome App" value="My App">
+    </div>
+    <div class="fg">
+      <div class="fl">Package Name <span class="fl-req">*</span></div>
+      <input type="text" id="pkgName" class="fi" value="com.example.myapp">
+      <div class="fhint">e.g. com.yourname.app (all lowercase, dots)</div>
+    </div>
+  </div>
+  <div class="row3">
+    <div class="fg">
+      <div class="fl">Version Name</div>
+      <input type="text" id="verName" class="fi" value="1.0.0">
+    </div>
+    <div class="fg">
+      <div class="fl">Version Code</div>
+      <input type="number" id="verCode" class="fi" value="1" min="1">
+      <div class="fhint">Increment for updates</div>
+    </div>
+    <div class="fg">
+      <div class="fl">Min Android</div>
+      <select id="minSdk" class="fi">
+        <option value="21" selected>5.0+ (API 21)</option>
+        <option value="23">6.0+ (API 23)</option>
+        <option value="26">8.0+ (API 26)</option>
+        <option value="28">9.0+ (API 28)</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="sec-head">App Icon</div>
+  <div class="logo-wrap">
+    <div class="logo-preview" id="logoPrev">
+      <span id="logoEmoji">📱</span>
+      <img id="logoImg" class="h" alt="logo">
+      <input type="file" id="logoFile" accept="image/*" onchange="onLogo(event)">
+    </div>
+    <div class="logo-info">
+      <div class="logo-title">Upload Custom Icon</div>
+      <div class="logo-sub">PNG, JPG, WebP — any size (auto-resized to all densities: mdpi→xxxhdpi)<br>Click the icon or drop an image file</div>
+      <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-ghost" onclick="document.getElementById('logoFile').click()">Choose Image</button>
+        <button class="btn btn-ghost" id="rmLogo" onclick="removeLogo()" style="display:none">Remove</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="sec-head">App Colors</div>
+  <div class="row2">
+    <div class="fg">
+      <div class="fl">Primary Color</div>
+      <div class="color-row">
+        <div class="color-swatch" id="primarySwatch" style="background:#2ea043">
+          <input type="color" id="primaryColor" value="#2ea043" oninput="updateColor('primary',this.value)">
+        </div>
+        <input type="text" id="primaryHex" class="fi" value="#2ea043" style="font-family:var(--mono)" oninput="updateHex('primary',this.value)" maxlength="7">
+      </div>
+      <div class="color-swatches-row" id="primarySwatches"></div>
+    </div>
+    <div class="fg">
+      <div class="fl">Splash Background</div>
+      <div class="color-row">
+        <div class="color-swatch" id="splashSwatch" style="background:#0a0c10">
+          <input type="color" id="splashColor" value="#0a0c10" oninput="updateColor('splash',this.value)">
+        </div>
+        <input type="text" id="splashHex" class="fi" value="#0a0c10" style="font-family:var(--mono)" oninput="updateHex('splash',this.value)" maxlength="7">
+      </div>
+      <div class="color-swatches-row" id="splashSwatches"></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="sec-head">Signing Keystore</div>
+  <div class="row2">
+    <div class="fg">
+      <div class="fl">Keystore Password</div>
+      <input type="password" id="ksPass" class="fi" value="android123" placeholder="min 6 chars">
+      <div class="fhint">Used to sign APK. Same key = updates work.</div>
+    </div>
+    <div class="fg">
+      <div class="fl">Key Alias</div>
+      <input type="text" id="ksAlias" class="fi" value="mykey">
+    </div>
+  </div>
+  <div class="ibox">🔑 The keystore is stored in a protected <code>keystore-data</code> branch in your repo. Same keystore is reused on every build so users can update your app without reinstalling.</div>
+
+  <div id="s2err" class="ebox h"></div>
+  <div class="brow">
+    <button class="btn btn-ghost" onclick="goStep(1)">← Back</button>
+    <button class="btn btn-primary" onclick="doStep2()">Save Identity →</button>
+  </div>
+</div>
+
+<!-- ═══════════ STEP 3: CONTENT SOURCE ═══════════ -->
+<div id="s3" class="card card-top p h">
+  <div class="ctitle"><div class="ctitle-badge">3</div>CONTENT SOURCE</div>
+  <div class="tab-bar">
+    <button class="tab active" id="tab-zip" onclick="switchTab('zip')">📦 ZIP File</button>
+    <button class="tab" id="tab-url" onclick="switchTab('url')">🌐 Live URL</button>
+    <button class="tab" id="tab-html" onclick="switchTab('html')">📄 Paste HTML</button>
+    <button class="tab" id="tab-py" onclick="switchTab('py')">🐍 Python</button>
+  </div>
+
+  <!-- ZIP TAB -->
+  <div class="tab-content active" id="tc-zip">
+    <div class="dz" id="dz">
+      <input type="file" id="zipIn" accept=".zip" onchange="onZip(event)">
+      <span class="dz-ico">📦</span>
+      <div class="dz-title">Drop ZIP file here or click to browse</div>
+      <div class="dz-sub">Web project (HTML/CSS/JS) · Android project (Gradle) · Python project<br>Any static website, React build, Next.js export, Flask app, etc.</div>
+    </div>
+    <div id="zipChip" class="h">
+      <div class="chip">
+        <div class="chip-ico">📦</div>
+        <div class="chip-body"><div class="chip-name" id="zipName"></div><div class="chip-meta" id="zipMeta"></div></div>
+        <button class="chip-rm" onclick="removeZip()" title="Remove">✕</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- URL TAB -->
+  <div class="tab-content" id="tc-url">
+    <div class="fg">
+      <div class="fl">Website / Web App URL</div>
+      <input type="text" id="webUrl" class="fi" placeholder="https://example.com or https://your-webapp.vercel.app">
+      <div class="fhint">The app will load this URL. Works with any website, web app, dashboard, etc.</div>
+    </div>
+    <div class="toggle-group" style="margin-top:14px">
+      <div class="toggle-item" onclick="toggleFeature('urlPull')">
+        <div class="ti-left">
+          <div class="ti-icon">⬇</div>
+          <div class="ti-info">
+            <div class="ti-name">Download & Embed (Offline-Ready)</div>
+            <div class="ti-desc">Pull HTML from URL and embed in app. Works offline. Recommended for static sites.</div>
+          </div>
+        </div>
+        <div class="toggle-sw" id="sw-urlPull"></div>
+      </div>
+    </div>
+    <div class="ibox" style="margin-top:12px">💡 If you just want to wrap a URL (like a PWA), leave "Download & Embed" off. The app will always load fresh content from the internet.</div>
+  </div>
+
+  <!-- HTML TAB -->
+  <div class="tab-content" id="tc-html">
+    <div class="fg">
+      <div class="fl">Paste Your HTML Code</div>
+      <textarea id="pasteHtml" class="fi" rows="10" placeholder="<!DOCTYPE html>&#10;<html>&#10;<head>&#10;  <title>My App</title>&#10;</head>&#10;<body>&#10;  <h1>Hello World!</h1>&#10;</body>&#10;</html>"></textarea>
+      <div class="fhint">Paste your complete HTML. You can include inline CSS and JavaScript.</div>
+    </div>
+    <div class="fg">
+      <div class="fl">Additional Assets URL (optional)</div>
+      <input type="text" id="htmlAssetsUrl" class="fi" placeholder="https://your-cdn.com (CSS/JS will be fetched from here)">
+      <div class="fhint">If your HTML references external resources, enter the base URL here</div>
+    </div>
+  </div>
+
+  <!-- PYTHON TAB -->
+  <div class="tab-content" id="tc-py">
+    <div class="dz" id="dzPy">
+      <input type="file" id="pyIn" accept=".zip,.py" onchange="onPy(event)">
+      <span class="dz-ico">🐍</span>
+      <div class="dz-title">Drop Python ZIP or single .py file</div>
+      <div class="dz-sub">Your Python code runs via <strong>Pyodide</strong> (Python in WebAssembly)<br>Supports: NumPy, Pandas, Matplotlib, Requests, and most pure-Python packages</div>
+    </div>
+    <div id="pyChip" class="h">
+      <div class="chip">
+        <div class="chip-ico">🐍</div>
+        <div class="chip-body"><div class="chip-name" id="pyName"></div><div class="chip-meta" id="pyMeta"></div></div>
+        <button class="chip-rm" onclick="removePy()" title="Remove">✕</button>
+      </div>
+    </div>
+    <div class="wbox">⚠️ First launch requires internet to download Pyodide (~12 MB). After that the app runs offline.</div>
+    <div class="fg" style="margin-top:14px">
+      <div class="fl">Entry File (inside ZIP)</div>
+      <input type="text" id="pyEntry" class="fi" value="main.py" placeholder="main.py">
+      <div class="fhint">The Python file to run when the app starts</div>
+    </div>
+    <div class="fg">
+      <div class="fl">App UI Mode</div>
+      <select id="pyMode" class="fi">
+        <option value="console">Terminal Console (dark, scrollable output)</option>
+        <option value="tkinter">Tkinter GUI (use tkinter in your code)</option>
+        <option value="custom">Custom HTML Output (print HTML strings)</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="s3err" class="ebox h"></div>
+  <div class="brow">
+    <button class="btn btn-ghost" onclick="goStep(2)">← Back</button>
+    <button class="btn btn-primary" onclick="doStep3()">Configure Features →</button>
+  </div>
+</div>
+
+<!-- ═══════════ STEP 4: FEATURES ═══════════ -->
+<div id="s4" class="card card-top a h">
+  <div class="ctitle"><div class="ctitle-badge">4</div>APP FEATURES</div>
+
+  <div class="sec-head">Core Features</div>
+  <div class="toggle-group">
+    <div class="toggle-item on" onclick="toggleFeature('splashScreen')">
+      <div class="ti-left"><div class="ti-icon">🚀</div><div class="ti-info"><div class="ti-name">Splash Screen</div><div class="ti-desc">Animated launch screen with your logo and app name. Looks 100% native.</div></div></div>
+      <div class="toggle-sw on" id="sw-splashScreen"></div>
+    </div>
+    <div class="toggle-item on" onclick="toggleFeature('nativeLook')">
+      <div class="ti-left"><div class="ti-icon">📱</div><div class="ti-info"><div class="ti-name">Native App Look</div><div class="ti-desc">Material3 theme, proper status bar, navigation bar colors, toolbar with app title. Hides "web view" feeling.</div></div></div>
+      <div class="toggle-sw on" id="sw-nativeLook"></div>
+    </div>
+    <div class="toggle-item on" onclick="toggleFeature('swipeRefresh')">
+      <div class="ti-left"><div class="ti-icon">🔄</div><div class="ti-info"><div class="ti-name">Pull to Refresh</div><div class="ti-desc">Swipe down to reload the page. Standard Android behavior.</div></div></div>
+      <div class="toggle-sw on" id="sw-swipeRefresh"></div>
+    </div>
+    <div class="toggle-item on" onclick="toggleFeature('offlineMode')">
+      <div class="ti-left"><div class="ti-icon">📶</div><div class="ti-info"><div class="ti-name">Offline Detection</div><div class="ti-desc">Shows a friendly error page when there's no internet instead of a blank screen.</div></div></div>
+      <div class="toggle-sw on" id="sw-offlineMode"></div>
+    </div>
+    <div class="toggle-item" onclick="toggleFeature('exitDialog')">
+      <div class="ti-left"><div class="ti-icon">🚪</div><div class="ti-info"><div class="ti-name">Exit Confirmation Dialog</div><div class="ti-desc">"Press back again to exit" or a confirmation dialog before closing the app.</div></div></div>
+      <div class="toggle-sw" id="sw-exitDialog"></div>
+    </div>
+  </div>
+
+  <div class="sec-head" style="margin-top:20px">Update System</div>
+  <div class="toggle-group">
+    <div class="toggle-item" onclick="toggleFeature('updateSystem')">
+      <div class="ti-left"><div class="ti-icon">🔄</div><div class="ti-info"><div class="ti-name">Auto-Update Checker</div><div class="ti-desc">App checks for updates on launch. Users see a dialog with a link to the new APK when you push an update.</div></div></div>
+      <div class="toggle-sw" id="sw-updateSystem"></div>
+    </div>
+  </div>
+  <div id="updatePanel" class="h" style="margin-top:12px;padding:14px;background:var(--bg3);border-radius:8px;border:1px solid var(--border)">
+    <div class="fg">
+      <div class="fl">Update Download URL</div>
+      <input type="text" id="updateUrl" class="fi" placeholder="https://github.com/yourname/yourrepo/releases/latest">
+      <div class="fhint">Where users will be sent to download the new APK when an update is available</div>
+    </div>
+    <div class="row2">
+      <div class="fg">
+        <div class="fl">Update Message</div>
+        <input type="text" id="updateMsg" class="fi" value="A new version is available! Please update for the latest features and fixes.">
+      </div>
+      <div class="fg">
+        <div class="fl">Force Update?</div>
+        <select id="forceUpdate" class="fi">
+          <option value="false" selected>No — user can skip</option>
+          <option value="true">Yes — must update to continue</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-head" style="margin-top:20px">Monetization — AdMob Ads</div>
+  <div class="toggle-group">
+    <div class="toggle-item" onclick="toggleFeature('admob')">
+      <div class="ti-left"><div class="ti-icon">📢</div><div class="ti-info"><div class="ti-name">Enable Google AdMob Ads</div><div class="ti-desc">Add banner and/or interstitial ads. Earn revenue from your app without coding.</div></div></div>
+      <div class="toggle-sw" id="sw-admob"></div>
+    </div>
+  </div>
+  <div id="admobPanel" class="h" style="margin-top:12px;padding:14px;background:var(--bg3);border-radius:8px;border:1px solid var(--border)">
+    <div class="wbox" style="margin-bottom:14px">⚠️ Test IDs are pre-filled. Replace with your real AdMob IDs before publishing. Get them at <a href="https://admob.google.com" target="_blank">admob.google.com ↗</a></div>
+    <div class="fg">
+      <div class="fl">AdMob App ID</div>
+      <input type="text" id="admobAppId" class="fi" value="ca-app-pub-3940256099942544~3347511713" placeholder="ca-app-pub-XXXXXXXXXXXXXXXX~XXXXXXXXXX">
+      <div class="fhint">Find this in your AdMob console → App settings</div>
+    </div>
+    <div class="toggle-group">
+      <div class="toggle-item on" onclick="toggleFeature('admobBanner')">
+        <div class="ti-left"><div class="ti-icon">📊</div><div class="ti-info"><div class="ti-name">Banner Ad</div><div class="ti-desc">Shown at the bottom of every screen</div></div></div>
+        <div class="toggle-sw on" id="sw-admobBanner"></div>
+      </div>
+    </div>
+    <div class="fg" style="margin-top:12px" id="bannerIdWrap">
+      <div class="fl">Banner Ad Unit ID</div>
+      <input type="text" id="admobBannerId" class="fi" value="ca-app-pub-3940256099942544/6300978111" placeholder="ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX">
+    </div>
+    <div class="toggle-group" style="margin-top:10px">
+      <div class="toggle-item" onclick="toggleFeature('admobInter')">
+        <div class="ti-left"><div class="ti-icon">🖼</div><div class="ti-info"><div class="ti-name">Interstitial Ad</div><div class="ti-desc">Full-screen ad shown every N page loads (configurable)</div></div></div>
+        <div class="toggle-sw" id="sw-admobInter"></div>
+      </div>
+    </div>
+    <div class="row2" style="margin-top:12px" id="interIdWrap">
+      <div class="fg">
+        <div class="fl">Interstitial Ad Unit ID</div>
+        <input type="text" id="admobInterId" class="fi" value="ca-app-pub-3940256099942544/1033173712">
+      </div>
+      <div class="fg">
+        <div class="fl">Show Every N Loads</div>
+        <input type="number" id="admobInterFreq" class="fi" value="3" min="1" max="20">
+        <div class="fhint">e.g. 3 = every 3rd page load</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-head" style="margin-top:20px">Advanced Options</div>
+  <div class="toggle-group">
+    <div class="toggle-item" onclick="toggleFeature('darkMode')">
+      <div class="ti-left"><div class="ti-icon">🌙</div><div class="ti-info"><div class="ti-name">Force Dark Mode for Web Content</div><div class="ti-desc">Apply dark theme to web content automatically (Android 10+)</div></div></div>
+      <div class="toggle-sw" id="sw-darkMode"></div>
+    </div>
+    <div class="toggle-item" onclick="toggleFeature('zoomEnabled')">
+      <div class="ti-left"><div class="ti-icon">🔍</div><div class="ti-info"><div class="ti-name">Enable Pinch-to-Zoom</div><div class="ti-desc">Allow users to zoom in/out on content</div></div></div>
+      <div class="toggle-sw" id="sw-zoomEnabled"></div>
+    </div>
+    <div class="toggle-item" onclick="toggleFeature('disableContextMenu')">
+      <div class="ti-left"><div class="ti-icon">🚫</div><div class="ti-info"><div class="ti-name">Disable Long-Press Context Menu</div><div class="ti-desc">Prevents "copy/paste" popup — makes app feel more native</div></div></div>
+      <div class="toggle-sw" id="sw-disableContextMenu"></div>
+    </div>
+    <div class="toggle-item" onclick="toggleFeature('landscapeLock')">
+      <div class="ti-left"><div class="ti-icon">↔</div><div class="ti-info"><div class="ti-name">Lock to Portrait Orientation</div><div class="ti-desc">Prevents app from rotating to landscape</div></div></div>
+      <div class="toggle-sw" id="sw-landscapeLock"></div>
+    </div>
+  </div>
+  <div class="fg" style="margin-top:16px">
+    <div class="fl">Inject Custom CSS (into every page)</div>
+    <textarea id="customCss" class="fi" rows="3" placeholder="/* Your custom CSS here */&#10;body { font-family: 'Roboto', sans-serif; }"></textarea>
+    <div class="fhint">CSS injected after every page load. Override styles for native look.</div>
+  </div>
+  <div class="fg">
+    <div class="fl">Inject Custom JavaScript (runs after every page load)</div>
+    <textarea id="customJs" class="fi" rows="3" placeholder="// Your JS here&#10;document.body.style.userSelect = 'none';"></textarea>
+    <div class="fhint">JS executed after every page finishes loading.</div>
+  </div>
+
+  <div id="s4err" class="ebox h"></div>
+  <div class="brow">
+    <button class="btn btn-ghost" onclick="goStep(3)">← Back</button>
+    <button class="btn btn-primary" onclick="doStep4()">Review & Build →</button>
+  </div>
+</div>
+
+<!-- ═══════════ STEP 5: REVIEW ═══════════ -->
+<div id="s5" class="card card-top g h">
+  <div class="ctitle"><div class="ctitle-badge">5</div>REVIEW — READY TO BUILD</div>
+  <div id="reviewOut"></div>
+  <div class="brow">
+    <button class="btn btn-ghost" onclick="goStep(4)">← Back</button>
+    <button class="btn btn-primary" id="s5btn" onclick="doBuild()">🔨 Build APK Now →</button>
+  </div>
+</div>
+
+<!-- ═══════════ STEP 6: BUILD ═══════════ -->
+<div id="s6" class="card card-top b h">
+  <div class="ctitle"><div class="ctitle-badge">6</div>BUILD PIPELINE</div>
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:16px">
+    <div id="bStatus" class="sbdg idle">● STARTING</div>
+    <div id="elapsed" class="elapsed h">00:00</div>
+    <a id="ghLink" class="btn h" target="_blank" style="font-size:.8em">Actions ↗</a>
+  </div>
+  <div class="pb-wrap">
+    <div class="pb-top"><span id="pbLabel">Initializing...</span><span id="pbPct">0%</span></div>
+    <div class="pb"><div class="pbf" id="pbFill" style="width:0%"></div></div>
+  </div>
+  <div class="term">
+    <div class="term-bar">
+      <div class="tdots"><div class="tdot r"></div><div class="tdot y"></div><div class="tdot g"></div></div>
+      <div class="term-title">androidforge · build output</div>
+    </div>
+    <div class="term-body" id="termBody">
+      <div class="ll dim">AndroidForge Pro v4.0 — initialized</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ STEP 7: INSTALL ═══════════ -->
+<div id="s7" class="card card-top a h">
+  <div class="ctitle"><div class="ctitle-badge">7</div>DOWNLOAD &amp; INSTALL</div>
+  <div id="dlOut"></div>
+</div>
+
+</div><!-- .wrap -->
+<script>
+// ====================================================================
+//  ANDROIDFORGE PRO v4.0 — Complete build system
+//  All state is preserved across steps for full back-navigation
+// ====================================================================
+
+// ─── GLOBAL STATE ─────────────────────────────────────────────────
+const S = {
+  // GitHub
+  token:'', owner:'', repo:'', branch:'main',
+  // App identity
+  app:'My App', pkg:'com.example.myapp', ver:'1.0.0', verCode:1, minSdk:21,
+  // Colors & logo
+  primaryColor:'#2ea043', splashColor:'#0a0c10',
+  logoB64:null, logoDataUrl:null,
+  // Keystore
+  ksPass:'android123', ksAlias:'mykey',
+  // Content
+  contentType:'zip', // zip|url|html|py
+  zipFile:null, zipData:null, zipType:'', zipBase:'',
+  webUrl:'', pullUrl:false,
+  pasteHtml:'', htmlAssetsUrl:'',
+  pyFile:null, pyData:null, pyEntry:'main.py', pyMode:'console',
+  // Features
+  features:{
+    splashScreen:true, nativeLook:true, swipeRefresh:true, offlineMode:true,
+    exitDialog:false, updateSystem:false, darkMode:false, zoomEnabled:false,
+    disableContextMenu:false, landscapeLock:false, urlPull:false,
+    admob:false, admobBanner:true, admobInter:false
+  },
+  // Update
+  updateUrl:'', updateMsg:'A new version is available!', forceUpdate:false,
+  // Ads
+  admobAppId:'ca-app-pub-3940256099942544~3347511713',
+  admobBannerId:'ca-app-pub-3940256099942544/6300978111',
+  admobInterId:'ca-app-pub-3940256099942544/1033173712',
+  admobInterFreq:3,
+  // Custom inject
+  customCss:'', customJs:'',
+  // Build
+  commitSha:'', runId:null, t0:null, tmr:null,
+  // Nav
+  maxStep:1
+};
+
+// ─── NAVIGATION ───────────────────────────────────────────────────
+function goStep(n){
+  if(n > S.maxStep) return;
+  for(let i=1;i<=7;i++){
+    const d=document.getElementById('sd'+i);
+    const s=document.getElementById('s'+i);
+    if(d){ d.className='stp'+(i===n?' active':(i<n?' done':''))+' '+(i<=S.maxStep?'':'disabled'); }
+    if(s){ i<=n ? s.classList.remove('h') : s.classList.add('h'); }
+  }
+  setTimeout(()=>document.getElementById('s'+n)?.scrollIntoView({behavior:'smooth',block:'start'}),80);
+}
+function tryGoStep(n){ if(n<=S.maxStep) goStep(n); }
+function advanceTo(n){ S.maxStep=Math.max(S.maxStep,n); goStep(n); }
+
+// ─── LOGGING ──────────────────────────────────────────────────────
+function L(msg,t='dim'){
+  const b=document.getElementById('termBody');
+  const d=document.createElement('div');
+  d.className='ll '+t; d.textContent=msg;
+  b.appendChild(d); b.scrollTop=b.scrollHeight;
+}
+function LH(t){ L(''); L('▸ '+t,'hd'); }
+function LS(){ L('─'.repeat(55),'dim'); }
+
+// ─── PROGRESS ─────────────────────────────────────────────────────
+function setP(pct,label){
+  document.getElementById('pbFill').style.width=Math.min(100,pct)+'%';
+  document.getElementById('pbPct').textContent=Math.round(pct)+'%';
+  if(label) document.getElementById('pbLabel').textContent=label;
+}
+function setSt(cls,txt){
+  const e=document.getElementById('bStatus');
+  e.className='sbdg '+cls;
+  e.textContent=txt;
+}
+
+// ─── TIMER ────────────────────────────────────────────────────────
+function startTimer(){
+  S.t0=Date.now();
+  const el=document.getElementById('elapsed');
+  el.classList.remove('h');
+  S.tmr=setInterval(()=>{
+    const s=Math.floor((Date.now()-S.t0)/1000);
+    el.textContent=pad(Math.floor(s/60))+':'+pad(s%60);
+  },1000);
+}
+function stopTimer(){ clearInterval(S.tmr); }
+function pad(n){ return String(n).padStart(2,'0'); }
+function elapsed(){ if(!S.t0)return '0s'; const s=Math.floor((Date.now()-S.t0)/1000); return s<60?s+'s':Math.floor(s/60)+'m '+s%60+'s'; }
+function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
+
+// ─── HELPERS ──────────────────────────────────────────────────────
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function fmtB(b){ return b<1024?b+'B':b<1048576?(b/1024).toFixed(1)+'KB':(b/1048576).toFixed(2)+'MB'; }
+function b64(str){ return btoa(unescape(encodeURIComponent(str))); }
+function u8b64(u8){ let s=''; const c=8192; for(let i=0;i<u8.length;i+=c) s+=String.fromCharCode(...u8.subarray(i,i+c)); return btoa(s); }
+function showErr(id,m){ const e=document.getElementById(id); e.textContent=m; e.classList.remove('h'); }
+function hideErr(id){ document.getElementById(id).classList.add('h'); }
+function v(id){ return document.getElementById(id)?.value?.trim()||''; }
+
+// ─── COLORS ───────────────────────────────────────────────────────
+const COLORS=['#2ea043','#388bfd','#8957e5','#e3b341','#f85149','#58a6ff','#bc8cff','#3fb950','#d29922','#0075ca','#e34c26','#6f42c1'];
+function initColors(){
+  ['primary','splash'].forEach(k=>{
+    const row=document.getElementById(k+'Swatches');
+    COLORS.forEach(c=>{
+      const d=document.createElement('div');
+      d.className='cs'; d.style.background=c; d.title=c;
+      d.onclick=()=>{ updateColor(k,c); };
+      row.appendChild(d);
+    });
+  });
+}
+function updateColor(key,val){
+  if(key==='primary'){ S.primaryColor=val; document.getElementById('primarySwatch').style.background=val; document.getElementById('primaryHex').value=val; document.getElementById('primaryColor').value=val; }
+  else{ S.splashColor=val; document.getElementById('splashSwatch').style.background=val; document.getElementById('splashHex').value=val; document.getElementById('splashColor').value=val; }
+}
+function updateHex(key,val){
+  if(/^#[0-9a-fA-F]{6}$/.test(val)) updateColor(key,val);
+}
+
+// ─── LOGO ─────────────────────────────────────────────────────────
+function onLogo(e){
+  const f=e.target.files?.[0]; if(!f) return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    const img=new Image();
+    img.onload=()=>{
+      // Generate all densities
+      S.logoDataUrl=ev.target.result;
+      S.logoB64=generateAllIcons(img);
+      document.getElementById('logoEmoji').classList.add('h');
+      const li=document.getElementById('logoImg');
+      li.src=ev.target.result; li.classList.remove('h');
+      document.getElementById('rmLogo').style.display='';
+    };
+    img.src=ev.target.result;
+  };
+  reader.readAsDataURL(f);
+}
+function removeLogo(){
+  S.logoDataUrl=null; S.logoB64=null;
+  document.getElementById('logoEmoji').classList.remove('h');
+  document.getElementById('logoImg').classList.add('h');
+  document.getElementById('rmLogo').style.display='none';
+  document.getElementById('logoFile').value='';
+}
+function generateAllIcons(img){
+  const result={};
+  for(const [d,sz] of [['mdpi',48],['hdpi',72],['xhdpi',96],['xxhdpi',144],['xxxhdpi',192]]){
+    result[d]=resizeImage(img,sz);
+  }
+  return result;
+}
+function resizeImage(img,size){
+  const c=document.createElement('canvas');
+  c.width=size; c.height=size;
+  const ctx=c.getContext('2d');
+  ctx.imageSmoothingEnabled=true;
+  ctx.imageSmoothingQuality='high';
+  ctx.drawImage(img,0,0,size,size);
+  return c.toDataURL('image/png').split(',')[1];
+}
+
+// ─── TOGGLES ──────────────────────────────────────────────────────
+function toggleFeature(key){
+  S.features[key]=!S.features[key];
+  const sw=document.getElementById('sw-'+key);
+  if(!sw) return;
+  sw.className='toggle-sw'+(S.features[key]?' on':'');
+  sw.closest('.toggle-item').className='toggle-item'+(S.features[key]?' on':'');
+  // Show/hide dependent panels
+  if(key==='updateSystem') document.getElementById('updatePanel').classList.toggle('h',!S.features[key]);
+  if(key==='admob') document.getElementById('admobPanel').classList.toggle('h',!S.features[key]);
+}
+
+// ─── TABS ─────────────────────────────────────────────────────────
+function switchTab(name){
+  ['zip','url','html','py'].forEach(t=>{
+    document.getElementById('tab-'+t).className='tab'+(t===name?' active':'');
+    document.getElementById('tc-'+t).className='tab-content'+(t===name?' active':'');
+  });
+  S.contentType=name;
+}
+
+// ─── ZIP ──────────────────────────────────────────────────────────
+const SKIP=[/node_modules\//,/\.git\//,/\.DS_Store$/,/package-lock\.json$/,/yarn\.lock$/,/Thumbs\.db$/,/__MACOSX/,/\.env$/,/desktop\.ini$/];
+
+function onZip(e){ const f=e.target.files?.[0]; if(f) setZip(f); }
+function setZip(f){
+  S.zipFile=f;
+  document.getElementById('zipName').textContent=f.name;
+  document.getElementById('zipMeta').textContent=fmtB(f.size);
+  document.getElementById('zipChip').classList.remove('h');
+  document.getElementById('dz').style.display='none';
+}
+function removeZip(){
+  S.zipFile=null; S.zipData=null;
+  document.getElementById('zipChip').classList.add('h');
+  document.getElementById('dz').style.display='';
+  document.getElementById('zipIn').value='';
+}
+
+function onPy(e){ const f=e.target.files?.[0]; if(f) setPy(f); }
+function setPy(f){
+  S.pyFile=f;
+  document.getElementById('pyName').textContent=f.name;
+  document.getElementById('pyMeta').textContent=fmtB(f.size);
+  document.getElementById('pyChip').classList.remove('h');
+  document.getElementById('dzPy').style.display='none';
+}
+function removePy(){
+  S.pyFile=null; S.pyData=null;
+  document.getElementById('pyChip').classList.add('h');
+  document.getElementById('dzPy').style.display='';
+  document.getElementById('pyIn').value='';
+}
+
+// Drag-drop
+document.addEventListener('DOMContentLoaded',()=>{
+  initColors();
+  for(const [dzId,setter,ext] of [['dz',setZip,'.zip'],['dzPy',setPy,'.zip,.py']]){
+    const el=document.getElementById(dzId); if(!el) continue;
+    el.addEventListener('dragover',e=>{e.preventDefault();el.classList.add('over');});
+    el.addEventListener('dragleave',()=>el.classList.remove('over'));
+    el.addEventListener('drop',e=>{
+      e.preventDefault(); el.classList.remove('over');
+      const f=e.dataTransfer?.files?.[0];
+      if(f) setter(f);
+    });
+  }
+});
+
+// ─── STEP 1: GITHUB ───────────────────────────────────────────────
+async function doStep1(){
+  const tok=v('ghToken'), repo=v('repoName');
+  hideErr('s1err');
+  if(!tok||tok.length<10) return showErr('s1err','GitHub token required (starts with ghp_...)');
+  if(!repo||!/^[a-zA-Z0-9_.-]+$/.test(repo)) return showErr('s1err','Invalid repository name');
+  const btn=document.getElementById('s1btn');
+  btn.disabled=true; btn.textContent='Verifying...';
+  try{
+    const r=await fetch('https://api.github.com/user',{headers:GH(tok)});
+    if(!r.ok) throw new Error('Token rejected — check it has repo + workflow scopes. ('+r.status+')');
+    const u=await r.json();
+    S.token=tok; S.owner=u.login; S.repo=repo;
+    S.branch=document.getElementById('branchName').value||'main';
+    btn.textContent='✓ @'+u.login+' — Connected';
+    advanceTo(2);
+  }catch(e){ btn.disabled=false; btn.textContent='Connect to GitHub →'; showErr('s1err','❌ '+e.message); }
+}
+
+// ─── STEP 2: IDENTITY ─────────────────────────────────────────────
+function doStep2(){
+  const app=v('appName'), pkg=v('pkgName'), ver=v('verName'), ksPass=v('ksPass'), ksAlias=v('ksAlias');
+  hideErr('s2err');
+  if(!app) return showErr('s2err','App name required');
+  if(!pkg||!/^[a-z][a-z0-9]*(\.[a-z][a-z0-9]*)+$/.test(pkg)) return showErr('s2err','Invalid package name — use: com.brand.app (all lowercase, at least 2 parts)');
+  if(!ksPass||ksPass.length<6) return showErr('s2err','Keystore password must be at least 6 characters');
+  if(!ksAlias) return showErr('s2err','Key alias required');
+  Object.assign(S,{
+    app, pkg, ver: ver||'1.0.0',
+    verCode: parseInt(v('verCode'))||1,
+    minSdk: parseInt(document.getElementById('minSdk').value)||21,
+    ksPass, ksAlias,
+    primaryColor: v('primaryHex')||S.primaryColor,
+    splashColor: v('splashHex')||S.splashColor
+  });
+  advanceTo(3);
+}
+
+// ─── STEP 3: CONTENT ──────────────────────────────────────────────
+async function doStep3(){
+  hideErr('s3err');
+  const type=S.contentType;
+  if(type==='zip'&&!S.zipFile) return showErr('s3err','Please upload a ZIP file');
+  if(type==='url'){
+    const url=v('webUrl');
+    if(!url||!url.startsWith('http')) return showErr('s3err','Please enter a valid URL starting with http:// or https://');
+    S.webUrl=url;
+    S.features.urlPull=document.getElementById('sw-urlPull')?.classList.contains('on');
+  }
+  if(type==='html'){
+    const html=document.getElementById('pasteHtml').value.trim();
+    if(!html||html.length<10) return showErr('s3err','Please paste some HTML content');
+    S.pasteHtml=html; S.htmlAssetsUrl=v('htmlAssetsUrl');
+  }
+  if(type==='py'&&!S.pyFile) return showErr('s3err','Please upload a Python file or ZIP');
+  if(type==='py'){ S.pyEntry=v('pyEntry')||'main.py'; S.pyMode=document.getElementById('pyMode').value; }
+  if(type==='zip'){
+    try{
+      S.zipData=await JSZip.loadAsync(S.zipFile);
+      const all=Object.keys(S.zipData.files).filter(k=>!S.zipData.files[k].dir);
+      S.zipType=detectZipType(all);
+      S.zipBase=getBase(all);
+    }catch(e){ return showErr('s3err','Failed to parse ZIP: '+e.message); }
+  }
+  if(type==='py'&&S.pyFile){
+    try{ S.pyData=await JSZip.loadAsync(S.pyFile); }catch{ S.pyData=null; } // single .py is fine
+  }
+  advanceTo(4);
+}
+
+function detectZipType(files){
+  if(files.some(f=>f.includes('AndroidManifest.xml'))&&files.some(f=>/build\.gradle/.test(f))) return 'android';
+  if(files.some(f=>/build\.gradle(\.kts)?$/.test(f))&&files.some(f=>f.includes('/app/')||f.startsWith('app/'))) return 'android';
+  if(files.some(f=>/\.py$/.test(f))) return 'python';
+  if(files.some(f=>f.endsWith('index.html'))) return 'web';
+  if(files.some(f=>/build\.gradle/.test(f))) return 'android';
+  return 'web';
+}
+function getBase(files){
+  if(!files.length) return '';
+  const tops=[...new Set(files.map(f=>f.split('/')[0]))];
+  return tops.length===1&&!tops[0].includes('.')?(tops[0]+'/'):'' ;
+}
+
+// ─── STEP 4: FEATURES ─────────────────────────────────────────────
+function doStep4(){
+  hideErr('s4err');
+  // Collect values
+  S.customCss=document.getElementById('customCss').value;
+  S.customJs=document.getElementById('customJs').value;
+  if(S.features.updateSystem){
+    S.updateUrl=v('updateUrl')||('https://github.com/'+S.owner+'/'+S.repo+'/releases');
+    S.updateMsg=v('updateMsg')||'A new version is available!';
+    S.forceUpdate=document.getElementById('forceUpdate').value==='true';
+  }
+  if(S.features.admob){
+    S.admobAppId=v('admobAppId');
+    S.admobBannerId=v('admobBannerId');
+    S.admobInterId=v('admobInterId');
+    S.admobInterFreq=parseInt(v('admobInterFreq'))||3;
+  }
+  buildReview();
+  advanceTo(5);
+}
+
+// ─── STEP 5: REVIEW ───────────────────────────────────────────────
+function buildReview(){
+  const ft=S.features;
+  const rows=[
+    ['App',S.app+' v'+S.ver+' ('+S.pkg+')'],
+    ['Repo','github.com/'+S.owner+'/'+S.repo],
+    ['Content',{zip:'ZIP: '+S.zipType,url:'Live URL: '+S.webUrl,html:'Pasted HTML',py:'Python ('+S.pyEntry+')'}[S.contentType]],
+    ['Primary Color','<span style="display:inline-block;width:14px;height:14px;background:'+esc(S.primaryColor)+';border-radius:3px;vertical-align:middle;margin-right:6px"></span>'+S.primaryColor],
+    ['Logo',S.logoDataUrl?'Custom image uploaded':'Auto-generated (first letter)'],
+    ['Signing','Keystore alias: '+S.ksAlias],
+    ['Splash Screen',ft.splashScreen?'✅ Enabled':'—'],
+    ['Native Look',ft.nativeLook?'✅ Material3 theme':'—'],
+    ['Update System',ft.updateSystem?'✅ Enabled':'—'],
+    ['AdMob Ads',ft.admob?'✅ Banner'+(ft.admobInter?' + Interstitial':''):'—'],
+    ['Dark Mode',ft.darkMode?'✅ Force dark':'—'],
+    ['Orientation',ft.landscapeLock?'Portrait locked':'Auto-rotate'],
+  ];
+  document.getElementById('reviewOut').innerHTML=`
+    <table style="width:100%;border-collapse:collapse;font-size:.84em">
+      ${rows.map(([k,v])=>`
+        <tr style="border-bottom:1px solid var(--border)">
+          <td style="padding:9px 12px;color:var(--dim);width:140px;font-weight:600;white-space:nowrap">${esc(k)}</td>
+          <td style="padding:9px 12px;color:var(--text)">${v}</td>
+        </tr>`).join('')}
+    </table>
+    <div class="gbox" style="margin-top:14px">🚀 Everything looks good! Click "Build APK Now" to start the GitHub Actions build. Takes 5–10 minutes.</div>`;
+}
+
+// ─── BUILD ────────────────────────────────────────────────────────
+async function doBuild(){
+  document.getElementById('s5btn').disabled=true;
+  advanceTo(6);
+  startTimer();
+  try{
+    LS(); L('  ANDROIDFORGE PRO v4.0 — BUILD START','hd'); LS();
+    LH('PHASE 1 · GENERATE ALL FILES');
+    setP(2,'Generating project files...');
+    const files=await makeAllFiles();
+    L('✓ '+files.length+' files generated','ok');
+    setP(10);
+    LH('PHASE 2 · GITHUB SETUP');
+    setP(12,'Setting up repository...');
+    L('$ gh repo ensure','cmd');
+    await ensureRepo();
+    L('✓ Repo ready: '+S.owner+'/'+S.repo,'ok');
+    setP(18);
+    LH('PHASE 3 · PUSH TO GITHUB');
+    setP(20,'Pushing files...');
+    L('$ git push ('+files.length+' files)','cmd');
+    const commit=await pushFiles(files);
+    S.commitSha=commit.sha;
+    L('✓ Commit: '+commit.sha.slice(0,7),'ok');
+    setP(38,'Waiting for GitHub Actions...');
+    const gl=document.getElementById('ghLink');
+    gl.href='https://github.com/'+S.owner+'/'+S.repo+'/actions';
+    gl.classList.remove('h');
+    LH('PHASE 4 · BUILDING APK');
+    L('$ ./gradlew assembleRelease','cmd');
+    setSt('run','● BUILD IN PROGRESS');
+    const result=await monitorBuild();
+    stopTimer();
+    if(result.success){
+      setP(100,'✅ APK built!');
+      setSt('ok','✓ APK READY');
+      L(''); LS(); L('✅  BUILD SUCCESSFUL in '+elapsed(),'ok'); LS();
+      await renderDownload(result.runId);
+    }else{
+      setSt('fail','✗ FAILED');
+      L('❌ '+(result.conclusion||result.error||'Build failed'),'er');
+      L('→ https://github.com/'+S.owner+'/'+S.repo+'/actions','wa');
+      advanceTo(7);
+      renderFail(result);
+    }
+  }catch(e){
+    stopTimer(); setSt('fail','✗ ERROR');
+    L('❌ Fatal: '+e.message,'er'); console.error(e);
+  }
+}
+
+// ─── FILE GENERATOR ───────────────────────────────────────────────
+async function makeAllFiles(){
+  const files=[];
+  // Workflow always first
+  files.push({p:'.github/workflows/build.yml', c:b64(tWorkflow())});
+
+  if(S.contentType==='zip'&&S.zipType==='android'){
+    // Existing Android project
+    L('  Android project → preserving structure','info');
+    let cnt=0;
+    const all=Object.keys(S.zipData.files).filter(k=>!S.zipData.files[k].dir);
+    for(const fp of all){
+      if(SKIP.some(p=>p.test(fp))) continue;
+      let dp=fp.startsWith(S.zipBase)?fp.slice(S.zipBase.length):fp;
+      if(!dp||dp.endsWith('/')) continue;
+      const u8=await S.zipData.files[fp].async('uint8array');
+      files.push({p:dp, c:u8b64(u8), exec:dp==='gradlew'||dp.endsWith('/gradlew')});
+      cnt++;
+    }
+    if(!files.some(f=>f.p==='gradle.properties'))
+      files.push({p:'gradle.properties', c:b64(tGradleProps())});
+    L('  ✓ '+cnt+' Android files','ok');
+  } else {
+    // Generate full WebView wrapper project
+    L('  Generating full Android WebView project','info');
+    files.push({p:'build.gradle',       c:b64(tRootGradle())});
+    files.push({p:'settings.gradle',    c:b64(tSettings())});
+    files.push({p:'gradle.properties',  c:b64(tGradleProps())});
+    files.push({p:'app/build.gradle',   c:b64(tAppGradle())});
+    files.push({p:'app/proguard-rules.pro', c:b64('-keep class '+S.pkg+'.** { *; }\n')});
+    files.push({p:'app/src/main/AndroidManifest.xml', c:b64(tManifest())});
+    files.push({p:'app/src/main/res/xml/network_security_config.xml', c:b64(tNetSec())});
+    const pkgPath=S.pkg.replace(/\./g,'/');
+    if(S.features.splashScreen)
+      files.push({p:'app/src/main/java/'+pkgPath+'/SplashActivity.java', c:b64(tSplash())});
+    files.push({p:'app/src/main/java/'+pkgPath+'/MainActivity.java', c:b64(tActivity())});
+    files.push({p:'app/src/main/res/values/strings.xml',   c:b64(tStrings())});
+    files.push({p:'app/src/main/res/values/colors.xml',    c:b64(tColors())});
+    files.push({p:'app/src/main/res/values/themes.xml',    c:b64(tThemes())});
+    files.push({p:'app/src/main/res/values-night/themes.xml', c:b64(tThemesNight())});
+    files.push({p:'app/src/main/res/drawable/splash_bg.xml', c:b64(tSplashDrawable())});
+    // Icons
+    L('  Generating icons...','info');
+    const letter=(S.app[0]||'A').toUpperCase();
+    for(const [d,sz] of [['mdpi',48],['hdpi',72],['xhdpi',96],['xxhdpi',144],['xxxhdpi',192]]){
+      const ic=S.logoB64?S.logoB64[d]:makeTextIcon(letter,sz,S.primaryColor);
+      files.push({p:'app/src/main/res/mipmap-'+d+'/ic_launcher.png', c:ic});
+      files.push({p:'app/src/main/res/mipmap-'+d+'/ic_launcher_round.png', c:ic});
+    }
+    // Assets
+    L('  Embedding content...','info');
+    await embedContent(files);
+    // update.json
+    if(S.features.updateSystem)
+      files.push({p:'update.json', c:b64(JSON.stringify({
+        latest_version_code:S.verCode,
+        latest_version_name:S.ver,
+        update_url:S.updateUrl,
+        force_update:S.forceUpdate,
+        message:S.updateMsg
+      },null,2))});
+  }
+  return files;
+}
+
+async function embedContent(files){
+  const type=S.contentType;
+  if(type==='url'){
+    if(!S.features.urlPull){
+      // Just embed a redirect page
+      files.push({p:'app/src/main/assets/index.html', c:b64(tUrlRedirect(S.webUrl))});
+    }else{
+      // For URL-pull mode, the app just loads the URL directly (set in MainActivity)
+      files.push({p:'app/src/main/assets/index.html', c:b64(tUrlRedirect(S.webUrl))});
+    }
+  }else if(type==='html'){
+    files.push({p:'app/src/main/assets/index.html', c:b64(wrapHtml(S.pasteHtml))});
+  }else if(type==='py'){
+    files.push({p:'app/src/main/assets/index.html', c:b64(tPyShell())});
+    if(S.pyData){
+      const all=Object.keys(S.pyData.files).filter(k=>!S.pyData.files[k].dir);
+      for(const fp of all){
+        if(SKIP.some(p=>p.test(fp))) continue;
+        const u8=await S.pyData.files[fp].async('uint8array');
+        files.push({p:'app/src/main/assets/'+fp, c:u8b64(u8)});
+      }
+    }else if(S.pyFile&&S.pyFile.name.endsWith('.py')){
+      const u8=await S.pyFile.arrayBuffer();
+      files.push({p:'app/src/main/assets/'+S.pyEntry, c:u8b64(new Uint8Array(u8))});
+    }
+    L('  ✓ Python content embedded','ok');
+  }else{ // zip / web
+    let cnt=0;
+    const all=Object.keys(S.zipData.files).filter(k=>!S.zipData.files[k].dir);
+    const isPython=S.zipType==='python';
+    if(isPython){
+      files.push({p:'app/src/main/assets/index.html', c:b64(tPyShell())});
+    }
+    for(const fp of all){
+      if(SKIP.some(p=>p.test(fp))) continue;
+      let ap=fp.startsWith(S.zipBase)?fp.slice(S.zipBase.length):fp;
+      if(!ap||ap.endsWith('/')) continue;
+      const u8=await S.zipData.files[fp].async('uint8array');
+      files.push({p:'app/src/main/assets/'+ap, c:u8b64(u8)});
+      cnt++;
+    }
+    if(!files.some(f=>f.p==='app/src/main/assets/index.html'))
+      files.push({p:'app/src/main/assets/index.html', c:b64(tPlaceholder())});
+    L('  ✓ '+cnt+' asset files embedded','ok');
+  }
+}
+
+function wrapHtml(html){
+  if(html.toLowerCase().includes('<!doctype')||html.toLowerCase().includes('<html')) return html;
+  return '<!DOCTYPE html>\n<html>\n<head>\n<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">\n<title>'+esc(S.app)+'</title>\n</head>\n<body>\n'+html+'\n</body>\n</html>';
+}
+
+// ─── GITHUB API ───────────────────────────────────────────────────
+function GH(t){ return{'Authorization':'Bearer '+(t||S.token),'Accept':'application/vnd.github.v3+json','Content-Type':'application/json','X-GitHub-Api-Version':'2022-11-28'}; }
+async function api(method,path,body){
+  const r=await fetch('https://api.github.com'+path,{method,headers:GH(),body:body?JSON.stringify(body):undefined});
+  if(!r.ok){ let m='HTTP '+r.status; try{const j=await r.json();m=j.message||m;}catch{} throw new Error(m); }
+  const t=await r.text(); return t?JSON.parse(t):{};
+}
+
+async function ensureRepo(){
+  try{ await api('GET','/repos/'+S.owner+'/'+S.repo); L('  ✓ Repo exists','ok'); return; }catch{}
+  L('  Creating repo: '+S.repo,'info');
+  await api('POST','/user/repos',{name:S.repo,description:S.app+' — AndroidForge build',private:false,auto_init:false});
+  L('  ✓ Repo created','ok');
+  await sleep(3500);
+  // Initialize with README to avoid empty repo errors
+  L('  Initializing repo with README...','info');
+  try{
+    const readmeContent=b64('# '+S.app+'\n\nAndroid app built with [AndroidForge](https://github.com).\n\n**Package:** `'+S.pkg+'`  \n**Version:** '+S.ver+'\n');
+    await api('PUT','/repos/'+S.owner+'/'+S.repo+'/contents/README.md',{
+      message:'🤖 Initialize repository',
+      content:readmeContent
+    });
+    await sleep(2000);
+    L('  ✓ README added','ok');
+  }catch(e){ L('  ⚠ README skip: '+e.message,'wa'); }
+}
+
+async function pushFiles(files){
+  L('  Uploading '+files.length+' blobs...','info');
+  const tree=[]; let n=0;
+  for(const f of files){
+    const blob=await api('POST','/repos/'+S.owner+'/'+S.repo+'/git/blobs',{content:f.c,encoding:'base64'});
+    tree.push({path:f.p,mode:f.exec?'100755':'100644',type:'blob',sha:blob.sha});
+    n++; if(n%10===0||n===files.length){ L('  → '+n+'/'+files.length+' blobs','info'); setP(20+Math.floor((n/files.length)*16)); }
+  }
+  let parentSha=null, baseTree=null;
+  for(const br of[S.branch,'main','master']){
+    try{ const ref=await api('GET','/repos/'+S.owner+'/'+S.repo+'/git/ref/heads/'+br); parentSha=ref.object.sha; const cm=await api('GET','/repos/'+S.owner+'/'+S.repo+'/git/commits/'+parentSha); baseTree=cm.tree.sha; break; }catch{}
+  }
+  setP(36,'Building Git tree...');
+  const treeR=await api('POST','/repos/'+S.owner+'/'+S.repo+'/git/trees',{tree,...(baseTree?{base_tree:baseTree}:{})});
+  const cm=await api('POST','/repos/'+S.owner+'/'+S.repo+'/git/commits',{
+    message:'🤖 AndroidForge: '+S.app+' v'+S.ver+' ['+new Date().toISOString().slice(0,10)+']',
+    tree:treeR.sha,...(parentSha?{parents:[parentSha]}:{parents:[]})
+  });
+  let pushed=false;
+  for(const br of[S.branch,'main','master']){
+    try{ await api('PATCH','/repos/'+S.owner+'/'+S.repo+'/git/refs/heads/'+br,{sha:cm.sha,force:true}); pushed=true; break; }catch{}
+  }
+  if(!pushed){ await api('POST','/repos/'+S.owner+'/'+S.repo+'/git/refs',{ref:'refs/heads/'+S.branch,sha:cm.sha}); }
+  return cm;
+}
+
+async function monitorBuild(){
+  L('  Waiting for workflow...','info'); setP(40,'Waiting for Actions runner...');
+  await sleep(22000);
+  let tries=0, lastSv='';
+  while(tries<100){
+    tries++;
+    try{
+      const data=await api('GET','/repos/'+S.owner+'/'+S.repo+'/actions/runs?per_page=5');
+      const runs=data.workflow_runs||[];
+      let run=runs.find(r=>r.head_sha===S.commitSha)||(runs.length?runs[0]:null);
+      if(!run){ if(tries%4===0) L('  ⏳ waiting... ('+elapsed()+')','info'); await sleep(10000); continue; }
+      S.runId=run.id;
+      const sv=run.status+'|'+(run.conclusion||'');
+      if(sv!==lastSv){ lastSv=sv; L('  ▶ #'+run.run_number+' '+run.status+(run.conclusion?' → '+run.conclusion:'')+' ['+elapsed()+']','info'); if(run.status==='in_progress') setP(44+Math.min(42,tries*0.5),'Compiling...'); }
+      if(run.status==='completed'){ if(run.conclusion==='success') return{success:true,runId:run.id}; return{success:false,runId:run.id,conclusion:run.conclusion,url:run.html_url}; }
+    }catch(e){ L('  ⚠ '+e.message,'wa'); }
+    await sleep(10000);
+  }
+  return{success:false,error:'Timed out — check GitHub Actions'};
+}
+
+// ─── DOWNLOAD ─────────────────────────────────────────────────────
+async function renderDownload(runId){
+  advanceTo(7);
+  const out=document.getElementById('dlOut');
+  out.innerHTML='<div style="color:var(--dim);padding:24px;text-align:center">⏳ Fetching artifact...</div>';
+  await sleep(3000);
+  try{
+    const ad=await api('GET','/repos/'+S.owner+'/'+S.repo+'/actions/runs/'+runId+'/artifacts');
+    const art=(ad.artifacts||[]).find(a=>/apk|release/i.test(a.name))||(ad.artifacts||[])[0];
+    if(!art) throw new Error('No artifact found');
+    out.innerHTML=`
+      <div class="dl-hero">
+        <span class="dl-icon">📲</span>
+        <div class="dl-title">APK Ready to Install!</div>
+        <div class="dl-meta">
+          <strong style="color:var(--text)">${esc(S.app)}</strong> &nbsp;·&nbsp; v${esc(S.ver)} &nbsp;·&nbsp;
+          <code>${esc(S.pkg)}</code><br>
+          File size: <strong style="color:var(--g2)">${fmtB(art.size_in_bytes||0)}</strong>
+          &nbsp;·&nbsp; Build time: <strong style="color:var(--a2)">${elapsed()}</strong>
+        </div>
+        <div class="brow" style="justify-content:center">
+          <button class="btn btn-primary" style="font-size:.9em;padding:12px 28px" onclick="dlAPK('${art.id}')">⬇ Download APK</button>
+          <a href="https://github.com/${S.owner}/${S.repo}/actions/runs/${runId}" target="_blank" class="btn">Build Logs ↗</a>
+          <a href="https://github.com/${S.owner}/${S.repo}" target="_blank" class="btn">Repo ↗</a>
+        </div>
+        <div class="install-steps">
+          <div style="font-weight:700;font-size:.88em;color:var(--text);margin-bottom:10px;margin-top:4px">📱 How to install on your Android phone:</div>
+          <div class="is-row"><div class="is-n">1</div><div class="is-body"><div class="is-t">Download the APK</div><div class="is-d">Click "Download APK" above. You'll get a .zip — extract it to get the .apk file inside.</div></div></div>
+          <div class="is-row"><div class="is-n">2</div><div class="is-body"><div class="is-t">Enable Unknown Sources</div><div class="is-d">Settings → Security (or Privacy) → Install Unknown Apps → Allow from your file manager/browser</div></div></div>
+          <div class="is-row"><div class="is-n">3</div><div class="is-body"><div class="is-t">Transfer APK to your phone</div><div class="is-d">Send via WhatsApp to yourself, Google Drive, USB cable, or download directly on phone browser</div></div></div>
+          <div class="is-row"><div class="is-n">4</div><div class="is-body"><div class="is-t">Tap the APK file → Install</div><div class="is-d">Your file manager will open the installer. Tap Install, then Open. Done!</div></div></div>
+        </div>
+      </div>
+      ${S.features.updateSystem?`<div class="gbox">🔄 <strong>Update system active!</strong> To push an update: bump version code in config, rebuild, and share the new APK. Users will see an update prompt automatically.</div>`:''}
+      ${S.features.admob?`<div class="wbox">📢 <strong>AdMob:</strong> Replace test IDs with real ones at <a href="https://admob.google.com" target="_blank">admob.google.com</a> then rebuild.</div>`:''}`;
+  }catch(e){
+    out.innerHTML=`<div class="dl-hero"><span class="dl-icon">✅</span><div class="dl-title">Build Successful!</div><div class="dl-meta">Download your APK from GitHub Actions artifacts.</div><div class="brow" style="justify-content:center"><a href="https://github.com/${S.owner}/${S.repo}/actions" target="_blank" class="btn btn-primary">Open GitHub Actions ↗</a></div><div class="wbox" style="margin-top:12px">${esc(e.message)}</div></div>`;
+  }
+}
+
+async function dlAPK(id){
+  try{
+    const r=await fetch('https://api.github.com/repos/'+S.owner+'/'+S.repo+'/actions/artifacts/'+id+'/zip',{headers:GH()});
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const blob=await r.blob();
+    const url=URL.createObjectURL(blob);
+    const a=Object.assign(document.createElement('a'),{href:url,download:S.app.replace(/\s+/g,'-')+'-v'+S.ver+'.zip'});
+    document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+    L('✅ Download started! Unzip → install the .apk','ok');
+  }catch(e){
+    L('⚠ CORS blocked direct download — opening GitHub...','wa');
+    window.open('https://github.com/'+S.owner+'/'+S.repo+'/actions','_blank');
+  }
+}
+
+function renderFail(res){
+  document.getElementById('dlOut').innerHTML=`
+    <div style="border:1px solid rgba(248,81,73,.4);background:rgba(248,81,73,.04);border-radius:12px;padding:32px;text-align:center">
+      <div style="font-size:3em;margin-bottom:14px">❌</div>
+      <div style="font-family:var(--head);font-size:1.3em;color:var(--r2);margin-bottom:8px">Build Failed</div>
+      <div style="color:var(--dim);margin-bottom:18px;font-size:.88em;line-height:1.7">
+        Result: <strong style="color:var(--r2)">${esc(res.conclusion||'unknown')}</strong><br>
+        ${res.error?esc(res.error):'Check the error log on GitHub Actions'}
+      </div>
+      <a href="${res.url||'https://github.com/'+S.owner+'/'+S.repo+'/actions'}" target="_blank" class="btn btn-danger">View Error Log ↗</a>
+      <div class="wbox" style="margin-top:16px;text-align:left">
+        <strong>Common fixes:</strong><br>
+        • Package name must match in Manifest + build.gradle <code>namespace</code> + <code>applicationId</code><br>
+        • Java syntax errors in MainActivity.java — check semicolons &amp; braces<br>
+        • Keystore path: <code>app/keystore/release.jks</code> must exist (CI creates it on first run)<br>
+        • Missing imports in Java source files
+      </div>
+    </div>`;
+}
+
+// ====================================================================
+//  TEMPLATE GENERATORS — Android Project Files
+// ====================================================================
+
+function makeTextIcon(letter,size,color){
+  try{
+    const c=document.createElement('canvas'); c.width=size; c.height=size;
+    const ctx=c.getContext('2d');
+    // Background
+    const bg=ctx.createLinearGradient(0,0,size,size);
+    const col=color||'#2ea043';
+    bg.addColorStop(0,darken(col,.3)); bg.addColorStop(1,darken(col,.1));
+    ctx.fillStyle=bg;
+    const r=size*.22;
+    ctx.beginPath(); ctx.moveTo(r,0); ctx.lineTo(size-r,0); ctx.arcTo(size,0,size,r,r);
+    ctx.lineTo(size,size-r); ctx.arcTo(size,size,size-r,size,r);
+    ctx.lineTo(r,size); ctx.arcTo(0,size,0,size-r,r); ctx.lineTo(0,r); ctx.arcTo(0,0,r,0,r);
+    ctx.closePath(); ctx.fill();
+    ctx.strokeStyle=col; ctx.lineWidth=size*.05; ctx.stroke();
+    ctx.fillStyle='#fff'; ctx.font='bold '+(size*.54)+'px sans-serif';
+    ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillText(letter,size/2,size/2+size*.02);
+    return c.toDataURL('image/png').split(',')[1];
+  }catch{
+    return 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQI12NgAAIABQAABjE+ibYAAAAASUVORK5CYII=';
+  }
+}
+function darken(hex,pct){
+  const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+  const f=1-pct; return '#'+[r,g,b].map(v=>Math.round(v*f).toString(16).padStart(2,'0')).join('');
+}
+
+// ── Workflow YAML ──────────────────────────────────────────────────
+function tWorkflow(){
+  const lines=[
+'name: Build Signed Android APK','',
+'on:','  push:','    branches: [ main, master ]','  workflow_dispatch:','',
+'jobs:','  build:','    runs-on: ubuntu-latest','    timeout-minutes: 45','',
+'    steps:',
+'      - name: Checkout','        uses: actions/checkout@v4',
+'','      - name: Set up JDK 17','        uses: actions/setup-java@v4','        with:','          java-version: \'17\'','          distribution: \'temurin\'',
+'','      - name: Accept Android SDK licenses','        run: |',
+'          yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses 2>/dev/null || true',
+'          $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager \\',
+'            "platforms;android-34" "build-tools;34.0.0" 2>/dev/null || true',
+'          echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties',
+'','      - name: Restore or create signing keystore','        run: |',
+'          mkdir -p app/keystore',
+'          # Try to get existing keystore from keystore-data branch',
+'          if git fetch origin keystore-data 2>/dev/null; then',
+'            git show origin/keystore-data:release.jks > app/keystore/release.jks 2>/dev/null && \\',
+'            echo "Using existing keystore" || echo "Fresh keystore needed"',
+'          fi',
+'          if [ ! -s "app/keystore/release.jks" ]; then',
+'            echo "Generating new keystore..."',
+'            keytool -genkeypair -keystore app/keystore/release.jks \\',
+'              -storepass "'+S.ksPass+'" -keypass "'+S.ksPass+'" \\',
+'              -alias "'+S.ksAlias+'" -keyalg RSA -keysize 2048 -validity 36500 \\',
+'              -dname "CN='+S.app.replace(/[,="]/g,'')+',O=App,C=US" 2>/dev/null',
+'            # Save to keystore-data branch for reuse',
+'            git config user.email "ci@androidforge" && git config user.name "AndroidForge CI"',
+'            cp app/keystore/release.jks /tmp/release.jks',
+'            git fetch origin 2>/dev/null || true',
+'            git checkout --orphan keystore-data-tmp 2>/dev/null || git checkout -b keystore-data-tmp',
+'            git rm -rf . 2>/dev/null || true',
+'            cp /tmp/release.jks release.jks',
+'            git add release.jks',
+'            git commit -m "Store signing keystore"',
+'            git push origin keystore-data-tmp:keystore-data --force 2>/dev/null || true',
+'            git checkout '+S.branch+' 2>/dev/null || git checkout main 2>/dev/null || git checkout master',
+'          fi',
+'          echo "Keystore ready: $(ls -lh app/keystore/release.jks)"',
+'','      - name: Generate Gradle 8.4 wrapper','        run: |',
+'          if [ ! -f "gradlew" ]; then',
+'            curl -fsSL https://services.gradle.org/distributions/gradle-8.4-bin.zip -o /tmp/g.zip',
+'            unzip -q /tmp/g.zip -d /tmp/gd',
+'            /tmp/gd/gradle-8.4/bin/gradle wrapper --gradle-version=8.4 --distribution-type=bin',
+'          fi',
+'          chmod +x gradlew',
+'','      - name: Cache Gradle','        uses: actions/cache@v4','        with:','          path: |','            ~/.gradle/caches','            ~/.gradle/wrapper',
+'          key: gradle-${{ hashFiles(\'**/*.gradle*\',\'**/gradle-wrapper.properties\') }}',
+'          restore-keys: gradle-',
+'','      - name: Build release APK','        run: ./gradlew assembleRelease --no-daemon --stacktrace',
+'','      - name: Find APK','        run: find . -name "*.apk" | head -10',
+'','      - name: Upload APK','        uses: actions/upload-artifact@v4','        with:',
+'          name: app-release-apk',
+'          path: app/build/outputs/apk/release/*.apk',
+'          if-no-files-found: error','          retention-days: 30',
+  ];
+  return lines.join('\n');
+}
+
+// ── build.gradle (root) ───────────────────────────────────────────
+function tRootGradle(){
+  return [
+'buildscript {',
+'    repositories { google(); mavenCentral() }',
+'    dependencies { classpath \'com.android.tools.build:gradle:8.1.4\' }',
+'}',
+'allprojects { repositories { google(); mavenCentral() } }',
+'task clean(type: Delete) { delete rootProject.buildDir }'
+  ].join('\n');
+}
+
+// ── settings.gradle ───────────────────────────────────────────────
+function tSettings(){
+  return [
+'pluginManagement { repositories { google(); mavenCentral(); gradlePluginPortal() } }',
+'rootProject.name = "'+S.repo+'"',
+'include \':app\''
+  ].join('\n');
+}
+
+// ── gradle.properties ─────────────────────────────────────────────
+function tGradleProps(){
+  return [
+'org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8',
+'android.useAndroidX=true',
+'android.enableJetifier=true',
+'org.gradle.parallel=true',
+'org.gradle.caching=true'
+  ].join('\n');
+}
+
+// ── app/build.gradle ──────────────────────────────────────────────
+function tAppGradle(){
+  const deps=[
+"    implementation 'androidx.appcompat:appcompat:1.6.1'",
+"    implementation 'androidx.webkit:webkit:1.8.0'",
+"    implementation 'com.google.android.material:material:1.11.0'",
+"    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'",
+"    implementation 'androidx.core:core:1.12.0'",
+"    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'",
+  ];
+  if(S.features.admob)
+    deps.push("    implementation 'com.google.android.gms:play-services-ads:23.0.0'");
+  return [
+'plugins { id \'com.android.application\' }',
+'android {',
+'    namespace \''+S.pkg+'\'',
+'    compileSdk 34',
+'    defaultConfig {',
+'        applicationId "'+S.pkg+'"',
+'        minSdk '+S.minSdk,
+'        targetSdk 34',
+'        versionCode '+S.verCode,
+'        versionName "'+S.ver+'"',
+'    }',
+'    signingConfigs {',
+'        release {',
+'            storeFile file("keystore/release.jks")',
+'            storePassword "'+S.ksPass+'"',
+'            keyAlias "'+S.ksAlias+'"',
+'            keyPassword "'+S.ksPass+'"',
+'        }',
+'    }',
+'    buildTypes {',
+'        release {',
+'            minifyEnabled false',
+'            signingConfig signingConfigs.release',
+'            proguardFiles getDefaultProguardFile(\'proguard-android-optimize.txt\'), \'proguard-rules.pro\'',
+'        }',
+'    }',
+'    compileOptions {',
+'        sourceCompatibility JavaVersion.VERSION_1_8',
+'        targetCompatibility JavaVersion.VERSION_1_8',
+'    }',
+'    packagingOptions { resources { excludes += [\'/META-INF/{AL2.0,LGPL2.1}\'] } }',
+'}',
+'dependencies {',
+...deps,
+'}'
+  ].join('\n');
+}
+
+// ── AndroidManifest.xml ───────────────────────────────────────────
+function tManifest(){
+  const orientation=S.features.landscapeLock?'\n            android:screenOrientation="portrait"':'';
+  const admobMeta=S.features.admob?'\n        <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="'+S.admobAppId+'"/>':'';
+  const splashAct=S.features.splashScreen?'\n        <activity android:name=".SplashActivity" android:exported="true" android:theme="@style/SplashTheme" android:noHistory="true">\n            <intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter>\n        </activity>':'';
+  const mainExported=S.features.splashScreen?'false':'true';
+  const mainLauncher=S.features.splashScreen?'':'\n            <intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter>';
+  return [
+'<?xml version="1.0" encoding="utf-8"?>',
+'<manifest xmlns:android="http://schemas.android.com/apk/res/android">',
+'    <uses-permission android:name="android.permission.INTERNET"/>',
+'    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>',
+'    <uses-permission android:name="android.permission.CAMERA"/>',
+'    <uses-permission android:name="android.permission.RECORD_AUDIO"/>',
+'    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>',
+'    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28"/>',
+'    <application',
+'        android:allowBackup="true"',
+'        android:icon="@mipmap/ic_launcher"',
+'        android:label="@string/app_name"',
+'        android:roundIcon="@mipmap/ic_launcher_round"',
+'        android:supportsRtl="true"',
+'        android:theme="@style/AppTheme"',
+'        android:hardwareAccelerated="true"',
+'        android:usesCleartextTraffic="true"',
+'        android:networkSecurityConfig="@xml/network_security_config">',
+admobMeta,
+splashAct,
+'        <activity',
+'            android:name=".MainActivity"',
+'            android:exported="'+mainExported+'"',
+'            android:configChanges="orientation|screenSize|keyboardHidden|uiMode"'+orientation,
+'            android:windowSoftInputMode="adjustResize">',
+mainLauncher,
+'        </activity>',
+'    </application>',
+'</manifest>'
+  ].join('\n');
+}
+
+// ── network_security_config.xml ───────────────────────────────────
+function tNetSec(){
+  return '<?xml version="1.0" encoding="utf-8"?>\n<network-security-config>\n    <base-config cleartextTrafficPermitted="true">\n        <trust-anchors><certificates src="system"/></trust-anchors>\n    </base-config>\n</network-security-config>';
+}
+
+// ── strings.xml ───────────────────────────────────────────────────
+function tStrings(){
+  const s=S.app.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return '<?xml version="1.0" encoding="utf-8"?>\n<resources>\n    <string name="app_name">'+s+'</string>\n    <string name="update_title">Update Available</string>\n    <string name="update_msg">'+esc(S.updateMsg)+'</string>\n    <string name="offline_title">No Internet</string>\n    <string name="offline_msg">Check your connection and try again.</string>\n</resources>';
+}
+
+// ── colors.xml ────────────────────────────────────────────────────
+function tColors(){
+  const p=S.primaryColor||'#2ea043', sp=S.splashColor||'#0a0c10';
+  return ['<?xml version="1.0" encoding="utf-8"?>','<resources>',
+    '    <color name="colorPrimary">'+p+'</color>',
+    '    <color name="colorSplash">'+sp+'</color>',
+    '    <color name="colorPrimaryDark">'+darken(p,.2)+'</color>',
+    '    <color name="colorAccent">'+p+'</color>',
+    '    <color name="white">#FFFFFFFF</color>',
+    '    <color name="black">#FF000000</color>',
+    '</resources>'].join('\n');
+}
+
+// ── themes.xml ────────────────────────────────────────────────────
+function tThemes(){
+  return [
+'<?xml version="1.0" encoding="utf-8"?>','<resources>',
+'    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">',
+'        <item name="colorPrimary">@color/colorPrimary</item>',
+'        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>',
+'        <item name="colorAccent">@color/colorAccent</item>',
+'        <item name="android:statusBarColor">@color/colorPrimary</item>',
+'        <item name="android:navigationBarColor">@color/colorPrimary</item>',
+'        <item name="android:windowBackground">@color/colorSplash</item>',
+'    </style>',
+'    <style name="SplashTheme" parent="Theme.MaterialComponents.NoActionBar">',
+'        <item name="android:windowBackground">@drawable/splash_bg</item>',
+'        <item name="android:statusBarColor">@color/colorSplash</item>',
+'        <item name="android:navigationBarColor">@color/colorSplash</item>',
+'    </style>',
+'</resources>'
+  ].join('\n');
+}
+
+function tThemesNight(){
+  return [
+'<?xml version="1.0" encoding="utf-8"?>','<resources>',
+'    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">',
+'        <item name="colorPrimary">@color/colorPrimary</item>',
+'        <item name="android:statusBarColor">@color/colorSplash</item>',
+'        <item name="android:navigationBarColor">@color/colorSplash</item>',
+'    </style>',
+'</resources>'
+  ].join('\n');
+}
+
+// ── splash_bg.xml drawable ────────────────────────────────────────
+function tSplashDrawable(){
+  const p=S.primaryColor||'#2ea043', sp=S.splashColor||'#0a0c10';
+  return [
+'<?xml version="1.0" encoding="utf-8"?>',
+'<layer-list xmlns:android="http://schemas.android.com/apk/res/android">',
+'    <item android:drawable="@color/colorSplash"/>',
+'    <item>',
+'        <shape>',
+'            <gradient android:startColor="'+sp+'" android:endColor="'+darken(sp,-.15)+'" android:type="radial" android:gradientRadius="800"/>',
+'        </shape>',
+'    </item>',
+'</layer-list>'
+  ].join('\n');
+}
+
+// ── SplashActivity.java ───────────────────────────────────────────
+function tSplash(){
+  const pkg=S.pkg, appSafe=S.app.replace(/['"\\]/g,'');
+  return [
+'package '+pkg+';',
+'import android.animation.AnimatorSet;',
+'import android.animation.ObjectAnimator;',
+'import android.content.Intent;',
+'import android.os.Bundle;',
+'import android.view.View;',
+'import android.view.Window;',
+'import android.view.WindowManager;',
+'import android.view.animation.DecelerateInterpolator;',
+'import android.widget.ImageView;',
+'import android.widget.LinearLayout;',
+'import android.widget.TextView;',
+'import androidx.appcompat.app.AppCompatActivity;',
+'',
+'public class SplashActivity extends AppCompatActivity {',
+'    @Override',
+'    protected void onCreate(Bundle savedInstanceState) {',
+'        super.onCreate(savedInstanceState);',
+'        requestWindowFeature(Window.FEATURE_NO_TITLE);',
+'        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);',
+'        LinearLayout root = new LinearLayout(this);',
+'        root.setOrientation(LinearLayout.VERTICAL);',
+'        root.setGravity(android.view.Gravity.CENTER);',
+'        root.setBackgroundColor(getResources().getColor(R.color.colorSplash, getTheme()));',
+'        ImageView icon = new ImageView(this);',
+'        icon.setImageResource(R.mipmap.ic_launcher);',
+'        icon.setAlpha(0f);',
+'        int sz = dpToPx(96);',
+'        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(sz, sz);',
+'        icon.setLayoutParams(lp);',
+'        TextView name = new TextView(this);',
+'        name.setText("'+appSafe+'");',
+'        name.setTextColor(getResources().getColor(R.color.white, getTheme()));',
+'        name.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, 24);',
+'        name.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);',
+'        name.setGravity(android.view.Gravity.CENTER);',
+'        name.setAlpha(0f);',
+'        LinearLayout.LayoutParams nlp = new LinearLayout.LayoutParams(',
+'            LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);',
+'        nlp.topMargin = dpToPx(16);',
+'        name.setLayoutParams(nlp);',
+'        root.addView(icon);',
+'        root.addView(name);',
+'        setContentView(root);',
+'        // Animate in',
+'        ObjectAnimator iconFade = ObjectAnimator.ofFloat(icon, View.ALPHA, 0f, 1f);',
+'        ObjectAnimator iconScale = ObjectAnimator.ofFloat(icon, View.SCALE_X, 0.6f, 1f);',
+'        ObjectAnimator iconScaleY = ObjectAnimator.ofFloat(icon, View.SCALE_Y, 0.6f, 1f);',
+'        ObjectAnimator nameFade = ObjectAnimator.ofFloat(name, View.ALPHA, 0f, 1f);',
+'        AnimatorSet set = new AnimatorSet();',
+'        set.playTogether(iconFade, iconScale, iconScaleY, nameFade);',
+'        set.setDuration(600);',
+'        set.setInterpolator(new DecelerateInterpolator());',
+'        set.start();',
+'        icon.postDelayed(() -> {',
+'            startActivity(new Intent(SplashActivity.this, MainActivity.class));',
+'        }, 1800);',
+'    }',
+'    private int dpToPx(int dp) {',
+'        return (int)(dp * getResources().getDisplayMetrics().density);',
+'    }',
+'}'
+  ].join('\n');
+}
+
+// ── MainActivity.java ─────────────────────────────────────────────
+function tActivity(){
+  const pkg=S.pkg;
+  const isUrl=S.contentType==='url';
+  const loadUrl=isUrl?S.webUrl:'file:///android_asset/index.html';
+  const admob=S.features.admob;
+  const update=S.features.updateSystem;
+  const customCssSafe=S.customCss.replace(/\\/g,'\\\\').replace(/"/g,'\\"').replace(/\n/g,'\\n');
+  const customJsSafe=S.customJs.replace(/\\/g,'\\\\').replace(/"/g,'\\"').replace(/\n/g,'\\n');
+
+  const admobImports=admob?[
+'import com.google.android.gms.ads.AdRequest;',
+'import com.google.android.gms.ads.AdSize;',
+'import com.google.android.gms.ads.AdView;',
+'import com.google.android.gms.ads.MobileAds;',
+S.features.admobInter?'import com.google.android.gms.ads.interstitial.InterstitialAd;':'',
+S.features.admobInter?'import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;':'',
+S.features.admobInter?'import com.google.android.gms.ads.LoadAdError;':'',
+  ].filter(Boolean).join('\n'):'';
+
+  return [
+'package '+pkg+';',
+'',
+'import android.annotation.SuppressLint;',
+'import android.app.AlertDialog;',
+'import android.content.Context;',
+'import android.content.Intent;',
+'import android.graphics.Bitmap;',
+'import android.net.ConnectivityManager;',
+'import android.net.NetworkInfo;',
+'import android.net.Uri;',
+'import android.os.Bundle;',
+'import android.os.Handler;',
+'import android.os.Looper;',
+'import android.view.View;',
+'import android.view.Window;',
+'import android.view.WindowManager;',
+'import android.webkit.*;',
+'import android.widget.*;',
+'import androidx.appcompat.app.AppCompatActivity;',
+'import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;',
+admobImports,
+'import java.io.BufferedReader;',
+'import java.io.InputStreamReader;',
+'import java.net.HttpURLConnection;',
+'import java.net.URL;',
+'',
+'public class MainActivity extends AppCompatActivity {',
+'',
+'    private WebView webView;',
+'    private ProgressBar progressBar;',
+'    private SwipeRefreshLayout swipeRefresh;',
+'    private ValueCallback<Uri[]> filePathCallback;',
+'    private static final int FILE_REQ = 100;',
+admob&&S.features.admobBanner?'    private AdView adView;':'',
+admob&&S.features.admobInter?'    private InterstitialAd interAd;':'',
+admob&&S.features.admobInter?'    private int loadCount = 0;':'',
+update?'    private static final String UPDATE_URL = "https://raw.githubusercontent.com/'+S.owner+'/'+S.repo+'/main/update.json";':'',
+'    private boolean doubleBackPressed = false;',
+'',
+'    @SuppressLint("SetJavaScriptEnabled")',
+'    @Override',
+'    protected void onCreate(Bundle savedInstanceState) {',
+'        super.onCreate(savedInstanceState);',
+'        requestWindowFeature(Window.FEATURE_NO_TITLE);',
+'        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);',
+'        getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary, getTheme()));',
+'        getWindow().setNavigationBarColor(getResources().getColor(R.color.colorPrimary, getTheme()));',
+'',
+'        // ── Root layout ──────────────────────────────────────',
+'        RelativeLayout root = new RelativeLayout(this);',
+'        root.setLayoutParams(new RelativeLayout.LayoutParams(-1, -1));',
+'',
+admob&&S.features.admobBanner?[
+'        // AdMob Banner',
+'        adView = new AdView(this);',
+'        adView.setAdSize(AdSize.BANNER);',
+'        adView.setAdUnitId("'+S.admobBannerId+'");',
+'        RelativeLayout.LayoutParams adParams = new RelativeLayout.LayoutParams(-1, -2);',
+'        adParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);',
+'        adView.setLayoutParams(adParams);',
+].join('\n'):'',
+'        // SwipeRefresh + WebView',
+'        swipeRefresh = new SwipeRefreshLayout(this);',
+'        RelativeLayout.LayoutParams srp = new RelativeLayout.LayoutParams(-1, -1);',
+admob&&S.features.admobBanner?'        srp.addRule(RelativeLayout.ABOVE, adView.getId());':'',
+'        swipeRefresh.setLayoutParams(srp);',
+'        swipeRefresh.setColorSchemeColors(getResources().getColor(R.color.colorPrimary, getTheme()));',
+admob&&S.features.admobBanner?'        if (adView.getId() == View.NO_ID) adView.setId(View.generateViewId());':'',
+admob&&S.features.admobBanner?'        srp.addRule(RelativeLayout.ABOVE, adView.getId());':'',
+'',
+'        webView = new WebView(this);',
+'        webView.setLayoutParams(new RelativeLayout.LayoutParams(-1, -1));',
+'        swipeRefresh.addView(webView);',
+'',
+'        // Progress bar',
+'        progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);',
+'        RelativeLayout.LayoutParams pbp = new RelativeLayout.LayoutParams(-1, 5);',
+'        pbp.addRule(RelativeLayout.ALIGN_PARENT_TOP);',
+'        progressBar.setLayoutParams(pbp);',
+'        progressBar.setMax(100);',
+'        progressBar.getProgressDrawable().setColorFilter(',
+'            getResources().getColor(R.color.colorPrimary, getTheme()),',
+'            android.graphics.PorterDuff.Mode.SRC_IN);',
+'',
+'        root.addView(swipeRefresh);',
+admob&&S.features.admobBanner?'        root.addView(adView);':'',
+'        root.addView(progressBar);',
+'        setContentView(root);',
+'',
+'        // ── WebSettings ──────────────────────────────────────',
+'        WebSettings ws = webView.getSettings();',
+'        ws.setJavaScriptEnabled(true);',
+'        ws.setDomStorageEnabled(true);',
+'        ws.setDatabaseEnabled(true);',
+'        ws.setAllowFileAccess(true);',
+'        ws.setAllowFileAccessFromFileURLs(true);',
+'        ws.setAllowUniversalAccessFromFileURLs(true);',
+'        ws.setLoadsImagesAutomatically(true);',
+'        ws.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);',
+'        ws.setCacheMode(WebSettings.LOAD_DEFAULT);',
+'        ws.setMediaPlaybackRequiresUserGesture(false);',
+S.features.zoomEnabled?'        ws.setBuiltInZoomControls(true); ws.setDisplayZoomControls(false);':'        ws.setBuiltInZoomControls(false);',
+'        ws.setUseWideViewPort(true);',
+'        ws.setLoadWithOverviewMode(true);',
+'        ws.setGeolocationEnabled(true);',
+S.features.darkMode?'        if (android.os.Build.VERSION.SDK_INT >= 29) { ws.setForceDark(WebSettings.FORCE_DARK_ON); }':'',
+'',
+'        // ── Swipe to refresh ─────────────────────────────────',
+S.features.swipeRefresh?[
+'        swipeRefresh.setOnRefreshListener(() -> {',
+'            webView.reload();',
+'            swipeRefresh.setRefreshing(false);',
+'        });',
+].join('\n'):'        swipeRefresh.setEnabled(false);',
+'',
+'        // ── WebViewClient ────────────────────────────────────',
+'        webView.setWebViewClient(new WebViewClient() {',
+'            @Override',
+'            public boolean shouldOverrideUrlLoading(WebView v, WebResourceRequest req) {',
+'                String url = req.getUrl().toString();',
+'                if (url.startsWith("file://") || url.startsWith("http") || url.startsWith("about:")) return false;',
+'                try { startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url))); } catch (Exception e) {}',
+'                return true;',
+'            }',
+'            @Override public void onPageStarted(WebView v, String url, Bitmap f) {',
+'                progressBar.setVisibility(View.VISIBLE); progressBar.setProgress(10);',
+'            }',
+'            @Override public void onPageFinished(WebView v, String url) {',
+'                progressBar.setProgress(100); progressBar.setVisibility(View.GONE);',
+'                swipeRefresh.setRefreshing(false);',
+customCssSafe?'                v.evaluateJavascript("(function(){var s=document.createElement(\'style\');s.textContent=\\"'+customCssSafe+'\\";document.head.appendChild(s);})()", null);':'',
+customJsSafe?'                v.evaluateJavascript("'+customJsSafe+'", null);':'',
+admob&&S.features.admobInter?[
+'                loadCount++;',
+'                if (loadCount % '+S.admobInterFreq+' == 0 && interAd != null) {',
+'                    interAd.show(MainActivity.this);',
+'                }',
+].join('\n'):'',
+'            }',
+'            @Override public void onReceivedError(WebView v, WebResourceRequest req, WebResourceError err) {',
+S.features.offlineMode?[
+'                if (!isConnected()) {',
+'                    v.loadData("<html><body style=\'background:#0a0c10;color:#cdd9e5;font-family:sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;margin:0;text-align:center;padding:24px\'><div style=\'font-size:3em;margin-bottom:16px\'>📶</div><h2 style=\'color:#f85149\'>No Internet</h2><p style=\'color:#768390\'>Check your connection and try again.</p><button onclick=\'location.reload()\' style=\'margin-top:16px;background:#2ea043;color:#fff;border:none;padding:12px 24px;border-radius:8px;font-size:1em;cursor:pointer\'>Retry</button></body></html>", "text/html", "UTF-8");',
+'                }',
+].join('\n'):'',
+'            }',
+'        });',
+'',
+'        // ── WebChromeClient ───────────────────────────────────',
+'        webView.setWebChromeClient(new WebChromeClient() {',
+'            @Override public void onProgressChanged(WebView v, int p) {',
+'                progressBar.setProgress(p); progressBar.setVisibility(p>=100?View.GONE:View.VISIBLE);',
+'            }',
+'            @Override public void onGeolocationPermissionsShowPrompt(String o, GeolocationPermissions.Callback cb) { cb.invoke(o, true, false); }',
+'            @Override public void onPermissionRequest(PermissionRequest req) { req.grant(req.getResources()); }',
+'            @Override public boolean onShowFileChooser(WebView wv, ValueCallback<Uri[]> cb, FileChooserParams p) {',
+'                filePathCallback = cb;',
+'                try { startActivityForResult(p.createIntent(), FILE_REQ); return true; }',
+'                catch (Exception e) { filePathCallback = null; return false; }',
+'            }',
+'        });',
+S.features.disableContextMenu?'\n        webView.setOnLongClickListener(v -> true);':'',
+'',
+admob?[
+'        // ── AdMob ─────────────────────────────────────────────',
+'        MobileAds.initialize(this, status -> {});',
+S.features.admobBanner?'        adView.loadAd(new AdRequest.Builder().build());':'',
+S.features.admobInter?[
+'        InterstitialAd.load(this, "'+S.admobInterId+'", new AdRequest.Builder().build(),',
+'            new InterstitialAdLoadCallback() {',
+'                @Override public void onAdLoaded(InterstitialAd ad) { interAd = ad; }',
+'                @Override public void onAdFailedToLoad(LoadAdError err) { interAd = null; }',
+'            });',
+].join('\n'):'',
+].join('\n'):'',
+'',
+update?[
+'        // ── Update checker ────────────────────────────────────',
+'        new Thread(() -> checkForUpdate()).start();',
+].join('\n'):'',
+'',
+'        webView.loadUrl("'+loadUrl+'");',
+'    }',
+'',
+update?[
+'    private void checkForUpdate() {',
+'        try {',
+'            URL url = new URL(UPDATE_URL);',
+'            HttpURLConnection con = (HttpURLConnection) url.openConnection();',
+'            con.setConnectTimeout(5000); con.setReadTimeout(5000);',
+'            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));',
+'            StringBuilder sb = new StringBuilder(); String line;',
+'            while ((line = br.readLine()) != null) sb.append(line);',
+'            String json = sb.toString();',
+'            // Parse version_code from JSON',
+'            int latest = 1;',
+'            String name = ""; String updateUrl2 = "'+S.updateUrl+'";',
+'            boolean force = '+S.forceUpdate+';',
+'            java.util.regex.Matcher m = java.util.regex.Pattern.compile("\\"latest_version_code\\"\\\\s*:\\\\s*(\\\\d+)").matcher(json);',
+'            if (m.find()) latest = Integer.parseInt(m.group(1));',
+'            java.util.regex.Matcher mn = java.util.regex.Pattern.compile("\\"latest_version_name\\"\\\\s*:\\\\s*\\"([^\\"]+)\\"").matcher(json);',
+'            if (mn.find()) name = mn.group(1);',
+'            java.util.regex.Matcher mu = java.util.regex.Pattern.compile("\\"update_url\\"\\\\s*:\\\\s*\\"([^\\"]+)\\"").matcher(json);',
+'            if (mu.find()) updateUrl2 = mu.group(1);',
+'            final int lat = latest; final String vn = name; final String uu = updateUrl2; final boolean frc = force;',
+'            if (lat > '+S.verCode+') {',
+'                new Handler(Looper.getMainLooper()).post(() -> showUpdateDialog(vn, uu, frc));',
+'            }',
+'        } catch (Exception e) { /* silently ignore */ }',
+'    }',
+'    private void showUpdateDialog(String vn, String updateUrl2, boolean force) {',
+'        AlertDialog.Builder b = new AlertDialog.Builder(this);',
+'        b.setTitle("Update Available" + (vn.isEmpty() ? "" : " (v" + vn + ")"));',
+'        b.setMessage("'+S.updateMsg.replace(/"/g,'\\"')+'");',
+'        b.setPositiveButton("Update Now", (d, w) -> {',
+'            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(updateUrl2)));',
+'        });',
+'        if (!force) b.setNegativeButton("Later", null);',
+'        b.setCancelable(!force);',
+'        b.show();',
+'    }',
+].join('\n'):'',
+'',
+'    private boolean isConnected() {',
+'        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);',
+'        if (cm == null) return false;',
+'        NetworkInfo ni = cm.getActiveNetworkInfo();',
+'        return ni != null && ni.isConnected();',
+'    }',
+'',
+'    @Override public void onBackPressed() {',
+S.features.exitDialog?[
+'        if (webView != null && webView.canGoBack()) { webView.goBack(); return; }',
+'        if (doubleBackPressed) { super.onBackPressed(); return; }',
+'        doubleBackPressed = true;',
+'        Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show();',
+'        new Handler(Looper.getMainLooper()).postDelayed(() -> doubleBackPressed = false, 2000);',
+].join('\n'):[
+'        if (webView != null && webView.canGoBack()) webView.goBack();',
+'        else super.onBackPressed();',
+].join('\n'),
+'    }',
+'',
+'    @Override protected void onActivityResult(int req, int res, Intent data) {',
+'        if (req == FILE_REQ && filePathCallback != null) {',
+'            filePathCallback.onReceiveValue(WebChromeClient.FileChooserParams.parseResult(res, data));',
+'            filePathCallback = null;',
+'        }',
+'        super.onActivityResult(req, res, data);',
+'    }',
+'    @Override protected void onPause()   { super.onPause();   if (webView!=null) webView.onPause();  }',
+'    @Override protected void onResume()  { super.onResume();  if (webView!=null) webView.onResume(); }',
+'    @Override protected void onDestroy() { if (webView!=null) { webView.destroy(); webView=null; } super.onDestroy(); }',
+'}'
+  ].filter(x=>x!==undefined&&x!==false&&x!=='').join('\n');
+}
+
+// ── Python Shell ──────────────────────────────────────────────────
+function tPyShell(){
+  const entry=S.pyEntry||'main.py';
+  const mode=S.pyMode||'console';
+  const appSafe=esc(S.app);
+  return `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>${appSafe}</title>
+<script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"><\/script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0c10;color:#cdd9e5;font-family:monospace;min-height:100vh;display:flex;flex-direction:column}
+#loading{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:12px;font-size:.9em;color:#768390}
+.spinner{width:40px;height:40px;border:3px solid #2d333b;border-top-color:#2ea043;border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+#output{flex:1;padding:14px;font-size:.85em;line-height:1.6;white-space:pre-wrap;overflow-y:auto}
+#custom-ui{flex:1;overflow:auto}
+#toolbar{background:#111318;border-bottom:1px solid #2d333b;padding:8px 14px;display:flex;align-items:center;justify-content:space-between}
+.app-title{font-weight:700;color:#cdd9e5}
+.run-btn{background:#2ea043;color:#fff;border:none;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:.84em}
+.err{color:#f85149}
+</style>
+</head>
+<body>
+<div id="toolbar"><span class="app-title">${appSafe}</span><button class="run-btn" id="runBtn" onclick="runPython()">▶ Run</button></div>
+<div id="loading"><div class="spinner"></div><span id="loadMsg">Loading Python runtime...</span></div>
+${mode==='console'?'<div id="output" style="display:none"></div>':'<div id="custom-ui" style="display:none"></div>'}
+<script>
+let pyodide=null;
+async function main(){
+  try{
+    document.getElementById('loadMsg').textContent='Loading Pyodide...';
+    pyodide=await loadPyodide();
+    document.getElementById('loadMsg').textContent='Loading packages...';
+    await pyodide.loadPackagesFromImports('import sys,io,json');
+    document.getElementById('loading').style.display='none';
+    ${mode==='console'?'document.getElementById("output").style.display=""':'document.getElementById("custom-ui").style.display=""'};
+    await runPython();
+  }catch(e){ document.getElementById('loadMsg').textContent='Error: '+e.message; document.getElementById('loadMsg').className='err'; }
+}
+async function runPython(){
+  if(!pyodide) return;
+  document.getElementById('runBtn').textContent='Running...';
+  document.getElementById('runBtn').disabled=true;
+  try{
+    const r=await fetch('${entry}'); const code=await r.text();
+    pyodide.globals.set('__output__',[]);
+    pyodide.runPython('import sys,io\\nclass _W:\\n    def write(self,s):\\n        if s: __output__.append(str(s))\\n    def flush(self): pass\\nsys.stdout=_W()\\nsys.stderr=_W()');
+    try{ pyodide.runPython(code); }catch(e){ pyodide.globals.get('__output__').append('ERROR: '+e.message); }
+    const out=pyodide.globals.get('__output__').toJs().join('');
+    ${mode==='console'?'document.getElementById("output").textContent=out||"(no output)"':'document.getElementById("custom-ui").innerHTML=out'};
+  }catch(e){ alert('Error: '+e.message); }
+  finally{ document.getElementById('runBtn').textContent='▶ Run'; document.getElementById('runBtn').disabled=false; }
+}
+main();
+<\/script>
+</body></html>`;
+}
+
+// ── URL redirect page ─────────────────────────────────────────────
+function tUrlRedirect(url){
+  return '<!DOCTYPE html><html><head><meta http-equiv="refresh" content="0;url='+esc(url)+'"><title>Loading...</title></head><body style="background:#0a0c10;color:#cdd9e5;font-family:sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh">Loading '+esc(S.app)+'...</body></html>';
+}
+
+// ── Placeholder ───────────────────────────────────────────────────
+function tPlaceholder(){
+  return '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>'+esc(S.app)+'</title><style>*{box-sizing:border-box;margin:0;padding:0}body{background:#0a0c10;color:#cdd9e5;font-family:system-ui;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px}.icon{width:80px;height:80px;background:'+esc(S.primaryColor)+';border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:2.2em;margin:0 auto 20px}h1{font-size:1.8em;margin-bottom:10px;color:'+esc(S.primaryColor)+'}p{color:#768390;line-height:1.7;max-width:320px}</style></head><body><div class="icon">📱</div><h1>'+esc(S.app)+'</h1><p>Your app is running!<br>Replace <code>index.html</code> in the assets folder with your content.</p></body></html>';
+}
+</script>
+</body>
+</html>
