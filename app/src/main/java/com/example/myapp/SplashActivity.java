@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.Gravity;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -17,11 +16,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 public class SplashActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         FrameLayout root = new FrameLayout(this);
         root.setBackgroundColor(ContextCompat.getColor(this, R.color.splashBackground));
 
@@ -52,7 +49,6 @@ public class SplashActivity extends AppCompatActivity {
             ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         containerParams.gravity = Gravity.CENTER;
         root.addView(container, containerParams);
-
         setContentView(root);
 
         ObjectAnimator fadeIn = ObjectAnimator.ofFloat(container, "alpha", 0f, 1f);
@@ -61,14 +57,12 @@ public class SplashActivity extends AppCompatActivity {
         scaleX.setDuration(700);
         ObjectAnimator scaleY = ObjectAnimator.ofFloat(container, "scaleY", 0.85f, 1f);
         scaleY.setDuration(700);
-
         AnimatorSet animSet = new AnimatorSet();
         animSet.playTogether(fadeIn, scaleX, scaleY);
         animSet.start();
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(SplashActivity.this, MainActivity.class));
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             finish();
         }, 1800);
