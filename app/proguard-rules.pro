@@ -1,4 +1,3 @@
--keep class com.shopindia.app.** { *; }
--keepclassmembers class com.shopindia.app.MainActivity$AndroidBridge {
-    public *;
-}
+# Add project specific ProGuard rules here.
+-keep class androidx.webkit.** { *; }
+-keep class * extends android.webkit.WebViewClient { *; }

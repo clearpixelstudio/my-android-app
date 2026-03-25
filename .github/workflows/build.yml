@@ -1,79 +1,130 @@
-name: Build Signed Android APK
+name: Build APK
 
 on:
+  workflow_dispatch:
   push:
     branches: [ main, master ]
-  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
 
     steps:
+      # ── 1. Checkout ────────────────────────────────────────────────────────
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up JDK 17
+      # ── 2. Java 17 (Temurin) ──────────────────────────────────────────────
+      - name: Set up Java 17
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
-          distribution: 'temurin'
+          distribution: temurin
+          java-version: 17
 
-      - name: Set up Android SDK
+      # ── 3. Download Gradle 8.4 directly ───────────────────────────────────
+      #    Root cause fix: gradlew in the repo has no accompanying
+      #    gradle-wrapper.jar (that binary JAR cannot be generated from
+      #    JavaScript).  So we download the real Gradle distribution from
+      #    services.gradle.org, put it on PATH, then use it to regenerate
+      #    a fully-valid wrapper.  ./gradlew then works correctly.
+      - name: Install Gradle 8.4 from official distribution
         run: |
-          yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses 2>/dev/null || true
-          $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager \
-            "platforms;android-34" \
-            "build-tools;34.0.0" 2>/dev/null || true
-          echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
+          GRADLE_VERSION="8.4"
+          GRADLE_ZIP="gradle-${GRADLE_VERSION}-bin.zip"
+          GRADLE_URL="https://services.gradle.org/distributions/${GRADLE_ZIP}"
+          GRADLE_INSTALL_DIR="/opt/gradle"
 
-      - name: Generate Gradle 8.4 Wrapper
+          echo ">>> Downloading Gradle ${GRADLE_VERSION}..."
+          curl -fsSL "${GRADLE_URL}" -o "/tmp/${GRADLE_ZIP}"
+
+          echo ">>> Extracting to ${GRADLE_INSTALL_DIR}..."
+          mkdir -p "${GRADLE_INSTALL_DIR}"
+          unzip -q "/tmp/${GRADLE_ZIP}" -d "${GRADLE_INSTALL_DIR}"
+
+          # Export the binary directory so subsequent steps can call 'gradle'
+          echo "${GRADLE_INSTALL_DIR}/gradle-${GRADLE_VERSION}/bin" >> $GITHUB_PATH
+          echo "GRADLE_HOME=${GRADLE_INSTALL_DIR}/gradle-${GRADLE_VERSION}" >> $GITHUB_ENV
+
+          echo ">>> Gradle installed:"
+          "${GRADLE_INSTALL_DIR}/gradle-${GRADLE_VERSION}/bin/gradle" --version
+
+      # ── 4. Regenerate a correct Gradle wrapper ────────────────────────────
+      #    Overwrites any stub gradlew / gradle-wrapper.jar that was pushed
+      #    from the browser with a fully functional wrapper.
+      - name: Regenerate Gradle wrapper (fixes ClassNotFoundException)
         run: |
-          if [ ! -f "gradlew" ]; then
-            echo "Downloading Gradle 8.4..."
-            curl -fsSL https://services.gradle.org/distributions/gradle-8.4-bin.zip -o /tmp/gradle.zip
-            unzip -q /tmp/gradle.zip -d /tmp/gd
-            /tmp/gd/gradle-8.4/bin/gradle wrapper \
-              --gradle-version=8.4 \
-              --distribution-type=bin \
-              --project-dir="$GITHUB_WORKSPACE"
-          fi
+          echo ">>> Regenerating wrapper using installed Gradle binary..."
+          gradle wrapper --gradle-version 8.4 --distribution-type bin
           chmod +x gradlew
-          echo "=== Wrapper ready ==="
-          ls -la gradlew gradle/wrapper/ 2>/dev/null || true
+          echo ">>> Wrapper files:"
+          ls -la gradlew gradle/wrapper/
+          echo ">>> Verifying wrapper jar exists:"
+          test -f gradle/wrapper/gradle-wrapper.jar && echo "OK: gradle-wrapper.jar present" || echo "WARN: jar missing, build may fail"
 
+      # ── 5. Android SDK ────────────────────────────────────────────────────
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Accept SDK licenses
+        run: yes | sdkmanager --licenses || true
+
+      - name: Install required SDK components
+        run: |
+          sdkmanager --install \
+            "platform-tools" \
+            "platforms;android-34" \
+            "build-tools;34.0.0"
+
+      # ── 6. Signing keystore ───────────────────────────────────────────────
       - name: Generate signing keystore
         run: |
-          mkdir -p app/keystore
+          mkdir -p app
           keytool -genkeypair \
-            -keystore app/keystore/release.jks \
-            -storepass "android123" \
-            -keypass "android123" \
             -alias "mykey" \
-            -keyalg RSA -keysize 2048 -validity 36500 \
-            -dname "CN=My App, O=App, C=US" 2>/dev/null
-          echo "Keystore ready: $(ls -lh app/keystore/release.jks)"
+            -keyalg RSA \
+            -keysize 2048 \
+            -validity 10000 \
+            -keystore app/keystore.jks \
+            -storepass "MyKeystorePassword123" \
+            -keypass  "MyKeystorePassword123" \
+            -dname    "CN=My App, OU=App, O=APKForge, L=City, ST=State, C=US" \
+            -noprompt
+          echo ">>> Keystore created:"
+          ls -lh app/keystore.jks
 
-      - name: Cache Gradle
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: gradle-${{ hashFiles('**/*.gradle*','**/gradle-wrapper.properties') }}
-          restore-keys: gradle-
+      # ── 7. Build Release APK ──────────────────────────────────────────────
+      - name: Build Release APK
+        env:
+          KEYSTORE_PATH: keystore.jks
+          KEYSTORE_PASSWORD: "MyKeystorePassword123"
+          KEY_ALIAS:        "mykey"
+          KEY_PASSWORD:     "MyKeystorePassword123"
+        run: |
+          echo ">>> Running assembleRelease via regenerated wrapper..."
+          ./gradlew assembleRelease \
+            --no-daemon \
+            --stacktrace \
+            --info \
+            -Dorg.gradle.jvmargs="-Xmx2g -XX:+HeapDumpOnOutOfMemoryError"
 
-      - name: Build release APK
-        run: ./gradlew assembleRelease --no-daemon --stacktrace 2>&1
+      # ── 8. Verify output ──────────────────────────────────────────────────
+      - name: Locate built APK
+        run: |
+          echo ">>> Searching for APK files..."
+          find . -name "*.apk" -type f | sort
+          APK_PATH=$(find app/build/outputs/apk/release -name "*.apk" -type f 2>/dev/null | head -1)
+          if [ -z "$APK_PATH" ]; then
+            echo "ERROR: No APK found — check build log above"
+            exit 1
+          fi
+          echo ">>> Found APK: $APK_PATH"
+          ls -lh "$APK_PATH"
 
-      - name: List generated APKs
-        run: find . -name "*.apk" -type f | head -10
-
-      - name: Upload APK
+      # ── 9. Upload artifact ────────────────────────────────────────────────
+      - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: app-release-apk
+          name: app-release-1.0.0
           path: app/build/outputs/apk/release/*.apk
-          if-no-files-found: error
           retention-days: 30
+          if-no-files-found: error
