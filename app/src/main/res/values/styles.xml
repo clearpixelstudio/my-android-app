@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Theme.App" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">#FF6B00</item>
+        <item name="colorPrimary">#ff6200</item>
         <item name="android:windowBackground">@color/white</item>
     </style>
     <style name="Theme.Splash" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@color/splash_bg</item>
-        <item name="android:windowFullscreen">true</item>
+        
     </style>
 </resources>

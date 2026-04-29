@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="#FF6B00" android:gravity="center">
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:layout_centerInParent="true" android:text="My App"
-        android:textColor="#FFFFFF" android:textSize="38sp" android:textStyle="bold"
-        android:fontFamily="sans-serif-medium"/>
-    <ProgressBar android:layout_width="48dp" android:layout_height="48dp"
+    android:background="#ff6200" android:gravity="center">
+    <TextView android:id="@+id/splash_tv"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Shopindia Final"
+        android:textColor="#ffffff" android:textSize="40sp" android:textStyle="bold"
+        android:fontFamily="sans-serif-medium" android:letterSpacing="0.05"/>
+    <ProgressBar
+        android:layout_width="52dp" android:layout_height="52dp"
         android:layout_alignParentBottom="true" android:layout_centerHorizontal="true"
-        android:layout_marginBottom="72dp" android:indeterminate="true"
-        android:indeterminateTint="#FFFFFFFF"/>
+        android:layout_marginBottom="80dp" android:indeterminate="true"
+        android:indeterminateTint="#ffffff"/>
 </RelativeLayout>

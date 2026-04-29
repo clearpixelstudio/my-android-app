@@ -5,9 +5,8 @@
 .DS_Store
 /build
 /captures
-.externalNativeBuild
-.cxx
 *.apk
 *.aab
 *.keystore
 keystore.jks
+local.properties

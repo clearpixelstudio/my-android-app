@@ -1,4 +1,4 @@
-name: "⚡ APK Factory — My App Build"
+name: "⚡ APK Factory — Shopindia Final Build"
 
 on:
   push:
@@ -8,63 +8,62 @@ on:
   workflow_dispatch:
 
 env:
-  JAVA_VERSION: '17'
-  GRADLE_VERSION: '8.4'
+  JAVA_VER: '17'
+  GRADLE_VER: '8.4'
+  COMPILE_SDK: '34'
+  BUILD_TOOLS: '34.0.0'
 
 jobs:
   build:
-    name: "Build My App APK"
+    name: "Build Shopindia Final APK"
     runs-on: ubuntu-latest
 
     steps:
-      - name: "📥 Checkout repository"
+      - name: "📥 Checkout"
         uses: actions/checkout@v4
 
-      - name: "☕ Setup JDK 17"
+      - name: "☕ JDK 17"
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
           cache: gradle
 
-      - name: "🔧 Setup Gradle 8.4"
+      - name: "🔧 Install Gradle 8.4"
         uses: gradle/actions/setup-gradle@v3
         with:
           gradle-version: '8.4'
 
-      - name: "🤖 Setup Android SDK"
+      - name: "🤖 Android SDK"
         uses: android-actions/setup-android@v3
 
-      - name: "✅ Accept SDK Licenses"
-        run: yes | sdkmanager --licenses 2>/dev/null || true
-
-      - name: "📦 Install SDK Components"
-        run: sdkmanager "platforms;android-34" "build-tools;34.0.0" 2>/dev/null || true
-
-      - name: "🏗️ Generate Gradle Wrapper if Missing"
+      - name: "✅ Accept Licenses + Install SDK"
         run: |
-          if [ ! -f gradle/wrapper/gradle-wrapper.jar ]; then
-            echo "⚡ Generating Gradle wrapper..."
-            gradle wrapper --gradle-version=8.4 --distribution-type=bin
-          fi
+          yes | sdkmanager --licenses 2>/dev/null || true
+          sdkmanager "platforms;android-34" "build-tools;34.0.0" 2>/dev/null || true
 
-      - name: "🔑 Create Debug Keystore"
+      - name: "🏗️ Generate Gradle Wrapper (Zero-Fail)"
+        run: |
+          echo "🔧 Generating Gradle 8.4 wrapper..."
+          gradle wrapper --gradle-version=8.4 --distribution-type=bin
+          chmod +x gradlew
+          echo "✅ Wrapper ready: $(ls -la gradlew gradle/wrapper/)"
+
+      - name: "🔑 Auto Debug Keystore"
         run: |
           mkdir -p ~/.android
           keytool -genkeypair -v \
             -keystore ~/.android/debug.keystore \
-            -storepass android -alias androiddebugkey -keypass android \
-            -keyalg RSA -keysize 2048 -validity 10000 \
+            -storepass android -alias androiddebugkey \
+            -keypass android -keyalg RSA -keysize 2048 \
+            -validity 10000 \
             -dname "CN=Android Debug,O=Android,C=US" 2>/dev/null || true
 
-      - name: "🔓 Make gradlew executable"
-        run: chmod +x gradlew
-
       - name: "🏭 Build Release APK"
-        run: ./gradlew assembleRelease --no-daemon --stacktrace --parallel
+        run: ./gradlew assembleRelease --no-daemon --stacktrace
 
       - name: "🏭 Build Release AAB"
-        run: ./gradlew bundleRelease --no-daemon --stacktrace --parallel
+        run: ./gradlew bundleRelease --no-daemon --stacktrace
 
       - name: "📦 Upload Release APK"
         uses: actions/upload-artifact@v4
@@ -74,7 +73,7 @@ jobs:
           retention-days: 30
           if-no-files-found: warn
 
-      - name: "📦 Upload Release AAB"
+      - name: "📦 Upload AAB"
         uses: actions/upload-artifact@v4
         with:
           name: AAB-release

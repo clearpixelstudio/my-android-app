@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
+# APK Factory Pro generated gradlew
 APP_HOME=`pwd -P`
 DEFAULT_JVM_OPTS='"-Xmx64m" "-Xms64m"'
 CLASSPATH=$APP_HOME/gradle/wrapper/gradle-wrapper.jar
