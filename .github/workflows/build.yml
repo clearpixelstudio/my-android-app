@@ -1,130 +1,83 @@
-name: Build APK
+name: "⚡ APK Factory — My App Build"
 
 on:
-  workflow_dispatch:
   push:
-    branches: [ main, master ]
+    branches:
+      - "main"
+      - "master"
+  workflow_dispatch:
+
+env:
+  JAVA_VERSION: '17'
+  GRADLE_VERSION: '8.4'
 
 jobs:
   build:
+    name: "Build My App APK"
     runs-on: ubuntu-latest
 
     steps:
-      # ── 1. Checkout ────────────────────────────────────────────────────────
-      - name: Checkout code
+      - name: "📥 Checkout repository"
         uses: actions/checkout@v4
 
-      # ── 2. Java 17 (Temurin) ──────────────────────────────────────────────
-      - name: Set up Java 17
+      - name: "☕ Setup JDK 17"
         uses: actions/setup-java@v4
         with:
-          distribution: temurin
-          java-version: 17
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
 
-      # ── 3. Download Gradle 8.4 directly ───────────────────────────────────
-      #    Root cause fix: gradlew in the repo has no accompanying
-      #    gradle-wrapper.jar (that binary JAR cannot be generated from
-      #    JavaScript).  So we download the real Gradle distribution from
-      #    services.gradle.org, put it on PATH, then use it to regenerate
-      #    a fully-valid wrapper.  ./gradlew then works correctly.
-      - name: Install Gradle 8.4 from official distribution
-        run: |
-          GRADLE_VERSION="8.4"
-          GRADLE_ZIP="gradle-${GRADLE_VERSION}-bin.zip"
-          GRADLE_URL="https://services.gradle.org/distributions/${GRADLE_ZIP}"
-          GRADLE_INSTALL_DIR="/opt/gradle"
+      - name: "🔧 Setup Gradle 8.4"
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: '8.4'
 
-          echo ">>> Downloading Gradle ${GRADLE_VERSION}..."
-          curl -fsSL "${GRADLE_URL}" -o "/tmp/${GRADLE_ZIP}"
-
-          echo ">>> Extracting to ${GRADLE_INSTALL_DIR}..."
-          mkdir -p "${GRADLE_INSTALL_DIR}"
-          unzip -q "/tmp/${GRADLE_ZIP}" -d "${GRADLE_INSTALL_DIR}"
-
-          # Export the binary directory so subsequent steps can call 'gradle'
-          echo "${GRADLE_INSTALL_DIR}/gradle-${GRADLE_VERSION}/bin" >> $GITHUB_PATH
-          echo "GRADLE_HOME=${GRADLE_INSTALL_DIR}/gradle-${GRADLE_VERSION}" >> $GITHUB_ENV
-
-          echo ">>> Gradle installed:"
-          "${GRADLE_INSTALL_DIR}/gradle-${GRADLE_VERSION}/bin/gradle" --version
-
-      # ── 4. Regenerate a correct Gradle wrapper ────────────────────────────
-      #    Overwrites any stub gradlew / gradle-wrapper.jar that was pushed
-      #    from the browser with a fully functional wrapper.
-      - name: Regenerate Gradle wrapper (fixes ClassNotFoundException)
-        run: |
-          echo ">>> Regenerating wrapper using installed Gradle binary..."
-          gradle wrapper --gradle-version 8.4 --distribution-type bin
-          chmod +x gradlew
-          echo ">>> Wrapper files:"
-          ls -la gradlew gradle/wrapper/
-          echo ">>> Verifying wrapper jar exists:"
-          test -f gradle/wrapper/gradle-wrapper.jar && echo "OK: gradle-wrapper.jar present" || echo "WARN: jar missing, build may fail"
-
-      # ── 5. Android SDK ────────────────────────────────────────────────────
-      - name: Set up Android SDK
+      - name: "🤖 Setup Android SDK"
         uses: android-actions/setup-android@v3
 
-      - name: Accept SDK licenses
-        run: yes | sdkmanager --licenses || true
+      - name: "✅ Accept SDK Licenses"
+        run: yes | sdkmanager --licenses 2>/dev/null || true
 
-      - name: Install required SDK components
-        run: |
-          sdkmanager --install \
-            "platform-tools" \
-            "platforms;android-34" \
-            "build-tools;34.0.0"
+      - name: "📦 Install SDK Components"
+        run: sdkmanager "platforms;android-34" "build-tools;34.0.0" 2>/dev/null || true
 
-      # ── 6. Signing keystore ───────────────────────────────────────────────
-      - name: Generate signing keystore
+      - name: "🏗️ Generate Gradle Wrapper if Missing"
         run: |
-          mkdir -p app
-          keytool -genkeypair \
-            -alias "mykey" \
-            -keyalg RSA \
-            -keysize 2048 \
-            -validity 10000 \
-            -keystore app/keystore.jks \
-            -storepass "MyKeystorePassword123" \
-            -keypass  "MyKeystorePassword123" \
-            -dname    "CN=My App, OU=App, O=APKForge, L=City, ST=State, C=US" \
-            -noprompt
-          echo ">>> Keystore created:"
-          ls -lh app/keystore.jks
-
-      # ── 7. Build Release APK ──────────────────────────────────────────────
-      - name: Build Release APK
-        env:
-          KEYSTORE_PATH: keystore.jks
-          KEYSTORE_PASSWORD: "MyKeystorePassword123"
-          KEY_ALIAS:        "mykey"
-          KEY_PASSWORD:     "MyKeystorePassword123"
-        run: |
-          echo ">>> Running assembleRelease via regenerated wrapper..."
-          ./gradlew assembleRelease \
-            --no-daemon \
-            --stacktrace \
-            --info \
-            -Dorg.gradle.jvmargs="-Xmx2g -XX:+HeapDumpOnOutOfMemoryError"
-
-      # ── 8. Verify output ──────────────────────────────────────────────────
-      - name: Locate built APK
-        run: |
-          echo ">>> Searching for APK files..."
-          find . -name "*.apk" -type f | sort
-          APK_PATH=$(find app/build/outputs/apk/release -name "*.apk" -type f 2>/dev/null | head -1)
-          if [ -z "$APK_PATH" ]; then
-            echo "ERROR: No APK found — check build log above"
-            exit 1
+          if [ ! -f gradle/wrapper/gradle-wrapper.jar ]; then
+            echo "⚡ Generating Gradle wrapper..."
+            gradle wrapper --gradle-version=8.4 --distribution-type=bin
           fi
-          echo ">>> Found APK: $APK_PATH"
-          ls -lh "$APK_PATH"
 
-      # ── 9. Upload artifact ────────────────────────────────────────────────
-      - name: Upload APK artifact
+      - name: "🔑 Create Debug Keystore"
+        run: |
+          mkdir -p ~/.android
+          keytool -genkeypair -v \
+            -keystore ~/.android/debug.keystore \
+            -storepass android -alias androiddebugkey -keypass android \
+            -keyalg RSA -keysize 2048 -validity 10000 \
+            -dname "CN=Android Debug,O=Android,C=US" 2>/dev/null || true
+
+      - name: "🔓 Make gradlew executable"
+        run: chmod +x gradlew
+
+      - name: "🏭 Build Release APK"
+        run: ./gradlew assembleRelease --no-daemon --stacktrace --parallel
+
+      - name: "🏭 Build Release AAB"
+        run: ./gradlew bundleRelease --no-daemon --stacktrace --parallel
+
+      - name: "📦 Upload Release APK"
         uses: actions/upload-artifact@v4
         with:
-          name: app-release-1.0.0
+          name: APK-release
           path: app/build/outputs/apk/release/*.apk
           retention-days: 30
-          if-no-files-found: error
+          if-no-files-found: warn
+
+      - name: "📦 Upload Release AAB"
+        uses: actions/upload-artifact@v4
+        with:
+          name: AAB-release
+          path: app/build/outputs/bundle/release/*.aab
+          retention-days: 30
+          if-no-files-found: ignore

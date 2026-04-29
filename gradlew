@@ -1,14 +1,6 @@
 #!/usr/bin/env sh
-# -----------------------------------------------------------------------
-# Placeholder gradlew — replaced by CI before the build runs.
-# If you see this message the CI wrapper-regeneration step was skipped.
-# -----------------------------------------------------------------------
-set -e
-SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
-JAR="$SCRIPT_DIR/gradle/wrapper/gradle-wrapper.jar"
-if [ ! -f "$JAR" ]; then
-  echo "ERROR: gradle-wrapper.jar not found at $JAR"
-  echo "The CI must run the Regenerate Gradle wrapper step before building."
-  exit 1
-fi
-exec "${JAVA_HOME:-java}" -classpath "$JAR" org.gradle.wrapper.GradleWrapperMain "$@"
+APP_HOME=`pwd -P`
+DEFAULT_JVM_OPTS='"-Xmx64m" "-Xms64m"'
+CLASSPATH=$APP_HOME/gradle/wrapper/gradle-wrapper.jar
+if [ -n "$JAVA_HOME" ]; then JAVACMD="$JAVA_HOME/bin/java"; else JAVACMD="java"; fi
+exec "$JAVACMD" $DEFAULT_JVM_OPTS $JAVA_OPTS $GRADLE_OPTS "-Dorg.gradle.appname=gradlew" -classpath "$CLASSPATH" org.gradle.wrapper.GradleWrapperMain "$@"

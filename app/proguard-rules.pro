@@ -1,4 +1,5 @@
--keep class com.shopindia.app.** { *; }
--keepclassmembers class com.shopindia.app.MainActivity$AndroidBridge {
-    public *;
-}
+# APK Factory Pro — ProGuard Rules
+-keep class * extends android.webkit.WebViewClient
+-keep class * extends android.webkit.WebChromeClient
+-keepclassmembers class * { @android.webkit.JavascriptInterface <methods>; }
+-keepattributes JavascriptInterface

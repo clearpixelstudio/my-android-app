@@ -1,0 +1,3189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#f43f5e">
+<meta name="description" content="ShopIndia - India ka sabse trusted dropshipping store. Fashion, Electronics, Beauty, Home aur bahut kuch ₹99 se shuru.">
+<meta name="keywords" content="online shopping india, kurti, saree, electronics, beauty, home decor, dropshipping">
+<meta property="og:title" content="ShopIndia - Shop Smart, Save More">
+<meta property="og:description" content="Trending products at best prices. Free delivery on ₹499+. COD available.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1200&q=80">
+<title>ShopIndia - Shop Smart, Save More 🛍️</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Baloo+2:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ===== CONFIG - Change colors here ===== */
+:root {
+  --primary: #f43f5e;
+  --primary-dark: #e11d48;
+  --primary-light: #fecdd3;
+  --secondary: #6366f1;
+  --accent: #f59e0b;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --text: #1e293b;
+  --text-muted: #64748b;
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --border: #e2e8f0;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --shadow: 0 2px 12px rgba(0,0,0,0.07);
+  --shadow-md: 0 6px 24px rgba(0,0,0,0.12);
+  --font: 'Nunito', sans-serif;
+  --font-display: 'Baloo 2', cursive;
+  /* Business Config */
+  --upi-id: 'tanvir786@ptaxis';
+  --whatsapp: '917866048085';
+  --free-shipping-above: 499;
+  --shipping-charge: 49;
+}
+
+/* ===== RESET ===== */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html { scroll-behavior:smooth; font-size:16px; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ===== TYPOGRAPHY ===== */
+h1 { font-family: var(--font-display); font-size: 24px; font-weight: 800; }
+h2 { font-size: 20px; font-weight: 800; }
+h3 { font-size: 16px; font-weight: 700; }
+p { font-size: 14px; line-height: 1.6; }
+
+/* ===== HEADER ===== */
+.header {
+  position: sticky; top: 0; z-index: 200;
+  background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+  padding: 10px 14px 8px;
+  box-shadow: 0 3px 15px rgba(244,63,94,0.35);
+}
+.header-top { display:flex; align-items:center; gap:8px; margin-bottom:9px; }
+.logo { color:white; font-family:var(--font-display); font-size:24px; font-weight:800; flex:1; letter-spacing:-0.5px; cursor:pointer; }
+.logo em { color:#ffd700; font-style:normal; }
+.logo sup { font-size:10px; color:rgba(255,255,255,0.7); font-family:var(--font); font-weight:600; vertical-align:super; }
+.header-icons { display:flex; gap:8px; }
+.icon-btn {
+  background:rgba(255,255,255,0.2);
+  border:none; color:white;
+  width:38px; height:38px;
+  border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; font-size:17px;
+  position:relative; transition:background 0.2s;
+  backdrop-filter:blur(4px);
+}
+.icon-btn:active { background:rgba(255,255,255,0.35); }
+.badge {
+  position:absolute; top:-4px; right:-4px;
+  background:#ffd700; color:#1e293b;
+  font-size:9px; font-weight:900;
+  width:17px; height:17px;
+  border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  border:2px solid #e11d48;
+}
+.search-wrap { position:relative; }
+.search-bar {
+  display:flex;
+  background:white;
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 2px 8px rgba(0,0,0,0.15);
+}
+.search-bar input {
+  flex:1; border:none; outline:none;
+  padding:10px 14px; font-size:13px;
+  font-family:var(--font); color:var(--text);
+}
+.search-bar button {
+  background:var(--accent); border:none;
+  padding:10px 16px; color:white;
+  cursor:pointer; font-size:15px;
+  transition:background 0.2s;
+}
+.search-bar button:active { background:#d97706; }
+.search-suggestions {
+  position:absolute; top:calc(100% + 4px); left:0; right:0;
+  background:white; border-radius:12px;
+  box-shadow:var(--shadow-md); z-index:300;
+  max-height:220px; overflow-y:auto;
+  display:none; border:1px solid var(--border);
+}
+.search-suggestions.show { display:block; }
+.suggestion-item {
+  padding:11px 16px; font-size:13px;
+  cursor:pointer; border-bottom:1px solid var(--border);
+  display:flex; align-items:center; gap:10px;
+  transition:background 0.15s;
+}
+.suggestion-item:last-child { border-bottom:none; }
+.suggestion-item:hover { background:var(--bg); }
+
+/* ===== CATEGORY CHIPS ===== */
+.cat-chips {
+  display:flex; gap:8px; overflow-x:auto;
+  padding:10px 14px;
+  background:white; border-bottom:1px solid var(--border);
+  scrollbar-width:none; position:sticky; top:106px; z-index:100;
+}
+.cat-chips::-webkit-scrollbar { display:none; }
+.chip {
+  flex-shrink:0; padding:6px 15px;
+  border-radius:20px; font-size:12px; font-weight:700;
+  cursor:pointer; border:1.5px solid var(--border);
+  color:var(--text-muted); white-space:nowrap;
+  transition:all 0.2s;
+}
+.chip.active, .chip:hover { background:var(--primary); color:white; border-color:var(--primary); }
+
+/* ===== HERO SLIDER ===== */
+.slider-wrap { position:relative; overflow:hidden; background:white; }
+.slider { display:flex; transition:transform 0.45s cubic-bezier(.4,0,.2,1); }
+.slide {
+  min-width:100%; height:185px;
+  position:relative; overflow:hidden;
+  display:flex; align-items:center;
+}
+.slide-bg {
+  position:absolute; inset:0;
+  background-size:cover; background-position:center;
+}
+.slide-overlay {
+  position:absolute; inset:0;
+  background:linear-gradient(100deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.1) 70%);
+}
+.slide-content {
+  position:relative; z-index:2;
+  padding:20px;
+}
+.slide-tag {
+  background:var(--accent); color:white;
+  font-size:10px; font-weight:900;
+  padding:3px 9px; border-radius:5px;
+  width:fit-content; margin-bottom:7px;
+  letter-spacing:0.5px;
+}
+.slide-title {
+  color:white; font-family:var(--font-display);
+  font-size:20px; font-weight:800;
+  line-height:1.2; margin-bottom:5px;
+}
+.slide-sub { color:rgba(255,255,255,0.85); font-size:12px; margin-bottom:12px; }
+.slide-btn {
+  background:white; color:var(--primary);
+  font-size:12px; font-weight:800;
+  padding:7px 16px; border-radius:20px;
+  border:none; cursor:pointer;
+  box-shadow:0 2px 8px rgba(0,0,0,0.2);
+  font-family:var(--font);
+}
+.slider-dots {
+  display:flex; justify-content:center;
+  gap:5px; padding:8px;
+  background:white;
+}
+.dot {
+  width:6px; height:6px;
+  border-radius:50%; background:var(--border);
+  transition:all 0.3s; cursor:pointer;
+}
+.dot.active { background:var(--primary); width:20px; border-radius:3px; }
+
+/* ===== TRUST BADGES ===== */
+.trust-row {
+  display:flex; overflow-x:auto; gap:8px;
+  padding:10px 14px; background:white;
+  scrollbar-width:none; border-top:1px solid var(--border);
+}
+.trust-row::-webkit-scrollbar { display:none; }
+.trust-badge {
+  flex-shrink:0; display:flex; align-items:center; gap:7px;
+  background:#f0fdf4; border:1px solid #bbf7d0;
+  border-radius:10px; padding:8px 12px;
+}
+.trust-badge .t-icon { font-size:17px; }
+.trust-badge .t-text { font-size:10px; font-weight:700; color:#166534; white-space:nowrap; line-height:1.3; }
+
+/* ===== SECTIONS ===== */
+.divider { height:8px; background:var(--bg); }
+.section { padding:14px; }
+.section-header {
+  display:flex; align-items:center;
+  justify-content:space-between; margin-bottom:12px;
+}
+.section-title {
+  font-family:var(--font-display);
+  font-size:17px; font-weight:800; color:var(--text);
+}
+.see-all {
+  font-size:12px; color:var(--primary);
+  font-weight:700; cursor:pointer;
+  display:flex; align-items:center; gap:3px;
+}
+
+/* ===== CATEGORY GRID ===== */
+.cat-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+.cat-item {
+  display:flex; flex-direction:column;
+  align-items:center; gap:6px; cursor:pointer;
+}
+.cat-icon {
+  width:62px; height:62px; border-radius:18px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:26px; box-shadow:var(--shadow);
+  transition:transform 0.2s;
+}
+.cat-item:active .cat-icon { transform:scale(0.92); }
+.cat-name { font-size:10px; font-weight:700; text-align:center; color:var(--text); line-height:1.2; }
+
+/* ===== PRODUCT CARDS ===== */
+.products-scroll { display:flex; gap:10px; overflow-x:auto; padding-bottom:4px; scrollbar-width:none; }
+.products-scroll::-webkit-scrollbar { display:none; }
+.products-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+
+.product-card {
+  background:var(--card); border-radius:var(--radius);
+  overflow:hidden; box-shadow:var(--shadow);
+  cursor:pointer; transition:transform 0.2s, box-shadow 0.2s;
+  flex-shrink:0; position:relative;
+}
+.product-card.scroll-card { width:158px; }
+.product-card:active { transform:scale(0.97); box-shadow:var(--shadow-md); }
+.product-img { position:relative; overflow:hidden; }
+.product-img img {
+  width:100%; height:158px; object-fit:cover;
+  display:block; transition:transform 0.3s;
+}
+.product-card:hover .product-img img { transform:scale(1.04); }
+.product-img .p-badge {
+  position:absolute; top:8px; left:8px;
+  background:var(--primary); color:white;
+  font-size:10px; font-weight:900;
+  padding:2px 8px; border-radius:5px;
+}
+.product-img .p-badge.green { background:var(--success); }
+.product-img .p-wishlist {
+  position:absolute; top:8px; right:8px;
+  background:rgba(255,255,255,0.9);
+  border:none; width:30px; height:30px;
+  border-radius:50%; display:flex;
+  align-items:center; justify-content:center;
+  font-size:15px; cursor:pointer;
+  box-shadow:var(--shadow); transition:all 0.2s;
+  backdrop-filter:blur(4px);
+}
+.product-img .p-wishlist.active { background:var(--primary); }
+.product-info { padding:10px; }
+.product-name {
+  font-size:12px; font-weight:700; color:var(--text);
+  margin-bottom:4px;
+  display:-webkit-box; -webkit-line-clamp:2;
+  -webkit-box-orient:vertical; overflow:hidden;
+  line-height:1.35;
+}
+.product-rating { display:flex; align-items:center; gap:3px; margin-bottom:5px; }
+.p-stars { font-size:10px; color:var(--accent); }
+.p-rcount { font-size:10px; color:var(--text-muted); }
+.product-price { display:flex; align-items:baseline; gap:5px; flex-wrap:wrap; }
+.p-current { font-size:15px; font-weight:900; color:var(--primary); }
+.p-orig { font-size:11px; color:var(--text-muted); text-decoration:line-through; }
+.p-off { font-size:11px; font-weight:700; color:var(--success); }
+.p-add-btn {
+  width:100%; margin-top:8px;
+  background:var(--primary-light);
+  color:var(--primary); border:none;
+  border-radius:7px; padding:7px;
+  font-size:12px; font-weight:800;
+  cursor:pointer; font-family:var(--font);
+  transition:background 0.2s;
+}
+.p-add-btn:active { background:var(--primary); color:white; }
+
+/* ===== OFFER TIMER ===== */
+.offer-strip {
+  background:linear-gradient(135deg,#ff6b35,#f7c59f);
+  padding:12px 14px;
+  display:flex; align-items:center; gap:10px;
+}
+.offer-strip h3 { color:white; font-size:14px; font-weight:800; flex:1; }
+.timer-boxes { display:flex; align-items:center; gap:4px; }
+.t-box {
+  background:rgba(0,0,0,0.3);
+  color:white; border-radius:6px;
+  padding:4px 8px; font-size:15px;
+  font-weight:900; font-variant-numeric:tabular-nums;
+  min-width:32px; text-align:center;
+}
+.t-sep { color:white; font-weight:900; }
+
+/* ===== MALL / BANNER ===== */
+.mall-banner {
+  background:linear-gradient(135deg,#667eea,#764ba2);
+  padding:16px 14px; margin:0;
+}
+.mall-title { color:white; font-family:var(--font-display); font-size:19px; font-weight:800; margin-bottom:3px; }
+.mall-sub { color:rgba(255,255,255,0.8); font-size:12px; margin-bottom:14px; }
+.mall-cats { display:flex; gap:12px; overflow-x:auto; scrollbar-width:none; margin-bottom:14px; }
+.mall-cats::-webkit-scrollbar { display:none; }
+.mall-cat { flex-shrink:0; text-align:center; cursor:pointer; }
+.mall-cat-circle {
+  width:62px; height:62px; border-radius:16px;
+  margin-bottom:5px;
+  border:3px solid rgba(255,255,255,0.3);
+  display:flex; align-items:center;
+  justify-content:center; font-size:26px;
+}
+.mall-cat span { font-size:10px; color:white; font-weight:700; display:block; }
+
+/* ===== MINI CAROUSEL (inside mall) ===== */
+.mini-carousel-wrap { border-radius:var(--radius); overflow:hidden; }
+.mini-carousel { display:flex; transition:transform 0.4s ease; }
+.mini-slide {
+  min-width:100%; height:120px;
+  display:flex; align-items:center;
+  padding:0 18px; cursor:pointer;
+}
+.mini-slide-text h3 { color:white; font-size:15px; font-weight:800; margin-bottom:3px; }
+.mini-slide-text p { color:rgba(255,255,255,0.85); font-size:11px; margin-bottom:8px; }
+.mini-shop-btn {
+  background:white; color:var(--secondary);
+  font-size:11px; font-weight:800;
+  padding:5px 14px; border-radius:20px;
+  border:none; cursor:pointer; font-family:var(--font);
+}
+
+/* ===== BUDGET SECTION ===== */
+.budget-banner {
+  background:linear-gradient(135deg,#f093fb,#f5576c);
+  padding:14px 14px 0;
+}
+.budget-banner-title { color:white; font-family:var(--font-display); font-size:16px; font-weight:800; margin-bottom:12px; }
+
+/* ===== REVIEWS ===== */
+.review-card {
+  background:white; border-radius:var(--radius);
+  padding:12px; box-shadow:var(--shadow);
+  flex-shrink:0; width:230px;
+  border-left:3px solid var(--primary);
+}
+.reviewer { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+.r-avatar {
+  width:34px; height:34px; border-radius:50%;
+  background:var(--primary-light);
+  display:flex; align-items:center;
+  justify-content:center; font-size:14px;
+  font-weight:800; color:var(--primary);
+}
+.r-name { font-size:12px; font-weight:800; }
+.r-stars { font-size:11px; color:var(--accent); }
+.r-text { font-size:11px; color:var(--text-muted); line-height:1.5; }
+.r-product { font-size:10px; color:var(--primary); margin-top:6px; font-weight:700; }
+
+/* ===== NEWSLETTER ===== */
+.newsletter-box {
+  background:linear-gradient(135deg,#0f172a,#1e293b);
+  margin:0 -14px; padding:20px 14px;
+}
+.newsletter-box h3 { color:white; font-family:var(--font-display); font-size:17px; margin-bottom:5px; }
+.newsletter-box p { color:rgba(255,255,255,0.7); font-size:12px; margin-bottom:14px; }
+.newsletter-input-wrap { display:flex; gap:8px; }
+.newsletter-input-wrap input {
+  flex:1; background:rgba(255,255,255,0.1);
+  border:1.5px solid rgba(255,255,255,0.2);
+  border-radius:10px; padding:10px 14px;
+  font-size:13px; color:white; outline:none;
+  font-family:var(--font);
+}
+.newsletter-input-wrap input::placeholder { color:rgba(255,255,255,0.5); }
+.newsletter-input-wrap button {
+  background:var(--primary); color:white;
+  border:none; border-radius:10px;
+  padding:10px 18px; font-size:13px;
+  font-weight:800; cursor:pointer; font-family:var(--font);
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  background:#0f172a; color:rgba(255,255,255,0.7);
+  padding:20px 14px; font-size:12px;
+}
+.footer-links { display:flex; flex-wrap:wrap; gap:12px; margin-bottom:14px; }
+.footer-link {
+  color:rgba(255,255,255,0.6); cursor:pointer;
+  text-decoration:underline;
+}
+.footer-link:hover { color:white; }
+.footer-social { display:flex; gap:10px; margin-bottom:14px; }
+.social-btn {
+  background:rgba(255,255,255,0.1);
+  border:none; color:white;
+  width:36px; height:36px;
+  border-radius:50%; display:flex;
+  align-items:center; justify-content:center;
+  font-size:16px; cursor:pointer;
+}
+.footer-copy { font-size:11px; color:rgba(255,255,255,0.4); }
+
+/* ===== BOTTOM NAV ===== */
+.bottom-nav {
+  position:fixed; bottom:0;
+  left:50%; transform:translateX(-50%);
+  width:100%; max-width:480px;
+  background:white; border-top:1px solid var(--border);
+  display:flex; box-shadow:0 -4px 24px rgba(0,0,0,0.1);
+  z-index:200; safe-area-inset-bottom:env(safe-area-inset-bottom);
+  padding-bottom:env(safe-area-inset-bottom);
+}
+.nav-item {
+  flex:1; display:flex; flex-direction:column;
+  align-items:center; gap:3px;
+  padding:9px 0; cursor:pointer;
+  color:var(--text-muted); font-size:10px; font-weight:700;
+  transition:color 0.2s; border:none;
+  background:none; font-family:var(--font);
+}
+.nav-item.active { color:var(--primary); }
+.nav-item .n-icon { font-size:21px; position:relative; }
+.nav-badge {
+  position:absolute; top:-5px; right:-8px;
+  background:var(--primary); color:white;
+  font-size:8px; font-weight:900;
+  width:15px; height:15px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+}
+
+/* ===== PAGE SYSTEM ===== */
+.page { display:none; padding-bottom:72px; min-height:100vh; }
+.page.active { display:block; animation:fadeUp 0.2s ease; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+/* ===== PAGE HEADER ===== */
+.page-header {
+  background:white; padding:14px 14px;
+  display:flex; align-items:center; gap:12px;
+  border-bottom:1px solid var(--border);
+  position:sticky; top:0; z-index:100;
+}
+.back-btn {
+  background:none; border:none;
+  font-size:22px; cursor:pointer;
+  color:var(--text); padding:0; width:32px;
+  display:flex; align-items:center;
+}
+.page-title { font-size:18px; font-weight:800; flex:1; }
+
+/* ===== PRODUCT DETAIL ===== */
+.detail-img-wrap { position:relative; }
+.detail-main-img { width:100%; height:310px; object-fit:cover; display:block; }
+.detail-float-btns {
+  position:absolute; top:14px;
+  left:14px; right:14px;
+  display:flex; justify-content:space-between;
+}
+.float-btn {
+  background:rgba(255,255,255,0.9);
+  border:none; width:38px; height:38px;
+  border-radius:50%; display:flex;
+  align-items:center; justify-content:center;
+  cursor:pointer; font-size:17px;
+  box-shadow:var(--shadow); backdrop-filter:blur(4px);
+}
+.detail-thumbs {
+  display:flex; gap:8px;
+  padding:8px 14px; overflow-x:auto;
+  scrollbar-width:none; background:white;
+}
+.detail-thumbs::-webkit-scrollbar { display:none; }
+.d-thumb {
+  width:62px; height:62px; border-radius:10px;
+  object-fit:cover; border:2px solid transparent;
+  cursor:pointer; flex-shrink:0; transition:border-color 0.2s;
+}
+.d-thumb.active { border-color:var(--primary); }
+.detail-info { padding:14px; background:white; }
+.d-cat { font-size:11px; color:var(--primary); font-weight:700; margin-bottom:4px; }
+.d-name { font-size:19px; font-weight:800; margin-bottom:8px; line-height:1.3; }
+.d-rating-row { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+.d-rating-pill {
+  background:var(--success); color:white;
+  font-size:12px; font-weight:700;
+  padding:4px 9px; border-radius:5px;
+  display:flex; align-items:center; gap:3px;
+}
+.d-price-row { display:flex; align-items:baseline; gap:10px; margin-bottom:14px; flex-wrap:wrap; }
+.d-price { font-size:28px; font-weight:900; color:var(--primary); font-family:var(--font-display); }
+.d-orig { font-size:17px; color:var(--text-muted); text-decoration:line-through; }
+.d-disc { font-size:15px; font-weight:800; color:var(--success); }
+.d-highlights { background:var(--bg); border-radius:10px; padding:12px; margin-bottom:14px; }
+.d-highlights ul { padding-left:16px; }
+.d-highlights li { font-size:13px; color:var(--text); margin-bottom:4px; }
+.pincode-check { margin-bottom:14px; }
+.pincode-check label { font-size:12px; font-weight:700; color:var(--text-muted); display:block; margin-bottom:5px; }
+.pincode-row { display:flex; gap:8px; }
+.pincode-row input {
+  flex:1; border:1.5px solid var(--border);
+  border-radius:9px; padding:9px 12px;
+  font-size:14px; font-family:var(--font);
+  color:var(--text); outline:none;
+}
+.pincode-row input:focus { border-color:var(--primary); }
+.pincode-row button {
+  background:var(--primary); color:white;
+  border:none; border-radius:9px;
+  padding:9px 16px; font-size:13px;
+  font-weight:700; cursor:pointer; font-family:var(--font);
+}
+.pincode-result { font-size:12px; font-weight:700; margin-top:6px; }
+.pincode-result.ok { color:var(--success); }
+.pincode-result.err { color:var(--danger); }
+.delivery-box {
+  background:#f0fdf4; border:1px solid #bbf7d0;
+  border-radius:10px; padding:11px 13px; margin-bottom:14px;
+}
+.delivery-box p { font-size:12px; color:#166534; font-weight:600; margin:2px 0; }
+.d-desc { font-size:13px; color:var(--text-muted); line-height:1.7; margin-bottom:16px; }
+.d-specs { margin-bottom:16px; }
+.d-specs table { width:100%; border-collapse:collapse; font-size:13px; }
+.d-specs td { padding:8px 10px; border-bottom:1px solid var(--border); }
+.d-specs td:first-child { font-weight:700; color:var(--text); width:40%; }
+.d-specs td:last-child { color:var(--text-muted); }
+.d-section-title { font-size:15px; font-weight:800; margin-bottom:10px; }
+.detail-actions {
+  display:flex; gap:10px;
+  position:sticky; bottom:72px;
+  padding:12px 14px; background:white;
+  border-top:1px solid var(--border);
+  box-shadow:0 -4px 20px rgba(0,0,0,0.08);
+}
+.d-wish { flex:0; background:var(--primary-light); color:var(--primary); border:none; border-radius:10px; padding:14px 16px; font-size:19px; cursor:pointer; }
+.d-cart { flex:1; background:white; color:var(--primary); border:2px solid var(--primary); border-radius:10px; padding:14px; font-size:14px; font-weight:800; cursor:pointer; font-family:var(--font); }
+.d-buy { flex:1; background:linear-gradient(135deg,var(--primary),var(--primary-dark)); color:white; border:none; border-radius:10px; padding:14px; font-size:14px; font-weight:800; cursor:pointer; font-family:var(--font); }
+
+/* ===== CART ===== */
+.cart-item {
+  background:white; border-radius:var(--radius);
+  margin:10px 14px; padding:12px;
+  box-shadow:var(--shadow); display:flex; gap:12px;
+}
+.cart-item-img { width:82px; height:82px; border-radius:10px; object-fit:cover; flex-shrink:0; }
+.cart-item-info { flex:1; }
+.ci-name { font-size:13px; font-weight:700; margin-bottom:3px; line-height:1.3; }
+.ci-variant { font-size:11px; color:var(--text-muted); margin-bottom:4px; }
+.ci-price { font-size:16px; font-weight:900; color:var(--primary); margin-bottom:8px; }
+.qty-row { display:flex; align-items:center; gap:10px; }
+.qty-btn {
+  background:var(--primary-light); color:var(--primary);
+  border:none; width:30px; height:30px;
+  border-radius:7px; font-size:18px; font-weight:800;
+  cursor:pointer; display:flex; align-items:center; justify-content:center;
+}
+.qty-num { font-size:15px; font-weight:800; min-width:20px; text-align:center; }
+.del-btn {
+  color:#ef4444; background:none;
+  border:none; font-size:18px;
+  cursor:pointer; margin-left:auto; padding:4px;
+}
+.cart-summary {
+  background:white; margin:10px 14px;
+  border-radius:var(--radius); padding:16px;
+  box-shadow:var(--shadow);
+}
+.sum-row {
+  display:flex; justify-content:space-between;
+  margin-bottom:9px; font-size:14px;
+}
+.sum-row.total {
+  font-weight:900; font-size:17px;
+  border-top:2px solid var(--border);
+  padding-top:10px; margin-top:4px;
+}
+.coupon-row {
+  display:flex; gap:8px; margin-bottom:14px;
+  background:var(--bg); border-radius:10px; padding:10px;
+}
+.coupon-row input {
+  flex:1; border:1.5px solid var(--border);
+  border-radius:8px; padding:8px 12px;
+  font-size:13px; font-family:var(--font); outline:none;
+  text-transform:uppercase;
+}
+.coupon-row button {
+  background:var(--secondary); color:white;
+  border:none; border-radius:8px;
+  padding:8px 14px; font-size:13px;
+  font-weight:700; cursor:pointer; font-family:var(--font);
+}
+.empty-state {
+  text-align:center; padding:60px 20px;
+}
+.empty-icon { font-size:64px; margin-bottom:16px; }
+.empty-state h3 { font-size:19px; font-weight:800; margin-bottom:8px; }
+.empty-state p { font-size:14px; color:var(--text-muted); margin-bottom:22px; }
+.big-btn {
+  background:var(--primary); color:white;
+  border:none; border-radius:var(--radius);
+  padding:13px 32px; font-size:15px;
+  font-weight:800; cursor:pointer; font-family:var(--font);
+}
+
+/* ===== CHECKOUT ===== */
+.steps-bar {
+  display:flex; background:white;
+  border-bottom:1px solid var(--border); padding:12px 14px;
+  overflow-x:auto; scrollbar-width:none; gap:0;
+}
+.steps-bar::-webkit-scrollbar { display:none; }
+.step-item {
+  display:flex; align-items:center;
+  gap:6px; flex-shrink:0;
+}
+.step-num {
+  width:26px; height:26px; border-radius:50%;
+  background:var(--border); color:var(--text-muted);
+  font-size:12px; font-weight:800;
+  display:flex; align-items:center; justify-content:center;
+  transition:all 0.3s;
+}
+.step-num.active { background:var(--primary); color:white; }
+.step-num.done { background:var(--success); color:white; }
+.step-label { font-size:11px; font-weight:700; color:var(--text-muted); }
+.step-label.active { color:var(--primary); }
+.step-sep { width:20px; height:2px; background:var(--border); margin:0 4px; }
+.step-sep.done { background:var(--success); }
+.form-card {
+  background:white; margin:10px 14px;
+  border-radius:var(--radius); padding:16px;
+  box-shadow:var(--shadow);
+}
+.form-card h3 { font-size:15px; font-weight:800; margin-bottom:14px; display:flex; align-items:center; gap:8px; }
+.fg { margin-bottom:12px; }
+.fg label { font-size:12px; font-weight:700; color:var(--text-muted); display:block; margin-bottom:5px; }
+.fg input, .fg select, .fg textarea {
+  width:100%; border:1.5px solid var(--border);
+  border-radius:9px; padding:10px 12px;
+  font-size:14px; font-family:var(--font);
+  color:var(--text); outline:none;
+  transition:border-color 0.2s;
+  -webkit-appearance:none;
+}
+.fg input:focus, .fg select:focus, .fg textarea:focus { border-color:var(--primary); }
+.fg .error-msg { font-size:11px; color:var(--danger); margin-top:4px; display:none; }
+.fg.has-error input, .fg.has-error select { border-color:var(--danger); }
+.fg.has-error .error-msg { display:block; }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.payment-option {
+  display:flex; align-items:center; gap:12px;
+  border:2px solid var(--border); border-radius:12px;
+  padding:12px 14px; margin-bottom:10px;
+  cursor:pointer; transition:border-color 0.2s;
+}
+.payment-option.selected { border-color:var(--primary); background:var(--primary-light); }
+.pay-radio {
+  width:18px; height:18px; border-radius:50%;
+  border:2px solid var(--border); flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  transition:all 0.2s;
+}
+.payment-option.selected .pay-radio { border-color:var(--primary); }
+.payment-option.selected .pay-radio::after {
+  content:''; width:10px; height:10px;
+  border-radius:50%; background:var(--primary);
+}
+.pay-info { flex:1; }
+.pay-title { font-size:14px; font-weight:800; }
+.pay-sub { font-size:11px; color:var(--text-muted); }
+.pay-icon { font-size:24px; }
+.shipping-option {
+  display:flex; align-items:center; gap:12px;
+  border:2px solid var(--border); border-radius:12px;
+  padding:12px 14px; margin-bottom:10px;
+  cursor:pointer; transition:border-color 0.2s;
+}
+.shipping-option.selected { border-color:var(--primary); background:var(--primary-light); }
+.checkout-footer {
+  padding:14px;
+}
+.checkout-btn {
+  width:100%; background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+  color:white; border:none; border-radius:var(--radius);
+  padding:16px; font-size:16px; font-weight:800;
+  cursor:pointer; font-family:var(--font);
+  box-shadow:0 4px 15px rgba(244,63,94,0.4);
+}
+.checkout-btn:disabled { opacity:0.6; cursor:not-allowed; }
+
+/* ===== PAYMENT PAGE ===== */
+.payment-card {
+  background:white; margin:12px 14px;
+  border-radius:var(--radius); padding:18px;
+  box-shadow:var(--shadow); text-align:center;
+}
+.upi-display {
+  background:var(--primary-light); border:2px dashed var(--primary);
+  border-radius:12px; padding:14px;
+  font-size:17px; font-weight:900;
+  color:var(--primary); margin:12px 0;
+  cursor:pointer; letter-spacing:0.5px;
+}
+.qr-placeholder {
+  width:150px; height:150px;
+  background:var(--bg);
+  border:2px dashed var(--border);
+  border-radius:14px;
+  margin:0 auto 12px;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  font-size:40px;
+}
+.amount-display {
+  background:#fef3c7; border:1px solid #fbbf24;
+  border-radius:10px; padding:12px;
+  margin:12px 0;
+}
+.amount-display .amt { font-size:26px; font-weight:900; color:#92400e; font-family:var(--font-display); }
+.amount-display p { font-size:11px; color:#92400e; }
+.upload-zone {
+  border:2px dashed var(--border);
+  border-radius:12px; padding:24px 16px;
+  cursor:pointer; margin:12px 0;
+  transition:border-color 0.2s;
+}
+.upload-zone:hover { border-color:var(--primary); }
+.upload-zone p { font-size:13px; color:var(--text-muted); margin-top:6px; }
+.cod-info {
+  background:#f0fdf4; border:1px solid #bbf7d0;
+  border-radius:12px; padding:16px;
+  margin:12px 0; text-align:left;
+}
+.cod-info p { font-size:13px; color:#166534; margin-bottom:6px; display:flex; align-items:center; gap:8px; }
+.confirm-btn {
+  width:100%; background:linear-gradient(135deg,var(--success),#059669);
+  color:white; border:none; border-radius:var(--radius);
+  padding:16px; font-size:16px; font-weight:800;
+  cursor:pointer; font-family:var(--font); margin-top:8px;
+  box-shadow:0 4px 15px rgba(16,185,129,0.4);
+}
+
+/* ===== ORDER SUCCESS ===== */
+.success-wrap {
+  padding:40px 20px; text-align:center;
+  min-height:calc(100vh - 72px);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+}
+.success-anim { font-size:72px; animation:bounce 0.6s ease; margin-bottom:16px; }
+@keyframes bounce { 0%{transform:scale(0)} 60%{transform:scale(1.2)} 100%{transform:scale(1)} }
+.success-title { font-family:var(--font-display); font-size:24px; font-weight:800; color:var(--success); margin-bottom:8px; }
+.order-id-card {
+  background:var(--primary-light); border:2px solid var(--primary);
+  border-radius:14px; padding:16px;
+  margin:16px 0; width:100%;
+}
+.order-id-label { font-size:12px; color:var(--primary); font-weight:700; margin-bottom:4px; }
+.order-id-val { font-family:var(--font-display); font-size:26px; font-weight:900; color:var(--primary); }
+.wa-order-btn {
+  width:100%; background:#25d366; color:white;
+  border:none; border-radius:var(--radius);
+  padding:15px; font-size:15px; font-weight:800;
+  cursor:pointer; font-family:var(--font);
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  margin-bottom:10px;
+}
+
+/* ===== TRACKING ===== */
+.track-steps { margin-top:16px; }
+.track-step { display:flex; gap:14px; margin-bottom:16px; }
+.ts-line { display:flex; flex-direction:column; align-items:center; }
+.ts-dot {
+  width:16px; height:16px; border-radius:50%;
+  flex-shrink:0; margin-top:2px;
+}
+.ts-dot.done { background:var(--success); }
+.ts-dot.now { background:var(--primary); box-shadow:0 0 0 5px var(--primary-light); }
+.ts-dot.wait { background:var(--border); }
+.ts-connector { width:2px; flex:1; margin:4px 0; min-height:24px; }
+.ts-connector.done { background:var(--success); }
+.ts-connector.wait { background:var(--border); }
+.ts-info { flex:1; padding-bottom:4px; }
+.ts-title { font-size:14px; font-weight:800; }
+.ts-desc { font-size:11px; color:var(--text-muted); margin-top:2px; }
+.ts-date { font-size:11px; color:var(--primary); margin-top:2px; font-weight:700; }
+
+/* ===== ACCOUNT ===== */
+.account-banner {
+  background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+  padding:28px 20px; text-align:center; color:white;
+}
+.acc-avatar {
+  width:72px; height:72px; border-radius:50%;
+  background:rgba(255,255,255,0.2);
+  border:3px solid rgba(255,255,255,0.5);
+  margin:0 auto 12px;
+  display:flex; align-items:center;
+  justify-content:center; font-size:32px;
+}
+.acc-name { font-family:var(--font-display); font-size:21px; font-weight:800; }
+.acc-phone { font-size:13px; opacity:0.8; }
+.menu-list {
+  background:white; margin:14px;
+  border-radius:var(--radius); overflow:hidden;
+  box-shadow:var(--shadow);
+}
+.menu-item {
+  display:flex; align-items:center; gap:12px;
+  padding:14px 16px;
+  border-bottom:1px solid var(--border);
+  cursor:pointer; font-size:14px; font-weight:700;
+  transition:background 0.15s;
+}
+.menu-item:last-child { border-bottom:none; }
+.menu-item:hover { background:var(--bg); }
+.menu-item .m-icon { font-size:20px; width:24px; text-align:center; }
+.menu-item .m-chevron { margin-left:auto; color:var(--text-muted); font-size:18px; }
+
+/* ===== ORDERS LIST ===== */
+.order-card {
+  background:white; margin:0 14px 10px;
+  border-radius:var(--radius); padding:14px;
+  box-shadow:var(--shadow);
+}
+.order-card-header { display:flex; justify-content:space-between; margin-bottom:8px; }
+.order-id { font-weight:800; font-size:14px; }
+.order-status {
+  font-size:11px; font-weight:700;
+  padding:3px 10px; border-radius:20px;
+}
+.status-pending { background:#fef3c7; color:#92400e; }
+.status-confirmed { background:#dbeafe; color:#1d4ed8; }
+.status-shipped { background:#ede9fe; color:#6d28d9; }
+.status-delivered { background:#d1fae5; color:#065f46; }
+.status-cancelled { background:#fee2e2; color:#991b1b; }
+.order-card-body { font-size:13px; color:var(--text-muted); }
+.order-card-footer { display:flex; gap:8px; margin-top:10px; }
+.oc-btn {
+  flex:1; border:1.5px solid var(--border);
+  border-radius:8px; padding:8px;
+  font-size:12px; font-weight:700;
+  cursor:pointer; font-family:var(--font);
+  background:none; color:var(--text);
+}
+.oc-btn.primary { background:var(--primary); color:white; border-color:var(--primary); }
+
+/* ===== CATEGORY FILTER PAGE ===== */
+.filter-chips {
+  display:flex; gap:8px; padding:10px 14px;
+  background:white; border-bottom:1px solid var(--border);
+  overflow-x:auto; scrollbar-width:none;
+}
+.filter-chips::-webkit-scrollbar { display:none; }
+.fc {
+  flex-shrink:0; padding:6px 14px;
+  border-radius:20px; font-size:12px;
+  font-weight:700; border:1.5px solid var(--border);
+  cursor:pointer; white-space:nowrap;
+  display:flex; align-items:center; gap:5px;
+}
+.fc.active { background:var(--primary); color:white; border-color:var(--primary); }
+
+/* ===== POLICY PAGES ===== */
+.policy-body { padding:16px 14px; }
+.policy-body h2 { font-size:17px; margin-bottom:10px; margin-top:18px; }
+.policy-body h2:first-child { margin-top:0; }
+.policy-body p { font-size:13px; color:var(--text-muted); margin-bottom:10px; line-height:1.7; }
+.policy-body ul { padding-left:18px; margin-bottom:10px; }
+.policy-body li { font-size:13px; color:var(--text-muted); margin-bottom:5px; line-height:1.6; }
+
+/* ===== BLOG ===== */
+.blog-card {
+  background:white; border-radius:var(--radius);
+  overflow:hidden; box-shadow:var(--shadow); margin:10px 14px;
+  cursor:pointer; transition:transform 0.2s;
+}
+.blog-card:active { transform:scale(0.98); }
+.blog-img { width:100%; height:160px; object-fit:cover; display:block; }
+.blog-info { padding:14px; }
+.blog-cat { font-size:10px; font-weight:800; color:var(--primary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:5px; }
+.blog-title { font-size:15px; font-weight:800; margin-bottom:6px; line-height:1.3; }
+.blog-excerpt { font-size:12px; color:var(--text-muted); line-height:1.5; margin-bottom:8px; }
+.blog-meta { font-size:11px; color:var(--text-muted); }
+
+/* ===== FAQ ===== */
+.faq-item { background:white; border-radius:12px; margin:8px 14px; overflow:hidden; box-shadow:var(--shadow); }
+.faq-q {
+  padding:14px 16px; font-size:14px; font-weight:700;
+  cursor:pointer; display:flex; justify-content:space-between;
+  align-items:center; gap:10px;
+}
+.faq-q .faq-icon { font-size:18px; transition:transform 0.3s; flex-shrink:0; }
+.faq-item.open .faq-icon { transform:rotate(45deg); }
+.faq-a {
+  padding:0 16px; max-height:0; overflow:hidden;
+  transition:max-height 0.3s ease, padding 0.3s;
+  font-size:13px; color:var(--text-muted); line-height:1.6;
+}
+.faq-item.open .faq-a { max-height:300px; padding:0 16px 14px; }
+
+/* ===== CONTACT ===== */
+.contact-options { padding:14px; }
+.contact-card {
+  background:white; border-radius:var(--radius);
+  padding:16px; margin-bottom:12px;
+  box-shadow:var(--shadow); display:flex;
+  align-items:center; gap:14px; cursor:pointer;
+  transition:transform 0.2s;
+}
+.contact-card:active { transform:scale(0.98); }
+.contact-icon {
+  width:50px; height:50px; border-radius:14px;
+  display:flex; align-items:center;
+  justify-content:center; font-size:24px; flex-shrink:0;
+}
+.contact-info h3 { font-size:15px; font-weight:800; margin-bottom:3px; }
+.contact-info p { font-size:12px; color:var(--text-muted); }
+
+/* ===== TOAST ===== */
+.toast {
+  position:fixed; top:20px;
+  left:50%; transform:translateX(-50%) translateY(-100px);
+  background:#1e293b; color:white;
+  padding:11px 22px; border-radius:25px;
+  font-size:13px; font-weight:700;
+  z-index:9999; transition:transform 0.3s cubic-bezier(.4,0,.2,1);
+  white-space:nowrap; max-width:90%;
+  box-shadow:0 4px 20px rgba(0,0,0,0.3);
+}
+.toast.show { transform:translateX(-50%) translateY(0); }
+.toast.success { background:var(--success); }
+.toast.error { background:var(--danger); }
+.toast.warning { background:var(--warning); color:#1e293b; }
+
+/* ===== WHATSAPP FLOAT ===== */
+.wa-float {
+  position:fixed; bottom:82px; right:16px;
+  background:#25d366; color:white;
+  width:52px; height:52px; border-radius:50%;
+  display:flex; align-items:center;
+  justify-content:center; font-size:26px;
+  cursor:pointer; z-index:150;
+  box-shadow:0 4px 18px rgba(37,211,102,0.45);
+  text-decoration:none; animation:pulse 2.5s infinite;
+}
+@keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
+
+/* ===== SKELETON LOADER ===== */
+@keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+.skeleton {
+  background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);
+  background-size:200% 100%;
+  animation:shimmer 1.5s infinite;
+  border-radius:8px;
+}
+
+/* ===== REVIEW FORM ===== */
+.star-picker { display:flex; gap:6px; margin-bottom:12px; }
+.star-opt { font-size:28px; cursor:pointer; opacity:0.3; transition:opacity 0.2s, transform 0.2s; }
+.star-opt.active { opacity:1; transform:scale(1.15); }
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width:3px; height:3px; }
+::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
+
+/* ===== MISC ===== */
+.tag {
+  display:inline-block; font-size:10px; font-weight:700;
+  padding:3px 8px; border-radius:5px; margin:2px;
+}
+.tag-blue { background:#dbeafe; color:#1d4ed8; }
+.tag-green { background:#d1fae5; color:#065f46; }
+.tag-yellow { background:#fef3c7; color:#92400e; }
+.info-strip {
+  background:#fef3c7; border:1px solid #fcd34d;
+  padding:10px 14px; font-size:11px; color:#92400e;
+  display:flex; align-items:flex-start; gap:7px;
+  margin:10px 14px; border-radius:10px;
+}
+</style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/917866048085?text=Hi! I need help with my ShopIndia order." class="wa-float" target="_blank" rel="noopener">💬</a>
+
+<!-- ===================== HOME PAGE ===================== -->
+<div class="page active" id="page-home">
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <div class="logo" onclick="showPage('page-home')">Shop<em>India</em><sup>™</sup></div>
+      <div class="header-icons">
+        <button class="icon-btn" onclick="showPage('page-wishlist')" title="Wishlist">❤️</button>
+        <button class="icon-btn" onclick="showPage('page-cart')" title="Cart">
+          🛒<span class="badge" id="cart-count">0</span>
+        </button>
+      </div>
+    </div>
+    <div class="search-wrap">
+      <div class="search-bar">
+        <input type="text" id="search-input" placeholder="Search sarees, earphones, kurtis..." autocomplete="off"
+          oninput="showSuggestions(this.value)" onblur="setTimeout(hideSuggestions,200)">
+        <button onclick="doSearch()">🔍</button>
+      </div>
+      <div class="search-suggestions" id="suggestions"></div>
+    </div>
+  </div>
+
+  <!-- CATEGORY CHIPS -->
+  <div class="cat-chips">
+    <div class="chip active" onclick="filterChip(this,'all')">✨ All</div>
+    <div class="chip" onclick="filterChip(this,'fashion')">👗 Fashion</div>
+    <div class="chip" onclick="filterChip(this,'electronics')">📱 Electronics</div>
+    <div class="chip" onclick="filterChip(this,'beauty')">💄 Beauty</div>
+    <div class="chip" onclick="filterChip(this,'home')">🏠 Home</div>
+    <div class="chip" onclick="filterChip(this,'men')">👔 Men</div>
+    <div class="chip" onclick="filterChip(this,'kids')">🧒 Kids</div>
+    <div class="chip" onclick="filterChip(this,'sports')">⚽ Sports</div>
+    <div class="chip" onclick="filterChip(this,'jewelry')">💍 Jewellery</div>
+  </div>
+
+  <!-- HERO SLIDER -->
+  <div class="slider-wrap">
+    <div class="slider" id="main-slider">
+      <div class="slide" style="background:linear-gradient(135deg,#667eea,#764ba2)">
+        <div class="slide-bg" style="background-image:url('https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=600&q=80');opacity:0.3"></div>
+        <div class="slide-overlay"></div>
+        <div class="slide-content">
+          <div class="slide-tag">🔥 FLASH SALE</div>
+          <div class="slide-title">Festival Mega<br>Sale 2024</div>
+          <div class="slide-sub">Up to 80% OFF · Free Delivery</div>
+          <button class="slide-btn" onclick="showPage('page-category')">Shop Now →</button>
+        </div>
+      </div>
+      <div class="slide" style="background:linear-gradient(135deg,#f093fb,#f5576c)">
+        <div class="slide-overlay"></div>
+        <div class="slide-content">
+          <div class="slide-tag">👗 TRENDING</div>
+          <div class="slide-title">New Kurti &<br>Saree Collection</div>
+          <div class="slide-sub">Starting ₹199 only!</div>
+          <button class="slide-btn" onclick="showCategory('Kurti Saree and Lehanga')">Explore →</button>
+        </div>
+      </div>
+      <div class="slide" style="background:linear-gradient(135deg,#4facfe,#00f2fe)">
+        <div class="slide-overlay"></div>
+        <div class="slide-content">
+          <div class="slide-tag">⚡ DEALS</div>
+          <div class="slide-title">Electronics<br>Bonanza</div>
+          <div class="slide-sub">Earphones, Accessories & More</div>
+          <button class="slide-btn" onclick="showCategory('Electronics')">Buy Now →</button>
+        </div>
+      </div>
+      <div class="slide" style="background:linear-gradient(135deg,#43e97b,#38f9d7)">
+        <div class="slide-overlay"></div>
+        <div class="slide-content">
+          <div class="slide-tag">🏠 HOME SALE</div>
+          <div class="slide-title">Home & Kitchen<br>Essentials</div>
+          <div class="slide-sub">Upto 70% off today!</div>
+          <button class="slide-btn" onclick="showCategory('Home and Kitchen')">Shop →</button>
+        </div>
+      </div>
+      <div class="slide" style="background:linear-gradient(135deg,#f7971e,#ffd200)">
+        <div class="slide-overlay"></div>
+        <div class="slide-content">
+          <div class="slide-tag">💄 BEAUTY</div>
+          <div class="slide-title">Glow Up With<br>Beauty Picks</div>
+          <div class="slide-sub">Skincare, makeup & more</div>
+          <button class="slide-btn" onclick="showCategory('Beauty and Health')">View All →</button>
+        </div>
+      </div>
+      <div class="slide" style="background:linear-gradient(135deg,#a18cd1,#fbc2eb)">
+        <div class="slide-overlay"></div>
+        <div class="slide-content">
+          <div class="slide-tag">💍 JEWELLERY</div>
+          <div class="slide-title">Jewellery &<br>Accessories</div>
+          <div class="slide-sub">Beautiful pieces from ₹99</div>
+          <button class="slide-btn" onclick="showCategory('Jewellery and Accessories')">Explore →</button>
+        </div>
+      </div>
+    </div>
+    <div class="slider-dots" id="slider-dots"></div>
+  </div>
+
+  <!-- TRUST BADGES -->
+  <div class="trust-row">
+    <div class="trust-badge"><span class="t-icon">🚚</span><span class="t-text">Free Delivery<br>₹499+</span></div>
+    <div class="trust-badge"><span class="t-icon">🔒</span><span class="t-text">100% Secure<br>Payments</span></div>
+    <div class="trust-badge"><span class="t-icon">↩️</span><span class="t-text">7-Day Easy<br>Returns</span></div>
+    <div class="trust-badge"><span class="t-icon">💳</span><span class="t-text">UPI & COD<br>Available</span></div>
+    <div class="trust-badge"><span class="t-icon">⭐</span><span class="t-text">5L+ Happy<br>Customers</span></div>
+  </div>
+
+  <!-- FLASH SALE TIMER -->
+  <div class="divider"></div>
+  <div class="section" style="padding-bottom:0">
+    <div style="background:linear-gradient(135deg,#ff6b35,#f7c59f);border-radius:var(--radius);overflow:hidden">
+      <div class="offer-strip">
+        <span style="font-size:18px">⚡</span>
+        <h3>Flash Sale Ends In</h3>
+        <div class="timer-boxes">
+          <span class="t-box" id="th">05</span>
+          <span class="t-sep">:</span>
+          <span class="t-box" id="tm">23</span>
+          <span class="t-sep">:</span>
+          <span class="t-box" id="ts">47</span>
+        </div>
+      </div>
+      <div style="padding:0 10px 10px">
+        <div class="products-scroll" id="flash-products"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider" style="margin-top:14px"></div>
+
+  <!-- CATEGORIES -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-title">🛍️ Categories</div>
+      <div class="see-all" onclick="showPage('page-category')">See All ›</div>
+    </div>
+    <div class="cat-grid" id="cat-grid"></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- TRENDING -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-title">🔥 Trending Now</div>
+      <div class="see-all" onclick="showPage('page-category')">See All ›</div>
+    </div>
+    <div class="products-scroll" id="trending-products"></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- MALL BANNER -->
+  <div class="section" style="padding:0">
+    <div class="mall-banner">
+      <div class="mall-title">🏪 ShopIndia Mall</div>
+      <div class="mall-sub">Exclusive deals from top brands</div>
+      <div class="mall-cats" id="mall-cats"></div>
+      <div class="mini-carousel-wrap">
+        <div class="mini-carousel" id="mini-carousel"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- BUDGET BUYS -->
+  <div class="section" style="padding:0">
+    <div class="budget-banner">
+      <div class="budget-banner-title">💰 Budget Buys Under ₹299</div>
+      <div class="products-scroll" id="budget-products"></div>
+      <div style="height:10px"></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- BEST SELLERS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-title">⭐ Best Sellers</div>
+      <div class="see-all" onclick="showPage('page-category')">See All ›</div>
+    </div>
+    <div class="products-grid" id="bestseller-products"></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- CUSTOMER REVIEWS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-title">💬 Customer Reviews</div>
+    </div>
+    <div class="products-scroll" id="reviews-row"></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- NEWSLETTER -->
+  <div class="section" style="padding:0">
+    <div class="newsletter-box">
+      <h3>📲 Get Exclusive Deals!</h3>
+      <p>Join 5 lakh+ shoppers getting daily offers on WhatsApp & Email</p>
+      <div class="newsletter-input-wrap">
+        <input type="tel" placeholder="Enter your WhatsApp number" maxlength="10" id="nl-phone">
+        <button onclick="subscribeNewsletter()">Subscribe</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-links">
+      <span class="footer-link" onclick="showPage('page-about')">About Us</span>
+      <span class="footer-link" onclick="showPage('page-contact')">Contact</span>
+      <span class="footer-link" onclick="showPage('page-faq')">FAQ</span>
+      <span class="footer-link" onclick="showPage('page-shipping-policy')">Shipping Policy</span>
+      <span class="footer-link" onclick="showPage('page-return-policy')">Returns</span>
+      <span class="footer-link" onclick="showPage('page-privacy')">Privacy Policy</span>
+      <span class="footer-link" onclick="showPage('page-terms')">Terms & Conditions</span>
+      <span class="footer-link" onclick="showPage('page-blog')">Blog</span>
+    </div>
+    <div class="footer-social">
+      <a href="https://wa.me/917866048085" target="_blank" class="social-btn" style="background:#25d366">💬</a>
+      <a href="#" class="social-btn" style="background:#e1306c">📷</a>
+      <a href="#" class="social-btn" style="background:#1877f2">👍</a>
+      <a href="#" class="social-btn" style="background:#ff0000">▶️</a>
+    </div>
+    <div class="footer-copy">© 2024 ShopIndia™. All rights reserved. | UPI: tanvir786@ptaxis</div>
+  </div>
+</div>
+
+<!-- ===================== CATEGORY PAGE ===================== -->
+<div class="page" id="page-category">
+  <div class="page-header">
+    <button class="back-btn" onclick="goBack()">←</button>
+    <span class="page-title" id="cat-page-title">All Products</span>
+  </div>
+  <div class="filter-chips">
+    <div class="fc" onclick="showFilterModal()">🔽 Filter</div>
+    <div class="fc active" id="sort-relevance" onclick="sortCat('relevance',this)">Relevance</div>
+    <div class="fc" onclick="sortCat('price-low',this)">Price ↑</div>
+    <div class="fc" onclick="sortCat('price-high',this)">Price ↓</div>
+    <div class="fc" onclick="sortCat('rating',this)">Top Rated</div>
+    <div class="fc" onclick="sortCat('newest',this)">New</div>
+  </div>
+  <div style="padding:12px 14px" id="cat-products-wrap">
+    <div class="products-grid" id="cat-products"></div>
+    <div style="text-align:center;margin-top:16px" id="load-more-wrap">
+      <button class="big-btn" onclick="loadMoreProducts()" style="background:white;color:var(--primary);border:2px solid var(--primary)">Load More</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== PRODUCT DETAIL PAGE ===================== -->
+<div class="page" id="page-product">
+  <div class="detail-img-wrap" id="detail-img-wrap">
+    <img id="d-main-img" class="detail-main-img" src="" alt="">
+    <div class="detail-float-btns">
+      <button class="float-btn" onclick="goBack()">←</button>
+      <button class="float-btn" onclick="shareProduct()">⬆️</button>
+    </div>
+  </div>
+  <div class="detail-thumbs" id="d-thumbs"></div>
+  <div class="detail-info">
+    <div class="d-cat" id="d-cat"></div>
+    <h2 class="d-name" id="d-name"></h2>
+    <div class="d-rating-row">
+      <div class="d-rating-pill">⭐ <span id="d-rating">4.5</span></div>
+      <span style="font-size:13px;color:var(--text-muted)" id="d-reviews"></span>
+      <span class="tag tag-green" id="d-stock">In Stock</span>
+    </div>
+    <div class="d-price-row">
+      <div class="d-price" id="d-price"></div>
+      <div class="d-orig" id="d-orig"></div>
+      <div class="d-disc" id="d-disc"></div>
+    </div>
+    <div class="d-highlights">
+      <ul id="d-highlights-list">
+        <li>Free delivery on this order</li>
+        <li>Easy 7-day return & exchange</li>
+        <li>COD available</li>
+      </ul>
+    </div>
+
+    <!-- PINCODE CHECK -->
+    <div class="pincode-check">
+      <label>📍 Check Delivery to Your Pincode</label>
+      <div class="pincode-row">
+        <input type="tel" id="pin-input" placeholder="Enter 6-digit pincode" maxlength="6">
+        <button onclick="checkPincode()">Check</button>
+      </div>
+      <div class="pincode-result" id="pin-result"></div>
+    </div>
+
+    <div class="delivery-box">
+      <p>🚚 Estimated delivery in <strong id="d-delivery">4–6 business days</strong></p>
+      <p>↩️ 7-day hassle-free return policy</p>
+      <p>💳 Pay via UPI, Card or Cash on Delivery</p>
+    </div>
+
+    <div class="d-section-title">📝 Description</div>
+    <div class="d-desc" id="d-desc"></div>
+
+    <div class="d-section-title">📋 Specifications</div>
+    <div class="d-specs"><table id="d-specs-table"></table></div>
+
+    <div class="d-section-title">💬 Customer Reviews</div>
+    <div id="d-reviews-list"></div>
+
+    <!-- ADD REVIEW FORM -->
+    <div style="background:var(--bg);border-radius:12px;padding:14px;margin-top:10px">
+      <div style="font-size:14px;font-weight:800;margin-bottom:10px">Write a Review</div>
+      <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px">Your Rating</div>
+      <div class="star-picker" id="star-picker">
+        <span class="star-opt" data-val="1" onclick="setReviewStar(1)">⭐</span>
+        <span class="star-opt" data-val="2" onclick="setReviewStar(2)">⭐</span>
+        <span class="star-opt" data-val="3" onclick="setReviewStar(3)">⭐</span>
+        <span class="star-opt" data-val="4" onclick="setReviewStar(4)">⭐</span>
+        <span class="star-opt" data-val="5" onclick="setReviewStar(5)">⭐</span>
+      </div>
+      <div class="fg" style="margin-bottom:8px">
+        <input type="text" id="rv-name" placeholder="Your name">
+      </div>
+      <div class="fg" style="margin-bottom:8px">
+        <textarea id="rv-text" rows="2" placeholder="Share your experience..." style="resize:none;width:100%;border:1.5px solid var(--border);border-radius:9px;padding:10px 12px;font-size:14px;font-family:var(--font);outline:none"></textarea>
+      </div>
+      <button onclick="submitReview()" style="background:var(--primary);color:white;border:none;border-radius:9px;padding:10px 20px;font-size:13px;font-weight:800;cursor:pointer;font-family:var(--font)">Submit Review</button>
+    </div>
+
+    <div class="divider" style="margin:14px -14px"></div>
+    <div class="d-section-title">🛍️ Similar Products</div>
+    <div class="products-scroll" id="d-similar"></div>
+    <div style="height:80px"></div>
+  </div>
+  <div class="detail-actions">
+    <button class="d-wish" id="d-wish-btn" onclick="toggleWishlistCurrent()">❤️</button>
+    <button class="d-cart" onclick="addToCartCurrent()">Add to Cart</button>
+    <button class="d-buy" onclick="buyNow()">Buy Now ⚡</button>
+  </div>
+</div>
+
+<!-- ===================== CART PAGE ===================== -->
+<div class="page" id="page-cart">
+  <div class="page-header">
+    <button class="back-btn" onclick="goBack()">←</button>
+    <span class="page-title">🛒 My Cart</span>
+    <span style="font-size:13px;color:var(--text-muted);margin-left:auto" id="cart-item-count"></span>
+  </div>
+  <div id="cart-body"></div>
+</div>
+
+<!-- ===================== CHECKOUT PAGE ===================== -->
+<div class="page" id="page-checkout">
+  <div class="page-header">
+    <button class="back-btn" onclick="goBack()">←</button>
+    <span class="page-title">Checkout</span>
+  </div>
+
+  <!-- STEPS INDICATOR -->
+  <div class="steps-bar">
+    <div class="step-item">
+      <div class="step-num active" id="sn1">1</div>
+      <div class="step-label active" id="sl1">Address</div>
+    </div>
+    <div class="step-sep" id="ss1"></div>
+    <div class="step-item">
+      <div class="step-num" id="sn2">2</div>
+      <div class="step-label" id="sl2">Shipping</div>
+    </div>
+    <div class="step-sep" id="ss2"></div>
+    <div class="step-item">
+      <div class="step-num" id="sn3">3</div>
+      <div class="step-label" id="sl3">Payment</div>
+    </div>
+    <div class="step-sep" id="ss3"></div>
+    <div class="step-item">
+      <div class="step-num" id="sn4">4</div>
+      <div class="step-label" id="sl4">Review</div>
+    </div>
+  </div>
+
+  <!-- STEP 1: ADDRESS -->
+  <div id="co-step1">
+    <div class="form-card">
+      <h3>📍 Delivery Address</h3>
+      <div class="fg" id="fg-name">
+        <label>Full Name *</label>
+        <input type="text" id="co-name" placeholder="Enter your full name">
+        <div class="error-msg">Please enter your full name</div>
+      </div>
+      <div class="fg" id="fg-phone">
+        <label>Phone Number *</label>
+        <input type="tel" id="co-phone" placeholder="10-digit mobile number" maxlength="10">
+        <div class="error-msg">Please enter a valid 10-digit number</div>
+      </div>
+      <div class="fg">
+        <label>Email (Optional)</label>
+        <input type="email" id="co-email" placeholder="your@email.com">
+      </div>
+      <div class="fg" id="fg-address">
+        <label>House/Flat, Street, Locality *</label>
+        <textarea id="co-address" rows="2" placeholder="House no., street, locality, landmark" style="resize:none;width:100%;border:1.5px solid var(--border);border-radius:9px;padding:10px 12px;font-size:14px;font-family:var(--font);outline:none"></textarea>
+        <div class="error-msg">Please enter your address</div>
+      </div>
+      <div class="form-row">
+        <div class="fg" id="fg-city">
+          <label>City *</label>
+          <input type="text" id="co-city" placeholder="City">
+          <div class="error-msg">Required</div>
+        </div>
+        <div class="fg" id="fg-pin">
+          <label>Pincode *</label>
+          <input type="tel" id="co-pin" placeholder="6-digit" maxlength="6">
+          <div class="error-msg">6-digit pincode</div>
+        </div>
+      </div>
+      <div class="fg" id="fg-state">
+        <label>State *</label>
+        <select id="co-state">
+          <option value="">Select State</option>
+          <option>Andhra Pradesh</option><option>Arunachal Pradesh</option><option>Assam</option>
+          <option>Bihar</option><option>Chhattisgarh</option><option>Delhi</option>
+          <option>Goa</option><option>Gujarat</option><option>Haryana</option>
+          <option>Himachal Pradesh</option><option>Jharkhand</option><option>Karnataka</option>
+          <option>Kerala</option><option>Madhya Pradesh</option><option>Maharashtra</option>
+          <option>Manipur</option><option>Meghalaya</option><option>Mizoram</option>
+          <option>Nagaland</option><option>Odisha</option><option>Punjab</option>
+          <option>Rajasthan</option><option>Sikkim</option><option>Tamil Nadu</option>
+          <option>Telangana</option><option>Tripura</option><option>Uttar Pradesh</option>
+          <option>Uttarakhand</option><option>West Bengal</option>
+          <option>Jammu & Kashmir</option><option>Ladakh</option><option>Puducherry</option>
+        </select>
+        <div class="error-msg">Please select state</div>
+      </div>
+    </div>
+    <div class="checkout-footer">
+      <button class="checkout-btn" onclick="checkoutStep1()">Continue to Shipping →</button>
+    </div>
+  </div>
+
+  <!-- STEP 2: SHIPPING -->
+  <div id="co-step2" style="display:none">
+    <div class="form-card">
+      <h3>🚚 Shipping Method</h3>
+      <div class="shipping-option selected" id="ship-standard" onclick="selectShipping('standard')">
+        <div class="pay-radio" id="sr-standard"><div style="width:10px;height:10px;border-radius:50%;background:var(--primary)"></div></div>
+        <div class="pay-info">
+          <div class="pay-title">Standard Delivery</div>
+          <div class="pay-sub">4–6 business days</div>
+        </div>
+        <div style="font-weight:900;color:var(--success)" id="ship-std-price">FREE</div>
+      </div>
+      <div class="shipping-option" id="ship-express" onclick="selectShipping('express')">
+        <div class="pay-radio" id="sr-express"></div>
+        <div class="pay-info">
+          <div class="pay-title">Express Delivery ⚡</div>
+          <div class="pay-sub">1–2 business days</div>
+        </div>
+        <div style="font-weight:900;color:var(--primary)">₹99</div>
+      </div>
+    </div>
+    <div class="form-card">
+      <h3>🏷️ Coupon Code</h3>
+      <div class="coupon-row">
+        <input type="text" id="co-coupon" placeholder="Enter coupon (e.g. FLAT10)" style="border:none;background:transparent;flex:1;font-size:13px;font-family:var(--font);outline:none;text-transform:uppercase;padding:0">
+        <button onclick="applyCoupon()">Apply</button>
+      </div>
+      <div id="coupon-msg" style="font-size:12px;font-weight:700;margin-top:4px"></div>
+      <div style="margin-top:10px;font-size:11px;color:var(--text-muted)">
+        Available codes: <strong>FLAT10</strong> (10% off) · <strong>SHIP49</strong> (Free shipping)
+      </div>
+    </div>
+    <div class="form-card">
+      <h3>📋 Order Summary</h3>
+      <div id="co-items-list"></div>
+      <div class="sum-row"><span>Subtotal</span><span id="co-subtotal">₹0</span></div>
+      <div class="sum-row"><span>Shipping</span><span id="co-ship">FREE</span></div>
+      <div class="sum-row"><span>Discount</span><span id="co-disc" style="color:var(--success)">—</span></div>
+      <div class="sum-row"><span>GST (18%)</span><span id="co-gst">₹0</span></div>
+      <div class="sum-row total"><span>Total</span><span id="co-total">₹0</span></div>
+    </div>
+    <div class="checkout-footer" style="display:flex;gap:10px">
+      <button class="big-btn" onclick="coGoStep(1)" style="background:white;color:var(--primary);border:2px solid var(--primary);flex:0 0 auto;padding:13px 18px">← Back</button>
+      <button class="checkout-btn" onclick="checkoutStep2()" style="flex:1">Continue to Payment →</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: PAYMENT METHOD -->
+  <div id="co-step3" style="display:none">
+    <div class="form-card">
+      <h3>💳 Select Payment Method</h3>
+      <div class="payment-option selected" id="pay-upi" onclick="selectPayment('upi')">
+        <div class="pay-radio" id="pr-upi"><div style="width:10px;height:10px;border-radius:50%;background:var(--primary)"></div></div>
+        <div class="pay-info"><div class="pay-title">UPI Payment</div><div class="pay-sub">GPay, PhonePe, Paytm, any UPI</div></div>
+        <div class="pay-icon">📲</div>
+      </div>
+      <div class="payment-option" id="pay-cod" onclick="selectPayment('cod')">
+        <div class="pay-radio" id="pr-cod"></div>
+        <div class="pay-info"><div class="pay-title">Cash on Delivery</div><div class="pay-sub">Pay when order arrives</div></div>
+        <div class="pay-icon">💵</div>
+      </div>
+      <div class="payment-option" id="pay-card" onclick="selectPayment('card')">
+        <div class="pay-radio" id="pr-card"></div>
+        <div class="pay-info"><div class="pay-title">Debit/Credit Card</div><div class="pay-sub">Visa, Mastercard, RuPay</div></div>
+        <div class="pay-icon">💳</div>
+      </div>
+      <div class="payment-option" id="pay-netbanking" onclick="selectPayment('netbanking')">
+        <div class="pay-radio" id="pr-netbanking"></div>
+        <div class="pay-info"><div class="pay-title">Net Banking</div><div class="pay-sub">All major Indian banks</div></div>
+        <div class="pay-icon">🏦</div>
+      </div>
+    </div>
+    <div class="checkout-footer" style="display:flex;gap:10px">
+      <button class="big-btn" onclick="coGoStep(2)" style="background:white;color:var(--primary);border:2px solid var(--primary);flex:0 0 auto;padding:13px 18px">← Back</button>
+      <button class="checkout-btn" onclick="checkoutStep3()" style="flex:1">Review Order →</button>
+    </div>
+  </div>
+
+  <!-- STEP 4: REVIEW & CONFIRM -->
+  <div id="co-step4" style="display:none">
+    <div class="form-card">
+      <h3>📍 Delivery Address</h3>
+      <div id="review-address" style="font-size:13px;color:var(--text-muted);line-height:1.7"></div>
+    </div>
+    <div class="form-card">
+      <h3>📋 Order Items</h3>
+      <div id="review-items"></div>
+      <div class="sum-row"><span>Subtotal</span><span id="rv-subtotal"></span></div>
+      <div class="sum-row"><span>Shipping</span><span id="rv-ship"></span></div>
+      <div class="sum-row"><span>GST (18%)</span><span id="rv-gst"></span></div>
+      <div class="sum-row"><span>Discount</span><span id="rv-disc" style="color:var(--success)"></span></div>
+      <div class="sum-row total"><span>Grand Total</span><span id="rv-total"></span></div>
+    </div>
+    <div class="form-card">
+      <h3>💳 Payment Method</h3>
+      <div id="review-payment" style="font-size:14px;font-weight:700"></div>
+    </div>
+    <div class="info-strip">
+      <span>ℹ️</span>
+      <span>Orders ship in 1–2 days via trusted courier partners. Expected delivery in 4–6 days.</span>
+    </div>
+    <div class="checkout-footer" style="display:flex;gap:10px">
+      <button class="big-btn" onclick="coGoStep(3)" style="background:white;color:var(--primary);border:2px solid var(--primary);flex:0 0 auto;padding:13px 18px">← Back</button>
+      <button class="checkout-btn" onclick="placeOrder()" style="flex:1" id="place-order-btn">Place Order 🎉</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== UPI PAYMENT PAGE ===================== -->
+<div class="page" id="page-payment">
+  <div class="page-header">
+    <button class="back-btn" onclick="showPage('page-checkout')">←</button>
+    <span class="page-title">UPI Payment</span>
+  </div>
+  <div class="payment-card">
+    <div style="font-size:16px;font-weight:800;margin-bottom:12px">📲 Pay via UPI</div>
+    <div class="qr-placeholder">
+      <div style="font-size:44px">📱</div>
+      <div style="font-size:10px;color:var(--text-muted);text-align:center;margin-top:6px">Scan QR Code<br>or use UPI ID</div>
+    </div>
+    <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">UPI ID (tap to copy)</div>
+    <div class="upi-display" onclick="copyUPI()">tanvir786@ptaxis 📋</div>
+    <div class="amount-display">
+      <div style="font-size:11px;color:#92400e;margin-bottom:4px">Amount to Pay (Exact)</div>
+      <div class="amt" id="upi-amount">₹0</div>
+      <div style="font-size:10px;color:#92400e;margin-top:4px">⚠️ Transfer exact amount shown above</div>
+    </div>
+    <div style="text-align:left;font-size:13px;font-weight:800;margin:12px 0 6px">Upload Payment Screenshot *</div>
+    <div class="upload-zone" onclick="document.getElementById('ss-upload').click()">
+      <div style="font-size:40px">📸</div>
+      <p>Tap here to upload screenshot from gallery</p>
+      <input type="file" id="ss-upload" accept="image/*" style="display:none" onchange="handleScreenshot(this)">
+    </div>
+    <div id="ss-preview"></div>
+    <button class="confirm-btn" onclick="confirmUPIOrder()">✅ Confirm Payment & Place Order</button>
+  </div>
+</div>
+
+<!-- ===================== COD CONFIRMATION PAGE ===================== -->
+<div class="page" id="page-cod">
+  <div class="page-header">
+    <button class="back-btn" onclick="showPage('page-checkout')">←</button>
+    <span class="page-title">Cash on Delivery</span>
+  </div>
+  <div style="padding:14px">
+    <div class="payment-card" style="text-align:left">
+      <h3 style="margin-bottom:12px">📦 COD Order Summary</h3>
+      <div class="cod-info">
+        <p>✅ No advance payment needed</p>
+        <p>💵 Pay when order is delivered</p>
+        <p>🚚 Estimated delivery: 4–6 business days</p>
+        <p>📞 Our team will call before delivery</p>
+      </div>
+      <div style="background:var(--bg);border-radius:10px;padding:12px;margin:12px 0">
+        <div id="cod-summary"></div>
+        <div class="sum-row total"><span>You Pay at Delivery</span><span id="cod-total" style="color:var(--primary)"></span></div>
+      </div>
+      <div style="font-size:12px;color:var(--text-muted);margin-bottom:14px">
+        ⚠️ COD orders may have ₹30–50 extra handling charge in some areas.
+      </div>
+      <button class="confirm-btn" onclick="confirmCODOrder()">🎉 Confirm COD Order</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ORDER SUCCESS PAGE ===================== -->
+<div class="page" id="page-success">
+  <div class="success-wrap">
+    <div class="success-anim">🎉</div>
+    <div class="success-title">Order Placed!</div>
+    <p style="color:var(--text-muted);font-size:14px;margin-bottom:16px;text-align:center">
+      Tera order confirm ho gaya! Jab ship hoga tab WhatsApp pe notify karenge.
+    </p>
+    <div class="order-id-card">
+      <div class="order-id-label">Your Order ID</div>
+      <div class="order-id-val" id="success-order-id">SI-000001</div>
+      <div style="font-size:11px;color:var(--primary);margin-top:4px">📋 Screenshot karke save karo</div>
+    </div>
+    <div style="background:var(--bg);border-radius:12px;padding:14px;width:100%;margin-bottom:14px;text-align:left">
+      <div style="font-size:13px;font-weight:800;margin-bottom:8px">📋 What Happens Next?</div>
+      <div style="font-size:12px;color:var(--text-muted);line-height:1.8">
+        1. Our team will verify your payment<br>
+        2. Order will be packed & dispatched in 1–2 days<br>
+        3. You'll receive tracking info on WhatsApp<br>
+        4. Delivery in 4–6 business days
+      </div>
+    </div>
+    <button class="wa-order-btn" onclick="whatsappOrder()">💬 Track on WhatsApp</button>
+    <button class="big-btn" onclick="showPage('page-home')" style="width:100%;background:var(--primary-light);color:var(--primary);margin-top:0">Continue Shopping</button>
+  </div>
+</div>
+
+<!-- ===================== TRACK ORDER PAGE ===================== -->
+<div class="page" id="page-track">
+  <div class="page-header">
+    <button class="back-btn" onclick="goBack()">←</button>
+    <span class="page-title">📦 Track Order</span>
+  </div>
+  <div class="form-card" style="margin-top:14px">
+    <h3>🔍 Track Your Order</h3>
+    <div class="fg">
+      <label>Order ID</label>
+      <input type="text" id="track-id" placeholder="e.g. SI-123456">
+    </div>
+    <div class="fg">
+      <label>Registered Phone Number</label>
+      <input type="tel" id="track-phone" placeholder="10-digit mobile" maxlength="10">
+    </div>
+    <button class="checkout-btn" onclick="trackOrder()" style="margin-top:4px">Track My Order 🔍</button>
+  </div>
+  <div id="track-result" style="margin:14px;display:none"></div>
+</div>
+
+<!-- ===================== WISHLIST PAGE ===================== -->
+<div class="page" id="page-wishlist">
+  <div class="page-header">
+    <button class="back-btn" onclick="goBack()">←</button>
+    <span class="page-title">❤️ Wishlist</span>
+  </div>
+  <div id="wishlist-body" style="padding:12px 14px"></div>
+</div>
+
+<!-- ===================== ACCOUNT PAGE ===================== -->
+<div class="page" id="page-account">
+  <div id="acc-guest" style="display:none">
+    <div class="account-banner">
+      <div class="acc-avatar">👤</div>
+      <div class="acc-name">Guest User</div>
+      <div class="acc-phone">Login to track orders & more</div>
+    </div>
+    <div class="form-card" style="margin-top:14px">
+      <h3>👤 Login / Register</h3>
+      <div class="fg">
+        <label>Phone Number *</label>
+        <input type="tel" id="l-phone" placeholder="10-digit mobile" maxlength="10">
+      </div>
+      <div class="fg">
+        <label>Your Name</label>
+        <input type="text" id="l-name" placeholder="Full name (for new users)">
+      </div>
+      <button class="checkout-btn" onclick="loginUser()" style="margin-top:4px">Continue →</button>
+      <p style="font-size:11px;color:var(--text-muted);text-align:center;margin-top:10px">No OTP needed · Guest checkout also available</p>
+    </div>
+  </div>
+  <div id="acc-profile" style="display:none">
+    <div class="account-banner">
+      <div class="acc-avatar">👤</div>
+      <div class="acc-name" id="acc-name">User</div>
+      <div class="acc-phone" id="acc-phone">+91 XXXXXXXXXX</div>
+    </div>
+    <div class="menu-list">
+      <div class="menu-item" onclick="showMyOrders()"><span class="m-icon">📦</span><span>My Orders</span><span class="m-chevron">›</span></div>
+      <div class="menu-item" onclick="showPage('page-wishlist')"><span class="m-icon">❤️</span><span>Wishlist</span><span class="m-chevron">›</span></div>
+      <div class="menu-item" onclick="showPage('page-track')"><span class="m-icon">🔍</span><span>Track Order</span><span class="m-chevron">›</span></div>
+      <div class="menu-item"><span class="m-icon">📍</span><span>Saved Addresses</span><span class="m-chevron">›</span></div>
+      <div class="menu-item" onclick="showPage('page-contact')"><span class="m-icon">💬</span><span>Customer Support</span><span class="m-chevron">›</span></div>
+      <div class="menu-item" onclick="showPage('page-faq')"><span class="m-icon">❓</span><span>FAQ</span><span class="m-chevron">›</span></div>
+      <div class="menu-item" onclick="showPage('page-about')"><span class="m-icon">ℹ️</span><span>About ShopIndia</span><span class="m-chevron">›</span></div>
+      <div class="menu-item" onclick="logoutUser()" style="color:var(--danger)"><span class="m-icon">🚪</span><span>Logout</span></div>
+    </div>
+    <div id="my-orders-list" style="padding-bottom:10px"></div>
+  </div>
+</div>
+
+<!-- ===================== ABOUT PAGE ===================== -->
+<div class="page" id="page-about">
+  <div class="page-header">
+    <button class="back-btn" onclick="goBack()">←</button>
+    <span class="page-title">About ShopIndia</span>
+  </div>
+  <div style="padding:14px;text-align:center;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;padding:30px 20px">
+    <div style="font-family:var(--font-display);font-size:32px;font-weight:900;margin-bottom:8px">ShopIndia™</div>
+    <div style="font-size:14px;opacity:0.85">India's Favourite Online Shopping Destination</div>
+  </div>
+  <div class="policy-body">
+    <h2>🏪 Our Story</h2>
+    <p>ShopIndia was founded with one simple mission — to make quality products accessible to every Indian at honest prices. We partner with verified suppliers across India and globally to bring you the best deals on fashion, electronics, beauty, home decor and more.</p>
+    <h2>🎯 Our Mission</h2>
+    <p>To be India's most trusted dropshipping marketplace — connecting millions of customers with the best products at the best prices, with zero compromise on quality or service.</p>
+    <h2>📦 How It Works</h2>
+    <p>We follow a 100% dropshipping model — we don't hold inventory. When you place an order, we source it fresh from our verified supplier network and ship it directly to your doorstep. This means fresher stock, better prices, and a wider selection for you.</p>
+    <h2>💚 Our Promise</h2>
+    <p>✅ Genuine products only<br>✅ Transparent pricing — no hidden fees<br>✅ 7-day return guarantee<br>✅ Fast customer support via WhatsApp<br>✅ Secure UPI & COD payments</p>
+    <h2>📞 Contact Us</h2>
+    <p>WhatsApp: <strong>+91 78660 48085</strong><br>UPI: <strong>tanvir786@ptaxis</strong></p>
+  </div>
+</div>
+
+<!-- ===================== CONTACT PAGE ===================== -->
+<div class="page" id="page-contact">
+  <div class="page-header">
+    <button class="back-btn" onclick="goBack()">←</button>
+    <span class="page-title">Contact Us</span>
+  </div>
+  <div style="padding:14px;text-align:center;margin-bottom:6px">
+    <div style="font-size:14px;color:var(--text-muted)">We're here to help! Reach us on any channel below.</div>
+  </div>
+  <div class="contact-options">
+    <div class="contact-card" onclick="window.open('https://wa.me/917866048085?text=Hi! I need help with my ShopIndia order.','_blank')">
+      <div class="contact-icon" style="background:#d1fae5">💬</div>
+      <div class="contact-info"><h3>WhatsApp Support</h3><p>Chat with us instantly · +91 78660 48085</p></div>
+      <div style="color:var(--text-muted);font-size:20px">›</div>
+    </div>
+    <div class="contact-card">
+      <div class="contact-icon" style="background:#dbeafe">📧</div>
+      <div class="contact-info"><h3>Email Support</h3><p>support@shopindia.in · Reply in 24 hrs</p></div>
+      <div style="color:var(--text-muted);font-size:20px">›</div>
+    </div>
+    <div class="contact-card" onclick="showPage('page-track')">
+      <div class="contact-icon" style="background:#ede9fe">📦</div>
+      <div class="contact-info"><h3>Track Your Order</h3><p>Enter order ID to get live status</p></div>
+      <div style="color:var(--text-muted);font-size:20px">›</div>
+    </div>
+    <div class="contact-card">
+      <div class="contact-icon" style="background:#fef3c7">🕐</div>
+      <div class="contact-info"><h3>Support Hours</h3><p>Mon–Sat · 10 AM to 7 PM IST</p></div>
+    </div>
+  </div>
+  <div class="form-card" style="margin:0 14px">
+    <h3>📝 Send a Message</h3>
+    <div class="fg"><label>Name</label><input type="text" id="c-name" placeholder="Your name"></div>
+    <div class="fg"><label>Phone</label><input type="tel" id="c-phone" placeholder="10-digit mobile" maxlength="10"></div>
+    <div class="fg"><label>Message</label><textarea id="c-msg" rows="3" placeholder="Describe your issue..." style="resize:none;width:100%;border:1.5px solid var(--border);border-radius:9px;padding:10px 12px;font-size:14px;font-family:var(--font);outline:none"></textarea></div>
+    <button class="checkout-btn" onclick="sendContactMsg()">Send Message 📤</button>
+  </div>
+  <div style="height:20px"></div>
+</div>
+
+<!-- ===================== FAQ PAGE ===================== -->
+<div class="page" id="page-faq">
+  <div class="page-header">
+    <button class="back-btn" onclick="goBack()">←</button>
+    <span class="page-title">Frequently Asked Questions</span>
+  </div>
+  <div style="padding:14px 0" id="faq-list"></div>
+</div>
+
+<!-- ===================== SHIPPING POLICY PAGE ===================== -->
+<div class="page" id="page-shipping-policy">
+  <div class="page-header">
+    <button class="back-btn" onclick="goBack()">←</button>
+    <span class="page-title">Shipping Policy</span>
+  </div>
+  <div class="policy-body">
+    <h2>🚚 Free Shipping</h2>
+    <p>Free standard shipping on all orders above ₹499. Orders below ₹499 attract a flat ₹49 delivery charge.</p>
+    <h2>⏱️ Delivery Timeframes</h2>
+    <p><strong>Standard Delivery:</strong> 4–6 business days<br><strong>Express Delivery:</strong> 1–2 business days (+₹99)</p>
+    <p>Delivery times may vary for remote areas (Northeast India, Jammu & Kashmir, Ladakh, Andaman & Nicobar). Allow 7–10 days for such locations.</p>
+    <h2>📍 Pincode Serviceability</h2>
+    <p>We deliver to 20,000+ pincodes across India. Enter your pincode on the product page to check delivery availability. We're continuously expanding our reach.</p>
+    <h2>📦 Order Processing</h2>
+    <p>Orders are processed within 1–2 business days after payment confirmation. You will receive a WhatsApp/SMS notification when your order is dispatched with tracking details.</p>
+    <h2>🏷️ Shipping Partners</h2>
+    <p>We ship via trusted courier partners including Delhivery, BlueDart, Ekart, Xpressbees, and India Post depending on your location.</p>
+    <h2>⚠️ Important Notes</h2>
+    <ul>
+      <li>Business days exclude Sundays and public holidays</li>
+      <li>During sale seasons, delivery may take 1–2 extra days</li>
+      <li>COD orders may incur an additional ₹30–50 handling fee</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===================== RETURN POLICY PAGE ===================== -->
+<div class="page" id="page-return-policy">
+  <div class="page-header">
+    <button class="back-btn" onclick="goBack()">←</button>
+    <span class="page-title">Return & Refund Policy</span>
+  </div>
+  <div class="policy-body">
+    <h2>↩️ 7-Day Return Policy</h2>
+    <p>We offer hassle-free returns within 7 days of delivery for eligible items. To initiate a return, contact us on WhatsApp with your Order ID and reason.</p>
+    <h2>✅ Eligible for Return</h2>
+    <ul>
+      <li>Damaged or defective product</li>
+      <li>Wrong item delivered</li>
+      <li>Product significantly different from listing</li>
+      <li>Missing parts or accessories</li>
+    </ul>
+    <h2>❌ Not Eligible for Return</h2>
+    <ul>
+      <li>Used, washed, or altered products</li>
+      <li>Items without original packaging (if applicable)</li>
+      <li>Perishable goods (food, beauty products opened)</li>
+      <li>Intimate wear, lingerie (hygiene reasons)</li>
+      <li>Products with tampered serial/IMEI numbers</li>
+    </ul>
+    <h2>💰 Refund Process</h2>
+    <p><strong>UPI/Online Payments:</strong> Refunded to original payment method within 5–7 business days after return pickup.<br><strong>COD Orders:</strong> Refunded via UPI/bank transfer. Share your UPI ID when raising return request.</p>
+    <h2>📞 How to Return</h2>
+    <p>1. WhatsApp us at +91 78660 48085 within 7 days of delivery<br>2. Share Order ID + photos of the issue<br>3. Our team will arrange a free pickup<br>4. Refund processed after inspection</p>
+  </div>
+</div>
+
+<!-- ===================== PRIVACY POLICY PAGE ===================== -->
+<div class="page" id="page-privacy">
+  <div class="page-header">
+    <button class="back-btn" onclick="goBack()">←</button>
+    <span class="page-title">Privacy Policy</span>
+  </div>
+  <div class="policy-body">
+    <h2>🔒 Privacy Policy</h2>
+    <p>Last updated: January 2024. ShopIndia is committed to protecting your personal information.</p>
+    <h2>📋 Information We Collect</h2>
+    <ul>
+      <li>Name, phone number, email, and delivery address when you place an order</li>
+      <li>Payment screenshots (stored securely, not shared)</li>
+      <li>Browsing behaviour on our site (anonymized)</li>
+      <li>Device information for app optimization</li>
+    </ul>
+    <h2>🎯 How We Use Your Data</h2>
+    <ul>
+      <li>To process and fulfill your orders</li>
+      <li>To send order updates via WhatsApp/SMS</li>
+      <li>To improve our product recommendations</li>
+      <li>To resolve support queries</li>
+    </ul>
+    <h2>🚫 We Never</h2>
+    <ul>
+      <li>Sell your data to third parties</li>
+      <li>Share your payment details with anyone</li>
+      <li>Send spam messages</li>
+    </ul>
+    <h2>📞 Data Queries</h2>
+    <p>To request data deletion or access, contact us on WhatsApp: +91 78660 48085</p>
+  </div>
+</div>
+
+<!-- ===================== TERMS PAGE ===================== -->
+<div class="page" id="page-terms">
+  <div class="page-header">
+    <button class="back-btn" onclick="goBack()">←</button>
+    <span class="page-title">Terms & Conditions</span>
+  </div>
+  <div class="policy-body">
+    <h2>📄 Terms & Conditions</h2>
+    <p>By using ShopIndia, you agree to these terms. Please read carefully.</p>
+    <h2>🛒 Ordering</h2>
+    <ul>
+      <li>You must be 18+ to place orders</li>
+      <li>By placing an order, you confirm the delivery details are accurate</li>
+      <li>We reserve the right to cancel orders due to pricing errors or stock issues</li>
+    </ul>
+    <h2>💳 Payments</h2>
+    <ul>
+      <li>UPI payments must be made to the exact UPI ID shown at checkout</li>
+      <li>Screenshot must be uploaded as proof of payment</li>
+      <li>COD orders must be paid in full at delivery</li>
+      <li>We are not responsible for UPI transfers to wrong IDs</li>
+    </ul>
+    <h2>📦 Delivery</h2>
+    <ul>
+      <li>Delivery timelines are estimates, not guarantees</li>
+      <li>We are not liable for delays caused by courier partners or natural events</li>
+    </ul>
+    <h2>⚖️ Governing Law</h2>
+    <p>These terms are governed by Indian law. Disputes shall be subject to jurisdiction of courts in [your city], India.</p>
+  </div>
+</div>
+
+<!-- ===================== BLOG PAGE ===================== -->
+<div class="page" id="page-blog">
+  <div class="page-header">
+    <button class="back-btn" onclick="goBack()">←</button>
+    <span class="page-title">📖 Blog & Tips</span>
+  </div>
+  <div id="blog-list" style="padding:10px 0"></div>
+</div>
+
+<!-- ===================== BLOG ARTICLE PAGE ===================== -->
+<div class="page" id="page-article">
+  <div class="page-header">
+    <button class="back-btn" onclick="goBack()">←</button>
+    <span class="page-title">Article</span>
+  </div>
+  <div id="article-body" style="padding:14px"></div>
+</div>
+
+<!-- ===================== BOTTOM NAVIGATION ===================== -->
+<div class="bottom-nav">
+  <button class="nav-item active" id="nav-home" onclick="showPage('page-home')">
+    <span class="n-icon">🏠</span>Home
+  </button>
+  <button class="nav-item" id="nav-cat" onclick="showPage('page-category')">
+    <span class="n-icon">🏪</span>Categories
+  </button>
+  <button class="nav-item" id="nav-cart" onclick="showPage('page-cart')">
+    <span class="n-icon" style="position:relative">🛒<span class="nav-badge" id="nav-cart-badge" style="display:none">0</span></span>Cart
+  </button>
+  <button class="nav-item" id="nav-track" onclick="showPage('page-track')">
+    <span class="n-icon">📦</span>Track
+  </button>
+  <button class="nav-item" id="nav-acc" onclick="showPage('page-account')">
+    <span class="n-icon">👤</span>Account
+  </button>
+</div>
+
+<!-- ==================== JAVASCRIPT ==================== -->
+<script>
+/* ============================================================
+   CONFIG — Edit these values to customise your store
+   ============================================================ */
+const CONFIG = {
+  storeName: 'ShopIndia',
+  upiId: 'tanvir786@ptaxis',
+  whatsapp: '917866048085',
+  freeShippingAbove: 499,
+  standardShipping: 49,
+  expressShipping: 99,
+  gstRate: 0.18,    // 18% GST
+  adminUrl: '../admin/index.html',
+  // Coupons: code -> {type:'percent'|'flat', value, minOrder}
+  coupons: {
+    'FLAT10': { type:'percent', value:10, minOrder:0, desc:'10% off' },
+    'SHIP49': { type:'flat', value:49, minOrder:199, desc:'Free shipping' },
+    'SAVE50': { type:'flat', value:50, minOrder:499, desc:'₹50 off on ₹499+' },
+    'NEW100': { type:'flat', value:100, minOrder:799, desc:'₹100 off for new users' },
+  },
+  // Serviceable pincodes (add real ones here)
+  serviceablePincodes: [
+    '110001','110002','110003','110004','110005',
+    '400001','400002','400003','400004','400005',
+    '500001','500002','500003','500004','500005',
+    '600001','600002','600003','600004','600005',
+    '700001','700002','700003','700004','700005',
+    '560001','560002','560003','560004','560005',
+    '411001','411002','411003','411004','411005',
+    '380001','380002','380003','380004','380005',
+    '302001','302002','302003','302004','302005',
+    '226001','226002','226003','226004','226005',
+  ]
+};
+
+/* ============================================================
+   DATA — Products, Categories, Reviews, Blog
+   ============================================================ */
+const CATEGORIES = [
+  {name:'Trending',icon:'🔥',bg:'#ff6b6b'},
+  {name:'Kurti Saree and Lehanga',icon:'👗',bg:'#f093fb'},
+  {name:'Women Western',icon:'👚',bg:'#f5576c'},
+  {name:'Lingerie',icon:'💝',bg:'#ff758c'},
+  {name:'Men',icon:'👔',bg:'#667eea'},
+  {name:'Kids and Toys',icon:'🧒',bg:'#30cfd0'},
+  {name:'Home and Kitchen',icon:'🏠',bg:'#43e97b'},
+  {name:'Beauty and Health',icon:'💄',bg:'#f7971e'},
+  {name:'Jewellery and Accessories',icon:'💍',bg:'#a18cd1'},
+  {name:'Bags and Footwear',icon:'👜',bg:'#764ba2'},
+  {name:'Electronics',icon:'📱',bg:'#4facfe'},
+  {name:'Sports and Fitness',icon:'⚽',bg:'#00c6ff'},
+  {name:'Car and Motorbike',icon:'🚗',bg:'#1e3c72'},
+  {name:'Office and Supplies',icon:'📁',bg:'#2ecc71'},
+  {name:'Grocery',icon:'🥬',bg:'#27ae60'},
+  {name:'Books',icon:'📚',bg:'#8e44ad'},
+  {name:'Pet Supplies',icon:'🐾',bg:'#e67e22'},
+  {name:'Musical Instruments',icon:'🎸',bg:'#e74c3c'},
+];
+
+const PRODUCTS = [
+  {id:1,name:'Floral Print Cotton Kurti Set',category:'Kurti Saree and Lehanga',price:349,orig:799,img:'https://images.unsplash.com/photo-1585744481400-9b5e6cedc30c?w=400&q=80',rating:4.5,reviews:1243,badge:'50% OFF',
+    desc:'Beautiful floral print cotton kurti perfect for daily wear and festive occasions. Soft breathable fabric, available in S to 3XL. Machine washable.',
+    highlights:['100% Pure Cotton fabric','Available in S, M, L, XL, XXL, 3XL','Machine washable','Perfect for daily wear & festivals','Easy return & exchange'],
+    specs:[['Material','100% Cotton'],['Occasion','Casual, Festive'],['Sleeve','3/4 Sleeve'],['Pattern','Floral Print'],['Care','Machine Wash'],['Origin','Made in India']],
+    supplier:'Meesho Supplier A',supplierSku:'MEE-KS-001',handlingDays:2},
+  {id:2,name:'Banarasi Silk Saree with Blouse',category:'Kurti Saree and Lehanga',price:899,orig:2499,img:'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=400&q=80',rating:4.7,reviews:892,badge:'64% OFF',
+    desc:'Premium Banarasi silk saree with elegant gold border. Comes with matching unstitched blouse piece. Perfect for weddings and special occasions.',
+    highlights:['Premium Banarasi silk','Includes unstitched blouse','Rich gold border work','6.3 meter length','Dry clean only'],
+    specs:[['Material','Banarasi Silk'],['Length','6.3 meters'],['Blouse','1 meter unstitched'],['Work','Zari weaving'],['Occasion','Wedding, Festive'],['Origin','Varanasi, India']],
+    supplier:'Surat Textile Hub',supplierSku:'STH-SAR-002',handlingDays:3},
+  {id:3,name:'Wireless Bluetooth Earphones TWS',category:'Electronics',price:599,orig:1999,img:'https://images.unsplash.com/photo-1572536147248-ac59a8abfa4b?w=400&q=80',rating:4.3,reviews:5621,badge:'70% OFF',
+    desc:'True wireless earphones with deep bass, 30hr total battery life, fast charging, and IPX5 water resistance. Compatible with all Bluetooth devices.',
+    highlights:['30hr total battery (6+24)','IPX5 water resistant','40ms low latency mode','USB-C fast charging','Compatible with iOS & Android'],
+    specs:[['Battery','30 hours total'],['Driver','8mm'],['Connectivity','Bluetooth 5.0'],['Water Rating','IPX5'],['Charging','USB-C'],['Range','10 meters']],
+    supplier:'Electronics Bazaar',supplierSku:'EB-TWS-003',handlingDays:1},
+  {id:4,name:'Korean Face Cream SPF50 Moisturizer',category:'Beauty and Health',price:249,orig:599,img:'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400&q=80',rating:4.6,reviews:3214,badge:'58% OFF',
+    desc:'Lightweight K-beauty moisturizing cream with SPF50 protection. Suitable for all skin types. Non-greasy formula with hyaluronic acid.',
+    highlights:['SPF50 sun protection','Hyaluronic acid formula','Non-greasy & lightweight','Suitable for all skin types','Dermatologist tested'],
+    specs:[['SPF','50 PA+++'],['Volume','50ml'],['Skin Type','All types'],['Key Ingredient','Hyaluronic Acid'],['Fragrance','Mild'],['Shelf Life','24 months']],
+    supplier:'Beauty Korea Import',supplierSku:'BKI-FC-004',handlingDays:2},
+  {id:5,name:'Men Premium Cotton Casual Shirt',category:'Men',price:449,orig:999,img:'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=400&q=80',rating:4.4,reviews:1876,badge:'55% OFF',
+    desc:'Breathable premium cotton shirt for men. Perfect for office, casual outings, and travel. Anti-wrinkle finish. Available in S to 4XL.',
+    highlights:['100% Premium Cotton','Anti-wrinkle finish','S to 4XL available','Office & casual wear','Machine washable'],
+    specs:[['Material','100% Cotton'],['Fit','Regular Fit'],['Collar','Classic collar'],['Sleeve','Full sleeve'],['Care','Machine wash'],['Origin','Made in India']],
+    supplier:'Tirupur Garments',supplierSku:'TG-SHIRT-005',handlingDays:2},
+  {id:6,name:'Kids Soft Plush Teddy Bear 60cm',category:'Kids and Toys',price:299,orig:699,img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',rating:4.8,reviews:4521,badge:'57% OFF',
+    desc:'Super soft and cuddly teddy bear for kids. Made with child-safe non-toxic materials. Hypoallergenic stuffing. Perfect gift for all ages.',
+    highlights:['Child-safe non-toxic materials','Hypoallergenic stuffing','60cm tall','Machine washable','Perfect for 0+ years'],
+    specs:[['Size','60cm / 2 feet'],['Material','Soft plush'],['Filling','PP Cotton'],['Age','0+ years'],['Safety','Non-toxic, CE certified'],['Care','Machine washable']],
+    supplier:'Toy World Supplier',supplierSku:'TWS-BEAR-006',handlingDays:2},
+  {id:7,name:'Non-Stick Cookware Set 5 Piece',category:'Home and Kitchen',price:799,orig:2499,img:'https://images.unsplash.com/photo-1584568694244-14fbdf83bd30?w=400&q=80',rating:4.5,reviews:987,badge:'68% OFF',
+    desc:'5-piece granite-coated non-stick cookware set. PFOA-free, suitable for all cooktops including induction. Dishwasher safe. Perfect for Indian cooking.',
+    highlights:['PFOA-free granite coating','Works on all cooktops + induction','5-piece complete set','Dishwasher safe','10-year warranty'],
+    specs:[['Set Includes','Fry pan, 2 sauce pans, dutch oven, lid'],['Coating','Granite non-stick'],['Compatible','Gas, Induction, Electric'],['Material','Aluminum core'],['Safe Temp','Up to 450°F'],['Warranty','10 years']],
+    supplier:'Kitchen Pro India',supplierSku:'KPI-COOK-007',handlingDays:3},
+  {id:8,name:'Gold Plated Kundan Jhumka Earrings',category:'Jewellery and Accessories',price:199,orig:599,img:'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=400&q=80',rating:4.3,reviews:2134,badge:'67% OFF',
+    desc:'Traditional Kundan jhumka earrings with gold plating. Lightweight design perfect for festive occasions, weddings, and daily ethnic wear.',
+    highlights:['Gold-plated base','Kundan stone setting','Lightweight design','Nickel-free, hypoallergenic','Anti-tarnish coating'],
+    specs:[['Metal','Gold-plated brass'],['Stone','Kundan'],['Type','Jhumka / Drop'],['Length','4cm'],['Safe','Nickel-free'],['Occasion','Ethnic, Festive']],
+    supplier:'Jaipur Jewels',supplierSku:'JJ-EAR-008',handlingDays:2},
+  {id:9,name:'Women Crop Top Co-ord Set',category:'Women Western',price:399,orig:999,img:'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&q=80',rating:4.4,reviews:1654,badge:'60% OFF',
+    desc:'Trendy crop top with matching high-waist pants. Perfect for college, parties, and casual outings. Comfortable stretch fabric.',
+    highlights:['Trendy co-ord set','Stretch comfort fabric','S to 3XL available','Multiple colors','Perfect for college & outings'],
+    specs:[['Material','Polyester blend'],['Type','Crop top + Pants'],['Closure','Elastic waistband'],['Care','Hand wash'],['Occasion','Casual, Party'],['Origin','Made in India']],
+    supplier:'Fashion Street Mumbai',supplierSku:'FSM-CROP-009',handlingDays:2},
+  {id:10,name:'BPA-Free Sports Water Bottle 1L',category:'Sports and Fitness',price:199,orig:499,img:'https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400&q=80',rating:4.6,reviews:3421,badge:'60% OFF',
+    desc:'Large 1-litre BPA-free sports bottle with leak-proof lid and motivational time markers. Perfect for gym, yoga, cycling, and travel.',
+    highlights:['1 litre capacity','100% BPA-free','Leak-proof flip cap','Time markers for hydration','Fits all cup holders'],
+    specs:[['Capacity','1 Litre / 1000ml'],['Material','BPA-free Tritan'],['Lid','Flip + Straw'],['Safe','BPA, Phthalate free'],['Temperature','Cold up to 12 hours'],['Dishwasher','Top rack safe']],
+    supplier:'Sports Gear India',supplierSku:'SGI-BTL-010',handlingDays:2},
+  {id:11,name:'Ethnic Lehenga Choli Bridal Set',category:'Kurti Saree and Lehanga',price:1299,orig:3999,img:'https://images.unsplash.com/photo-1519657337289-077653f724ed?w=400&q=80',rating:4.7,reviews:654,badge:'67% OFF',
+    desc:'Gorgeous ethnic lehenga choli for weddings and festive occasions. Semi-stitched for perfect fitting. Heavy embroidery work.',
+    highlights:['Semi-stitched for perfect fit','Heavy embroidery work','Includes lehenga + choli + dupatta','Dry clean recommended','Custom sizing available'],
+    specs:[['Type','Lehenga + Choli + Dupatta'],['Material','Net + Georgette'],['Work','Embroidery + Mirror'],['Occasion','Wedding, Sangeet'],['Stitching','Semi-stitched'],['Origin','Surat, India']],
+    supplier:'Surat Bridal World',supplierSku:'SBW-LEH-011',handlingDays:4},
+  {id:12,name:'360° Adjustable Phone Stand',category:'Electronics',price:149,orig:399,img:'https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=400&q=80',rating:4.5,reviews:8743,badge:'62% OFF',
+    desc:'Universal 360° rotating phone stand. Compatible with all smartphones and tablets. Foldable and portable. Non-slip base.',
+    highlights:['360° full rotation','Universal compatibility','Foldable & portable','Non-slip silicone base','Height adjustable'],
+    specs:[['Rotation','360°'],['Compatible','All phones & tablets'],['Material','ABS + Silicone'],['Weight','150g'],['Foldable','Yes'],['Width adjustment','Up to 100mm']],
+    supplier:'Electronics Bazaar',supplierSku:'EB-STAND-012',handlingDays:1},
+  {id:13,name:'Vitamin C Brightening Face Serum',category:'Beauty and Health',price:279,orig:799,img:'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=400&q=80',rating:4.5,reviews:2876,badge:'65% OFF',
+    desc:'20% Vitamin C serum that brightens skin, reduces dark spots, and evens skin tone. Dermatologist tested. Fragrance-free formula.',
+    highlights:['20% Vitamin C','Reduces dark spots & hyperpigmentation','Fragrance-free formula','Dermatologist tested','Suitable for all skin types'],
+    specs:[['Key Ingredient','20% Vitamin C'],['Volume','30ml'],['Skin Concern','Dark spots, Dullness'],['Fragrance','Fragrance-free'],['Skin Type','All skin types'],['Shelf Life','12 months after opening']],
+    supplier:'Beauty Korea Import',supplierSku:'BKI-SER-013',handlingDays:2},
+  {id:14,name:'PU Leather Ladies Shoulder Bag',category:'Bags and Footwear',price:499,orig:1499,img:'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&q=80',rating:4.3,reviews:1234,badge:'67% OFF',
+    desc:'Stylish PU leather shoulder bag with multiple compartments. Perfect for office, college, and daily use. Available in 6 colors.',
+    highlights:['Premium PU leather','Multiple compartments','Adjustable strap','Fit for laptop up to 13"','Available in 6 colors'],
+    specs:[['Material','PU Leather'],['Dimensions','30x12x25cm'],['Compartments','3 main + 4 pockets'],['Laptop fit','Up to 13 inch'],['Strap','Adjustable, removable'],['Closure','Zipper']],
+    supplier:'Bag Factory India',supplierSku:'BFI-BAG-014',handlingDays:2},
+  {id:15,name:'Stainless Steel Masala Organizer Set',category:'Home and Kitchen',price:249,orig:699,img:'https://images.unsplash.com/photo-1607877361964-d8a3ea0c5b1e?w=400&q=80',rating:4.4,reviews:987,badge:'64% OFF',
+    desc:'7-piece stainless steel spice organizer. Airtight, rust-free, and easy to clean. Includes labels and spoon set. Perfect for Indian kitchen.',
+    highlights:['7-piece airtight set','Rust-free stainless steel','Includes labels + spoons','Easy to clean','Perfect for Indian spices'],
+    specs:[['Set','7 containers + labels + spoons'],['Material','Stainless Steel 304'],['Capacity','Each 250ml'],['Lid','Airtight'],['Dishwasher','Safe'],['Origin','Made in India']],
+    supplier:'Kitchen Pro India',supplierSku:'KPI-SPICE-015',handlingDays:2},
+  {id:16,name:'Anti-Slip Yoga Mat 6mm TPE',category:'Sports and Fitness',price:349,orig:999,img:'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80',rating:4.6,reviews:3456,badge:'65% OFF',
+    desc:'Premium TPE yoga mat with superior grip on both sides. 6mm thick for joint protection. Includes carry strap. Eco-friendly, non-toxic.',
+    highlights:['6mm joint-protection thickness','Dual-sided non-slip grip','Eco-friendly TPE material','Includes carry strap','183x61cm standard size'],
+    specs:[['Thickness','6mm'],['Material','TPE (Eco-friendly)'],['Size','183 x 61cm'],['Weight','900g'],['Includes','Carry strap'],['Safe','Non-toxic, Odour-free']],
+    supplier:'Sports Gear India',supplierSku:'SGI-YOGA-016',handlingDays:2},
+];
+
+const REVIEWS_DATA = [
+  {name:'Priya Sharma',rating:5,text:'Absolutely love it! Quality is amazing and delivery was super fast. Will definitely order again! 🌟',product:'Kurti Set'},
+  {name:'Rahul Mehta',rating:5,text:'Earphones ki quality bohot acchi hai. Bass ekdum kamaal ka hai. Value for money!',product:'TWS Earphones'},
+  {name:'Anita Kulkarni',rating:4,text:'Saree looks even more beautiful in person. Packaging was perfect. Recommended!',product:'Banarasi Saree'},
+  {name:'Vikram Joshi',rating:5,text:'Phone stand bahut sturdy hai. 360 degree rotation perfectly smooth. Best purchase!',product:'Phone Stand'},
+  {name:'Sneha Tiwari',rating:4,text:'Vitamin C serum has really improved my skin tone. Noticeable difference in 2 weeks!',product:'Face Serum'},
+  {name:'Amit Patel',rating:5,text:'Cookware set is excellent! Non-stick works great even after 3 months of use.',product:'Cookware Set'},
+];
+
+const FAQ_DATA = [
+  {q:'How do I place an order?',a:'Browse products, add to cart, proceed to checkout. Fill your address, select payment method (UPI or COD), and place order. For UPI, upload payment screenshot. Order confirmed!'},
+  {q:'Do you accept Cash on Delivery (COD)?',a:'Yes! COD is available on most pincodes. Simply select "Cash on Delivery" at checkout. Pay when your order arrives at your doorstep.'},
+  {q:'How long does delivery take?',a:'Standard delivery: 4–6 business days. Express delivery: 1–2 business days (+₹99). Remote areas may take 7–10 days. Tracking details sent on WhatsApp after dispatch.'},
+  {q:'What is your return policy?',a:'We offer hassle-free 7-day returns on eligible items. Contact us on WhatsApp within 7 days of delivery with your Order ID and issue photos. Free pickup arranged.'},
+  {q:'How do I track my order?',a:'Go to the "Track" tab at the bottom of the app. Enter your Order ID (e.g., SI-123456) and registered phone number to see live tracking.'},
+  {q:'Is it safe to pay via UPI?',a:'Absolutely! UPI payments are secured by the NPCI India payment infrastructure. Just make sure to transfer to the exact UPI ID shown (tanvir786@ptaxis) and upload the screenshot.'},
+  {q:'Can I change my delivery address after placing order?',a:'Address changes are possible within 2 hours of order placement. Contact us immediately on WhatsApp: +91 78660 48085.'},
+  {q:'Do you deliver to my area?',a:'We deliver to 20,000+ pincodes across India. Check delivery availability by entering your pincode on any product page.'},
+  {q:'How do I cancel my order?',a:'Orders can be cancelled before dispatch (usually within 12 hours). Contact us on WhatsApp with your Order ID. Refund processed within 5–7 business days.'},
+  {q:'Do you offer bulk/wholesale orders?',a:'Yes! For bulk orders of 10+ pieces, WhatsApp us for special pricing. We work with resellers and small businesses across India.'},
+];
+
+const BLOG_DATA = [
+  {id:1,title:'Top 10 Trending Kurtis for Festive Season 2024',cat:'Fashion',img:'https://images.unsplash.com/photo-1585744481400-9b5e6cedc30c?w=600&q=80',excerpt:'Festive season aa gayi hai! Yeh hain 2024 ke most trending kurti styles jo aapko crowd mein stand out karengi...',date:'15 Dec 2024',content:'Full article content here about trending kurtis...'},
+  {id:2,title:'Best Bluetooth Earphones Under ₹600 in India',cat:'Electronics',img:'https://images.unsplash.com/photo-1572536147248-ac59a8abfa4b?w=600&q=80',excerpt:'Tight budget mein bhi amazing sound quality! Yeh hain India ke best TWS earphones under ₹600...',date:'10 Dec 2024',content:'Full article about best earphones...'},
+  {id:3,title:'Korean Skincare Routine for Indian Skin Types',cat:'Beauty',img:'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=600&q=80',excerpt:'K-beauty secrets jo Indian skin ke liye perfectly kaam karti hain. Simple 5-step routine...',date:'5 Dec 2024',content:'Full article about Korean skincare...'},
+  {id:4,title:'How to Style a Saree for Modern Occasions',cat:'Fashion',img:'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&q=80',excerpt:'Saree is timeless! Yeh hain modern ways to style your saree for weddings, office, and parties...',date:'1 Dec 2024',content:'Full article about saree styling...'},
+];
+
+/* ============================================================
+   STATE
+   ============================================================ */
+let cart = JSON.parse(localStorage.getItem('si-cart') || '[]');
+let wishlist = JSON.parse(localStorage.getItem('si-wishlist') || '[]');
+let currentProduct = null;
+let currentUser = JSON.parse(localStorage.getItem('si-user') || 'null');
+let pageHistory = ['page-home'];
+let currentPage = 'page-home';
+let selectedShipping = 'standard';
+let selectedPayment = 'upi';
+let appliedCoupon = null;
+let pendingOrder = null;
+let reviewStar = 0;
+let catOffset = 0;
+let currentCatProducts = [];
+
+// Timers
+let sliderIdx = 0, sliderTimer, carouselIdx = 0, carouselTimer, countdownTimer;
+
+/* ============================================================
+   INIT
+   ============================================================ */
+document.addEventListener('DOMContentLoaded', () => {
+  renderCatGrid();
+  renderHomeProducts();
+  initSlider();
+  initMiniCarousel();
+  initMallCats();
+  startCountdown();
+  updateCartBadge();
+  checkUserSession();
+  renderReviews();
+  renderFAQ();
+  renderBlog();
+
+  // Search enter key
+  document.getElementById('search-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') doSearch();
+  });
+});
+
+/* ============================================================
+   RENDER FUNCTIONS
+   ============================================================ */
+function renderCatGrid() {
+  document.getElementById('cat-grid').innerHTML = CATEGORIES.slice(0,12).map(c => `
+    <div class="cat-item" onclick="showCategory('${c.name}')">
+      <div class="cat-icon" style="background:${c.bg}22;font-size:26px">${c.icon}</div>
+      <div class="cat-name">${c.name}</div>
+    </div>
+  `).join('');
+}
+
+function productCard(p, scroll=false) {
+  const disc = Math.round((p.orig - p.price) / p.orig * 100);
+  const inWish = wishlist.includes(p.id);
+  return `
+    <div class="product-card${scroll?' scroll-card':''}" onclick="openProduct(${p.id})">
+      <div class="product-img">
+        <img src="${p.img}" alt="${p.name}" loading="lazy">
+        <span class="p-badge">${disc}% OFF</span>
+        <button class="p-wishlist${inWish?' active':''}" onclick="event.stopPropagation();toggleWishItem(${p.id},this)">
+          ${inWish?'❤️':'🤍'}
+        </button>
+      </div>
+      <div class="product-info">
+        <div class="product-name">${p.name}</div>
+        <div class="product-rating">
+          <span class="p-stars">${'⭐'.repeat(Math.round(p.rating))}</span>
+          <span class="p-rcount">${p.rating} (${p.reviews.toLocaleString('en-IN')})</span>
+        </div>
+        <div class="product-price">
+          <span class="p-current">₹${p.price.toLocaleString('en-IN')}</span>
+          <span class="p-orig">₹${p.orig.toLocaleString('en-IN')}</span>
+          <span class="p-off">${disc}% off</span>
+        </div>
+        <button class="p-add-btn" onclick="event.stopPropagation();addToCart(${p.id})">+ Add to Cart</button>
+      </div>
+    </div>`;
+}
+
+function renderHomeProducts() {
+  document.getElementById('trending-products').innerHTML = PRODUCTS.slice(0,6).map(p => productCard(p, true)).join('');
+  document.getElementById('flash-products').innerHTML = PRODUCTS.slice(2,8).map(p => productCard(p, true)).join('');
+  const budget = PRODUCTS.filter(p => p.price <= 299);
+  document.getElementById('budget-products').innerHTML = budget.map(p => productCard(p, true)).join('');
+  document.getElementById('bestseller-products').innerHTML = PRODUCTS.slice(0,4).map(p => productCard(p, false)).join('');
+}
+
+function renderReviews() {
+  document.getElementById('reviews-row').innerHTML = REVIEWS_DATA.map(r => `
+    <div class="review-card">
+      <div class="reviewer">
+        <div class="r-avatar">${r.name[0]}</div>
+        <div>
+          <div class="r-name">${r.name}</div>
+          <div class="r-stars">${'⭐'.repeat(r.rating)}</div>
+        </div>
+      </div>
+      <div class="r-text">${r.text}</div>
+      <div class="r-product">Purchased: ${r.product}</div>
+    </div>`).join('');
+}
+
+function renderFAQ() {
+  document.getElementById('faq-list').innerHTML = FAQ_DATA.map((f,i) => `
+    <div class="faq-item" id="faq-${i}">
+      <div class="faq-q" onclick="toggleFAQ(${i})">
+        <span>${f.q}</span>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">${f.a}</div>
+    </div>`).join('');
+}
+
+function toggleFAQ(i) {
+  const el = document.getElementById('faq-' + i);
+  el.classList.toggle('open');
+}
+
+function renderBlog() {
+  document.getElementById('blog-list').innerHTML = BLOG_DATA.map(b => `
+    <div class="blog-card" onclick="openArticle(${b.id})">
+      <img class="blog-img" src="${b.img}" alt="${b.title}" loading="lazy">
+      <div class="blog-info">
+        <div class="blog-cat">${b.cat}</div>
+        <div class="blog-title">${b.title}</div>
+        <div class="blog-excerpt">${b.excerpt}</div>
+        <div class="blog-meta">📅 ${b.date} · 5 min read</div>
+      </div>
+    </div>`).join('');
+}
+
+function openArticle(id) {
+  const article = BLOG_DATA.find(b => b.id === id);
+  if (!article) return;
+  document.getElementById('article-body').innerHTML = `
+    <img src="${article.img}" style="width:calc(100%+28px);margin:-14px -14px 14px;display:block;height:200px;object-fit:cover" alt="${article.title}">
+    <span style="font-size:10px;font-weight:800;color:var(--primary);text-transform:uppercase">${article.cat}</span>
+    <h2 style="margin:8px 0;line-height:1.3">${article.title}</h2>
+    <div style="font-size:12px;color:var(--text-muted);margin-bottom:16px">📅 ${article.date} · 5 min read</div>
+    <p style="font-size:14px;color:var(--text-muted);line-height:1.8">${article.excerpt}<br><br>
+    Yeh ek comprehensive guide hai jo aapko in products ke baare mein full knowledge deta hai. Hamari team ne best options select kiye hain aapke budget aur style ke hisab se.<br><br>
+    ShopIndia pe yeh sabhi products available hain best prices pe. Shop now and enjoy free delivery on orders above ₹499!</p>
+    <div style="margin-top:20px">
+      <button class="big-btn" onclick="showPage('page-category')" style="width:100%">🛍️ Shop Now</button>
+    </div>`;
+  showPage('page-article');
+}
+
+function initMallCats() {
+  document.getElementById('mall-cats').innerHTML = CATEGORIES.slice(1,9).map(c => `
+    <div class="mall-cat" onclick="showCategory('${c.name}')">
+      <div class="mall-cat-circle" style="background:${c.bg}33">${c.icon}</div>
+      <span>${c.name.split(' ')[0]}</span>
+    </div>`).join('');
+}
+
+/* ============================================================
+   SLIDER
+   ============================================================ */
+function initSlider() {
+  const slider = document.getElementById('main-slider');
+  const dots = document.getElementById('slider-dots');
+  const count = slider.children.length;
+  dots.innerHTML = Array.from({length:count},(_,i) =>
+    `<div class="dot${i===0?' active':''}" onclick="goToSlide(${i})"></div>`).join('');
+
+  clearInterval(sliderTimer);
+  sliderTimer = setInterval(() => goToSlide((sliderIdx+1) % count), 3500);
+}
+
+function goToSlide(n) {
+  const slider = document.getElementById('main-slider');
+  const dots = document.getElementById('slider-dots');
+  sliderIdx = (n + slider.children.length) % slider.children.length;
+  slider.style.transform = `translateX(-${sliderIdx*100}%)`;
+  dots.querySelectorAll('.dot').forEach((d,i) => d.classList.toggle('active', i===sliderIdx));
+}
+
+function initMiniCarousel() {
+  const slides = [
+    {bg:'linear-gradient(135deg,#667eea,#764ba2)',cat:'Kurti Saree and Lehanga',title:'Kurti & Saree Sale',sub:'Starting ₹199!'},
+    {bg:'linear-gradient(135deg,#f093fb,#f5576c)',cat:'Women Western',title:'Women Western Wear',sub:'Trendy & Affordable'},
+    {bg:'linear-gradient(135deg,#4facfe,#00f2fe)',cat:'Electronics',title:'Electronics Deals',sub:'Up to 70% off'},
+    {bg:'linear-gradient(135deg,#43e97b,#38f9d7)',cat:'Home and Kitchen',title:'Home & Kitchen',sub:'Make home beautiful'},
+    {bg:'linear-gradient(135deg,#f7971e,#ffd200)',cat:'Beauty and Health',title:'Beauty Must-Haves',sub:'Glow every day'},
+  ];
+  document.getElementById('mini-carousel').innerHTML = slides.map(s => `
+    <div class="mini-slide" style="background:${s.bg}" onclick="showCategory('${s.cat}')">
+      <div class="mini-slide-text">
+        <h3>${s.title}</h3>
+        <p>${s.sub}</p>
+        <button class="mini-shop-btn">SHOP NOW</button>
+      </div>
+    </div>`).join('');
+
+  clearInterval(carouselTimer);
+  carouselTimer = setInterval(() => {
+    carouselIdx = (carouselIdx + 1) % slides.length;
+    document.getElementById('mini-carousel').style.transform = `translateX(-${carouselIdx*100}%)`;
+  }, 2800);
+}
+
+/* ============================================================
+   COUNTDOWN TIMER
+   ============================================================ */
+function startCountdown() {
+  let secs = 5*3600 + 23*60 + 47;
+  clearInterval(countdownTimer);
+  countdownTimer = setInterval(() => {
+    if (secs <= 0) secs = 24*3600;
+    secs--;
+    document.getElementById('th').textContent = String(Math.floor(secs/3600)).padStart(2,'0');
+    document.getElementById('tm').textContent = String(Math.floor((secs%3600)/60)).padStart(2,'0');
+    document.getElementById('ts').textContent = String(secs%60).padStart(2,'0');
+  }, 1000);
+}
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+function showPage(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(pageId).classList.add('active');
+  window.scrollTo(0,0);
+
+  if (pageId !== currentPage) {
+    pageHistory.push(pageId);
+    currentPage = pageId;
+  }
+
+  // Update bottom nav
+  const navMap = {'page-home':'nav-home','page-category':'nav-cat','page-cart':'nav-cart','page-track':'nav-track','page-account':'nav-acc'};
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  if (navMap[pageId]) document.getElementById(navMap[pageId]).classList.add('active');
+
+  // Page-specific render
+  if (pageId === 'page-cart') renderCart();
+  if (pageId === 'page-wishlist') renderWishlist();
+  if (pageId === 'page-checkout') { resetCheckout(); renderCheckoutStep(1); }
+  if (pageId === 'page-account') checkUserSession();
+}
+
+function goBack() {
+  if (pageHistory.length > 1) {
+    pageHistory.pop();
+    const prev = pageHistory[pageHistory.length-1];
+    currentPage = prev;
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(prev).classList.add('active');
+    window.scrollTo(0,0);
+  } else {
+    showPage('page-home');
+  }
+}
+
+function showCategory(name) {
+  document.getElementById('cat-page-title').textContent = name === 'all' ? 'All Products' : name;
+  const filtered = name === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.category === name);
+  currentCatProducts = filtered.length ? filtered : PRODUCTS;
+  catOffset = 12;
+  renderCategoryProducts(currentCatProducts.slice(0, catOffset));
+  showPage('page-category');
+}
+
+function filterChip(el, cat) {
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  showCategory(cat);
+}
+
+function renderCategoryProducts(products) {
+  document.getElementById('cat-products').innerHTML = products.map(p => productCard(p)).join('');
+  document.getElementById('load-more-wrap').style.display = currentCatProducts.length > catOffset ? 'block' : 'none';
+}
+
+function loadMoreProducts() {
+  catOffset += 8;
+  renderCategoryProducts(currentCatProducts.slice(0, catOffset));
+}
+
+function sortCat(type, el) {
+  document.querySelectorAll('.fc').forEach(f => f.classList.remove('active'));
+  el.classList.add('active');
+  let sorted = [...currentCatProducts];
+  if (type === 'price-low') sorted.sort((a,b) => a.price - b.price);
+  if (type === 'price-high') sorted.sort((a,b) => b.price - a.price);
+  if (type === 'rating') sorted.sort((a,b) => b.rating - a.rating);
+  if (type === 'newest') sorted.reverse();
+  renderCategoryProducts(sorted.slice(0, catOffset));
+}
+
+function showFilterModal() {
+  toast('Advanced filters coming soon!', 'warning');
+}
+
+/* ============================================================
+   PRODUCT DETAIL
+   ============================================================ */
+function openProduct(id) {
+  const p = PRODUCTS.find(x => x.id === id);
+  if (!p) return;
+  currentProduct = p;
+
+  document.getElementById('d-main-img').src = p.img;
+  document.getElementById('d-main-img').alt = p.name;
+  document.getElementById('d-cat').textContent = p.category;
+  document.getElementById('d-name').textContent = p.name;
+  document.getElementById('d-rating').textContent = p.rating;
+  document.getElementById('d-reviews').textContent = `${p.reviews.toLocaleString('en-IN')} reviews`;
+  document.getElementById('d-price').textContent = `₹${p.price.toLocaleString('en-IN')}`;
+  document.getElementById('d-orig').textContent = `₹${p.orig.toLocaleString('en-IN')}`;
+  const disc = Math.round((p.orig - p.price)/p.orig*100);
+  document.getElementById('d-disc').textContent = `${disc}% off`;
+
+  // Thumbs (use same img as demo, real would have multiple)
+  document.getElementById('d-thumbs').innerHTML = [p.img,p.img,p.img].map((img,i) => `
+    <img src="${img}" class="d-thumb${i===0?' active':''}" onclick="changeThumb(this,'${img}')">
+  `).join('');
+
+  // Highlights
+  if (p.highlights) {
+    document.getElementById('d-highlights-list').innerHTML = p.highlights.map(h => `<li>${h}</li>`).join('');
+  }
+
+  // Delivery date
+  const del = new Date(); del.setDate(del.getDate() + 5);
+  document.getElementById('d-delivery').textContent = del.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'short'});
+
+  // Description
+  document.getElementById('d-desc').textContent = p.desc;
+
+  // Specs
+  if (p.specs) {
+    document.getElementById('d-specs-table').innerHTML = p.specs.map(([k,v]) => `
+      <tr><td>${k}</td><td>${v}</td></tr>`).join('');
+  }
+
+  // Reviews
+  document.getElementById('d-reviews-list').innerHTML = REVIEWS_DATA.slice(0,3).map(r => `
+    <div style="border-bottom:1px solid var(--border);padding:12px 0">
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:6px">
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--primary)">${r.name[0]}</div>
+        <div><div style="font-size:13px;font-weight:700">${r.name}</div><div style="font-size:11px;color:var(--accent)">${'⭐'.repeat(r.rating)}</div></div>
+      </div>
+      <div style="font-size:13px;color:var(--text-muted)">${r.text}</div>
+    </div>`).join('');
+
+  // Similar
+  const similar = PRODUCTS.filter(x => x.category === p.category && x.id !== p.id).slice(0,5);
+  document.getElementById('d-similar').innerHTML = similar.map(s => productCard(s, true)).join('');
+
+  // Wishlist btn
+  document.getElementById('d-wish-btn').textContent = wishlist.includes(p.id) ? '❤️' : '🤍';
+
+  // Clear pincode
+  document.getElementById('pin-input').value = '';
+  document.getElementById('pin-result').textContent = '';
+
+  showPage('page-product');
+}
+
+function changeThumb(el, src) {
+  document.getElementById('d-main-img').src = src;
+  document.querySelectorAll('.d-thumb').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function shareProduct() {
+  if (navigator.share && currentProduct) {
+    navigator.share({
+      title: currentProduct.name,
+      text: `${currentProduct.name} sirf ₹${currentProduct.price} mein! ShopIndia pe dekho:`,
+      url: window.location.href
+    }).catch(()=>{});
+  } else {
+    navigator.clipboard?.writeText(`${currentProduct?.name} sirf ₹${currentProduct?.price} mein ShopIndia pe!`);
+    toast('Link copied! Share karo friends ke saath 🔗', 'success');
+  }
+}
+
+function checkPincode() {
+  const pin = document.getElementById('pin-input').value.trim();
+  const result = document.getElementById('pin-result');
+  if (pin.length !== 6 || isNaN(pin)) {
+    result.textContent = '⚠️ Valid 6-digit pincode enter karo';
+    result.className = 'pincode-result err';
+    return;
+  }
+  if (CONFIG.serviceablePincodes.includes(pin)) {
+    const days = Math.floor(Math.random()*3) + 4;
+    result.textContent = `✅ Delivery available! Expected in ${days}–${days+1} days`;
+    result.className = 'pincode-result ok';
+  } else {
+    result.textContent = '✅ Delivery Open in Your Area – Limited Slots Left!';
+    result.className = 'pincode-result err';
+  }
+}
+
+function addToCartCurrent() {
+  if (!currentProduct) return;
+  addToCart(currentProduct.id);
+}
+
+function buyNow() {
+  if (!currentProduct) return;
+  addToCart(currentProduct.id);
+  showPage('page-cart');
+}
+
+function setReviewStar(n) {
+  reviewStar = n;
+  document.querySelectorAll('.star-opt').forEach((s,i) => s.classList.toggle('active', i < n));
+}
+
+function submitReview() {
+  const name = document.getElementById('rv-name').value.trim();
+  const text = document.getElementById('rv-text').value.trim();
+  if (!name || !text || !reviewStar) { toast('Name, rating aur review sab bharo', 'error'); return; }
+  // In production: POST to backend API
+  toast('Review submit ho gaya! ⭐ Shukriya!', 'success');
+  document.getElementById('rv-name').value = '';
+  document.getElementById('rv-text').value = '';
+  reviewStar = 0;
+  document.querySelectorAll('.star-opt').forEach(s => s.classList.remove('active'));
+}
+
+/* ============================================================
+   SEARCH
+   ============================================================ */
+function showSuggestions(val) {
+  const el = document.getElementById('suggestions');
+  if (!val || val.length < 2) { el.classList.remove('show'); return; }
+  const matches = PRODUCTS.filter(p =>
+    p.name.toLowerCase().includes(val.toLowerCase()) ||
+    p.category.toLowerCase().includes(val.toLowerCase())
+  ).slice(0,6);
+  el.classList.add('show');
+  el.innerHTML = matches.length
+    ? matches.map(p => `
+        <div class="suggestion-item" onclick="openProduct(${p.id});hideSuggestions()">
+          <span>🔍</span>
+          <span style="flex:1">${p.name}</span>
+          <span style="color:var(--primary);font-weight:800">₹${p.price}</span>
+        </div>`).join('')
+    : `<div class="suggestion-item">No results found for "${val}"</div>`;
+}
+
+function hideSuggestions() {
+  document.getElementById('suggestions').classList.remove('show');
+}
+
+function doSearch() {
+  const val = document.getElementById('search-input').value.trim();
+  if (!val) return;
+  const filtered = PRODUCTS.filter(p =>
+    p.name.toLowerCase().includes(val.toLowerCase()) ||
+    p.category.toLowerCase().includes(val.toLowerCase())
+  );
+  document.getElementById('cat-page-title').textContent = `Results: "${val}"`;
+  currentCatProducts = filtered.length ? filtered : PRODUCTS;
+  catOffset = 12;
+  renderCategoryProducts(currentCatProducts.slice(0, catOffset));
+  showPage('page-category');
+  hideSuggestions();
+}
+
+/* ============================================================
+   CART
+   ============================================================ */
+function addToCart(id) {
+  const p = PRODUCTS.find(x => x.id === id);
+  if (!p) return;
+  const existing = cart.find(i => i.id === id);
+  if (existing) {
+    existing.qty++;
+  } else {
+    cart.push({ id:p.id, name:p.name, price:p.price, orig:p.orig, img:p.img, qty:1, category:p.category });
+  }
+  saveCart();
+  updateCartBadge();
+  toast(`${p.name.slice(0,30)}... cart mein add! 🛒`, 'success');
+
+  // ABANDONED CART TRACKING:
+  // Flag this cart as "active" for abandoned cart emails
+  // TODO: When user is logged in, sync cart to backend:
+  // fetch('/api/cart/save', { method:'POST', body:JSON.stringify({userId, cart, timestamp}) })
+  // Set a flag to trigger abandoned cart email if user doesn't checkout within 30 min
+  localStorage.setItem('si-cart-updated-at', Date.now().toString());
+}
+
+function saveCart() {
+  localStorage.setItem('si-cart', JSON.stringify(cart));
+}
+
+function updateCartBadge() {
+  const total = cart.reduce((s,i) => s+i.qty, 0);
+  document.getElementById('cart-count').textContent = total;
+  const nb = document.getElementById('nav-cart-badge');
+  if (total > 0) { nb.textContent = total; nb.style.display = 'flex'; }
+  else nb.style.display = 'none';
+}
+
+function renderCart() {
+  const el = document.getElementById('cart-body');
+  document.getElementById('cart-item-count').textContent = `${cart.length} item${cart.length!==1?'s':''}`;
+
+  if (cart.length === 0) {
+    el.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">🛒</div>
+        <h3>Cart khali hai!</h3>
+        <p>Apne favourite products add karo</p>
+        <button class="big-btn" onclick="showPage('page-home')">Shopping Start Karo</button>
+      </div>`;
+    return;
+  }
+
+  const subtotal = cart.reduce((s,i) => s + i.price*i.qty, 0);
+  const shipping = subtotal >= CONFIG.freeShippingAbove ? 0 : CONFIG.standardShipping;
+  const total = subtotal + shipping;
+
+  el.innerHTML = cart.map(item => `
+    <div class="cart-item">
+      <img class="cart-item-img" src="${item.img}" alt="${item.name}">
+      <div class="cart-item-info">
+        <div class="ci-name">${item.name}</div>
+        <div class="ci-price">₹${(item.price*item.qty).toLocaleString('en-IN')}</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:6px">₹${item.price} × ${item.qty}</div>
+        <div class="qty-row">
+          <button class="qty-btn" onclick="changeQty(${item.id},-1)">−</button>
+          <span class="qty-num">${item.qty}</span>
+          <button class="qty-btn" onclick="changeQty(${item.id},1)">+</button>
+          <button class="del-btn" onclick="removeCartItem(${item.id})">🗑️</button>
+        </div>
+      </div>
+    </div>`).join('') + `
+    <div class="cart-summary">
+      <div style="font-size:13px;font-weight:800;margin-bottom:10px">💰 Price Details</div>
+      <div class="coupon-row" style="margin-bottom:12px">
+        <input type="text" id="cart-coupon" placeholder="COUPON CODE" style="text-transform:uppercase">
+        <button onclick="applyCouponCart()">Apply</button>
+      </div>
+      <div class="sum-row"><span>Subtotal (${cart.reduce((s,i)=>s+i.qty,0)} items)</span><span>₹${subtotal.toLocaleString('en-IN')}</span></div>
+      <div class="sum-row"><span>Delivery</span><span style="color:${shipping===0?'var(--success)':'inherit'}">${shipping===0?'FREE':'₹'+shipping}</span></div>
+      ${shipping > 0 ? `<div style="font-size:11px;color:var(--primary);margin:-6px 0 8px">Add ₹${CONFIG.freeShippingAbove-subtotal} more for FREE delivery</div>`:''}
+      <div class="sum-row total"><span>Total</span><span>₹${total.toLocaleString('en-IN')}</span></div>
+    </div>
+    <div style="padding:14px">
+      <button class="checkout-btn" onclick="showPage('page-checkout')">Proceed to Checkout →</button>
+      <div style="text-align:center;margin-top:10px;font-size:11px;color:var(--text-muted)">🔒 Safe & Secure Checkout · UPI & COD available</div>
+    </div>`;
+}
+
+function changeQty(id, delta) {
+  const item = cart.find(i => i.id === id);
+  if (!item) return;
+  item.qty = Math.max(0, item.qty + delta);
+  if (item.qty === 0) cart = cart.filter(i => i.id !== id);
+  saveCart();
+  updateCartBadge();
+  renderCart();
+}
+
+function removeCartItem(id) {
+  cart = cart.filter(i => i.id !== id);
+  saveCart();
+  updateCartBadge();
+  renderCart();
+  toast('Item removed from cart');
+}
+
+function applyCouponCart() {
+  const code = document.getElementById('cart-coupon').value.trim().toUpperCase();
+  const coupon = CONFIG.coupons[code];
+  if (!coupon) { toast('Invalid coupon code', 'error'); return; }
+  const subtotal = cart.reduce((s,i) => s+i.price*i.qty, 0);
+  if (subtotal < coupon.minOrder) { toast(`Minimum order ₹${coupon.minOrder} needed`, 'error'); return; }
+  appliedCoupon = { code, ...coupon };
+  toast(`Coupon applied! ${coupon.desc} 🎉`, 'success');
+  renderCart();
+}
+
+/* ============================================================
+   WISHLIST
+   ============================================================ */
+function toggleWishItem(id, btn) {
+  if (wishlist.includes(id)) {
+    wishlist = wishlist.filter(x => x !== id);
+    if (btn) btn.textContent = '🤍';
+    toast('Wishlist se remove kiya');
+  } else {
+    wishlist.push(id);
+    if (btn) btn.textContent = '❤️';
+    toast('Wishlist mein add! ❤️', 'success');
+  }
+  localStorage.setItem('si-wishlist', JSON.stringify(wishlist));
+}
+
+function toggleWishlistCurrent() {
+  if (!currentProduct) return;
+  toggleWishItem(currentProduct.id);
+  document.getElementById('d-wish-btn').textContent = wishlist.includes(currentProduct.id) ? '❤️' : '🤍';
+}
+
+function renderWishlist() {
+  const el = document.getElementById('wishlist-body');
+  const items = PRODUCTS.filter(p => wishlist.includes(p.id));
+  if (!items.length) {
+    el.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">❤️</div>
+        <h3>Wishlist khali hai!</h3>
+        <p>Products save karo baad mein khareedne ke liye</p>
+        <button class="big-btn" onclick="showPage('page-home')">Products Explore Karo</button>
+      </div>`;
+    return;
+  }
+  el.innerHTML = `<div class="products-grid">${items.map(p => productCard(p)).join('')}</div>`;
+}
+
+/* ============================================================
+   CHECKOUT STEPS
+   ============================================================ */
+function resetCheckout() {
+  selectedShipping = 'standard';
+  selectedPayment = 'upi';
+  appliedCoupon = null;
+}
+
+function updateStepUI(step) {
+  [1,2,3,4].forEach(i => {
+    document.getElementById(`sn${i}`).className = 'step-num' + (i<step?' done':i===step?' active':'');
+    document.getElementById(`sl${i}`).className = 'step-label' + (i===step?' active':'');
+  });
+  [1,2,3].forEach(i => {
+    document.getElementById(`ss${i}`).className = 'step-sep' + (i<step?' done':'');
+  });
+  ['co-step1','co-step2','co-step3','co-step4'].forEach((id,idx) => {
+    document.getElementById(id).style.display = idx+1===step ? 'block' : 'none';
+  });
+}
+
+function renderCheckoutStep(step) {
+  updateStepUI(step);
+  if (step === 2) renderStep2();
+  if (step === 4) renderStep4();
+}
+
+function coGoStep(step) { renderCheckoutStep(step); }
+
+function checkoutStep1() {
+  const name = document.getElementById('co-name').value.trim();
+  const phone = document.getElementById('co-phone').value.trim();
+  const address = document.getElementById('co-address').value.trim();
+  const city = document.getElementById('co-city').value.trim();
+  const pin = document.getElementById('co-pin').value.trim();
+  const state = document.getElementById('co-state').value;
+  let valid = true;
+
+  const validate = (fgId, cond) => {
+    const fg = document.getElementById(fgId);
+    if (!cond) { fg.classList.add('has-error'); valid = false; }
+    else fg.classList.remove('has-error');
+  };
+  validate('fg-name', name.length >= 2);
+  validate('fg-phone', phone.length === 10 && /^\d+$/.test(phone));
+  validate('fg-address', address.length >= 5);
+  validate('fg-city', city.length >= 2);
+  validate('fg-pin', pin.length === 6 && /^\d+$/.test(pin));
+  validate('fg-state', state !== '');
+  if (!valid) { toast('Please fill all required fields correctly', 'error'); return; }
+  renderCheckoutStep(2);
+}
+
+function renderStep2() {
+  const subtotal = cart.reduce((s,i) => s+i.price*i.qty, 0);
+  const baseShipping = subtotal >= CONFIG.freeShippingAbove ? 0 : CONFIG.standardShipping;
+  document.getElementById('ship-std-price').textContent = baseShipping === 0 ? 'FREE' : `₹${baseShipping}`;
+
+  // Items
+  document.getElementById('co-items-list').innerHTML = cart.map(i => `
+    <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--border)">
+      <img src="${i.img}" style="width:48px;height:48px;border-radius:8px;object-fit:cover">
+      <div style="flex:1"><div style="font-size:13px;font-weight:700">${i.name.slice(0,40)}</div><div style="font-size:11px;color:var(--text-muted)">Qty: ${i.qty}</div></div>
+      <div style="font-weight:800">₹${(i.price*i.qty).toLocaleString('en-IN')}</div>
+    </div>`).join('');
+
+  calcTotals();
+}
+
+function calcTotals() {
+  const subtotal = cart.reduce((s,i) => s+i.price*i.qty, 0);
+  let shipping = subtotal >= CONFIG.freeShippingAbove ? 0 : CONFIG.standardShipping;
+  if (selectedShipping === 'express') shipping += CONFIG.expressShipping;
+  let discount = 0;
+  if (appliedCoupon) {
+    if (appliedCoupon.type === 'percent') discount = Math.floor(subtotal * appliedCoupon.value / 100);
+    else discount = appliedCoupon.value;
+    if (appliedCoupon.value === 49) shipping = 0; // free shipping coupon
+  }
+  const gst = Math.round((subtotal - discount) * CONFIG.gstRate);
+  const total = subtotal + shipping - discount + gst;
+
+  const fmt = n => `₹${n.toLocaleString('en-IN')}`;
+  ['co-subtotal','rv-subtotal'].forEach(id => { if(document.getElementById(id)) document.getElementById(id).textContent = fmt(subtotal); });
+  ['co-ship','rv-ship'].forEach(id => { if(document.getElementById(id)) document.getElementById(id).textContent = shipping===0?'FREE':fmt(shipping); });
+  ['co-gst','rv-gst'].forEach(id => { if(document.getElementById(id)) document.getElementById(id).textContent = fmt(gst); });
+  ['co-disc','rv-disc'].forEach(id => { if(document.getElementById(id)) document.getElementById(id).textContent = discount>0?`-${fmt(discount)}`:'—'; });
+  ['co-total','rv-total'].forEach(id => { if(document.getElementById(id)) document.getElementById(id).textContent = fmt(total); });
+
+  return { subtotal, shipping, discount, gst, total };
+}
+
+function selectShipping(type) {
+  selectedShipping = type;
+  document.getElementById('ship-standard').classList.toggle('selected', type==='standard');
+  document.getElementById('ship-express').classList.toggle('selected', type==='express');
+  document.getElementById('sr-standard').innerHTML = type==='standard'?'<div style="width:10px;height:10px;border-radius:50%;background:var(--primary)"></div>':'';
+  document.getElementById('sr-express').innerHTML = type==='express'?'<div style="width:10px;height:10px;border-radius:50%;background:var(--primary)"></div>':'';
+  calcTotals();
+}
+
+function applyCoupon() {
+  const code = document.getElementById('co-coupon').value.trim().toUpperCase();
+  const coupon = CONFIG.coupons[code];
+  const subtotal = cart.reduce((s,i) => s+i.price*i.qty, 0);
+  const msgEl = document.getElementById('coupon-msg');
+  if (!coupon) { msgEl.style.color='var(--danger)'; msgEl.textContent='❌ Invalid coupon code'; return; }
+  if (subtotal < coupon.minOrder) { msgEl.style.color='var(--danger)'; msgEl.textContent=`❌ Min order ₹${coupon.minOrder} required`; return; }
+  appliedCoupon = { code, ...coupon };
+  msgEl.style.color='var(--success)'; msgEl.textContent=`✅ "${code}" applied! ${coupon.desc}`;
+  calcTotals();
+}
+
+function checkoutStep2() {
+  renderCheckoutStep(3);
+}
+
+function selectPayment(type) {
+  selectedPayment = type;
+  ['upi','cod','card','netbanking'].forEach(t => {
+    document.getElementById(`pay-${t}`).classList.toggle('selected', t===type);
+    const r = document.getElementById(`pr-${t}`);
+    r.innerHTML = t===type?'<div style="width:10px;height:10px;border-radius:50%;background:var(--primary)"></div>':'';
+  });
+}
+
+function checkoutStep3() {
+  renderCheckoutStep(4);
+}
+
+function renderStep4() {
+  const name = document.getElementById('co-name').value;
+  const phone = document.getElementById('co-phone').value;
+  const address = document.getElementById('co-address').value;
+  const city = document.getElementById('co-city').value;
+  const state = document.getElementById('co-state').value;
+  const pin = document.getElementById('co-pin').value;
+
+  document.getElementById('review-address').innerHTML = `
+    <strong>${name}</strong><br>
+    +91 ${phone}<br>
+    ${address}, ${city}<br>
+    ${state} - ${pin}`;
+
+  document.getElementById('review-items').innerHTML = cart.map(i => `
+    <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px">
+      <img src="${i.img}" style="width:42px;height:42px;border-radius:8px;object-fit:cover">
+      <div style="flex:1;font-size:13px;font-weight:700">${i.name.slice(0,40)}</div>
+      <div style="font-weight:800">₹${(i.price*i.qty).toLocaleString('en-IN')}</div>
+    </div>`).join('');
+
+  const payNames = {upi:'📲 UPI Payment',cod:'💵 Cash on Delivery',card:'💳 Debit/Credit Card',netbanking:'🏦 Net Banking'};
+  document.getElementById('review-payment').textContent = payNames[selectedPayment];
+  calcTotals();
+}
+
+function placeOrder() {
+  const { subtotal, shipping, discount, gst, total } = calcTotals();
+  pendingOrder = {
+    name: document.getElementById('co-name').value,
+    phone: document.getElementById('co-phone').value,
+    email: document.getElementById('co-email').value,
+    address: document.getElementById('co-address').value,
+    city: document.getElementById('co-city').value,
+    state: document.getElementById('co-state').value,
+    pin: document.getElementById('co-pin').value,
+    items: [...cart], subtotal, shipping, discount, gst, total,
+    paymentMethod: selectedPayment,
+    shippingMethod: selectedShipping,
+    coupon: appliedCoupon?.code || null,
+  };
+
+  if (selectedPayment === 'upi') {
+    document.getElementById('upi-amount').textContent = `₹${total.toLocaleString('en-IN')}`;
+    showPage('page-payment');
+  } else if (selectedPayment === 'cod') {
+    // Render COD summary
+    document.getElementById('cod-total').textContent = `₹${total.toLocaleString('en-IN')}`;
+    document.getElementById('cod-summary').innerHTML = `
+      <div class="sum-row"><span>Subtotal</span><span>₹${subtotal.toLocaleString('en-IN')}</span></div>
+      <div class="sum-row"><span>Shipping</span><span>${shipping===0?'FREE':'₹'+shipping}</span></div>
+      <div class="sum-row"><span>GST</span><span>₹${gst.toLocaleString('en-IN')}</span></div>`;
+    showPage('page-cod');
+  } else {
+    // Card / Netbanking - redirect to Razorpay (see comment below)
+    // RAZORPAY INTEGRATION:
+    // const options = {
+    //   key: process.env.RAZORPAY_KEY_ID, // Add to CONFIG
+    //   amount: total * 100, // in paise
+    //   currency: 'INR',
+    //   name: CONFIG.storeName,
+    //   description: `Order from ${CONFIG.storeName}`,
+    //   handler: function(response) { finaliseOrder(response.razorpay_payment_id); },
+    //   prefill: { name: pendingOrder.name, contact: '+91'+pendingOrder.phone }
+    // };
+    // new Razorpay(options).open();
+    toast('Card/Netbanking: Razorpay integration ready. Add your key in CONFIG.', 'warning');
+  }
+}
+
+/* ============================================================
+   ORDER PLACEMENT
+   ============================================================ */
+function confirmUPIOrder() {
+  const file = document.getElementById('ss-upload').files[0];
+  if (!file) { toast('Payment screenshot upload karo', 'error'); return; }
+  finaliseOrder('UPI-SCREENSHOT');
+}
+
+function confirmCODOrder() {
+  finaliseOrder('COD');
+}
+
+function handleScreenshot(input) {
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      document.getElementById('ss-preview').innerHTML = `
+        <img src="${e.target.result}" style="width:100%;border-radius:10px;max-height:200px;object-fit:contain;margin-top:8px">
+        <div style="font-size:12px;color:var(--success);margin-top:6px;font-weight:700">✅ Screenshot uploaded</div>`;
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+function copyUPI() {
+  navigator.clipboard?.writeText(CONFIG.upiId);
+  toast('UPI ID copied! 📋', 'success');
+}
+
+function finaliseOrder(paymentRef) {
+  const orderId = 'SI-' + Date.now().toString().slice(-6);
+
+  // Save order to localStorage (in production: POST to backend API)
+  // EMAIL TEMPLATES: After saving, trigger:
+  // - sendOrderConfirmationEmail(pendingOrder.email, orderId) → see /backend/emails/order-confirmation.html
+  // - sendAdminNotification(orderId) → your admin email
+  // - sendWhatsAppMessage(pendingOrder.phone, orderId) → WhatsApp Business API
+  const orderData = {
+    id: orderId,
+    ...pendingOrder,
+    paymentRef,
+    status: pendingOrder.paymentMethod === 'cod' ? 'Confirmed (COD)' : 'Payment Verification Pending',
+    createdAt: new Date().toISOString(),
+    // Supplier info (for dropshipping workflow):
+    supplierInfo: pendingOrder.items.map(item => {
+      const product = PRODUCTS.find(p => p.id === item.id);
+      return {
+        productId: item.id, productName: item.name, qty: item.qty,
+        supplier: product?.supplier || 'Unknown',
+        supplierSku: product?.supplierSku || 'N/A',
+        handlingDays: product?.handlingDays || 2,
+      };
+    }),
+  };
+
+  const orders = JSON.parse(localStorage.getItem('si-orders') || '[]');
+  orders.push(orderData);
+  localStorage.setItem('si-orders', JSON.stringify(orders));
+
+  // Also POST to backend
+  // fetch('/api/orders', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(orderData) })
+  //   .catch(err => console.error('Backend save failed:', err));
+
+  // Clear cart
+  cart = [];
+  saveCart();
+  updateCartBadge();
+
+  // Clear abandoned cart flag
+  localStorage.removeItem('si-cart-updated-at');
+
+  document.getElementById('success-order-id').textContent = orderId;
+  showPage('page-success');
+  toast('Order placed! 🎉', 'success');
+}
+
+function whatsappOrder() {
+  const orderId = document.getElementById('success-order-id').textContent;
+  window.open(`https://wa.me/${CONFIG.whatsapp}?text=Hi! I placed order ${orderId} on ShopIndia. Please help with tracking.`, '_blank');
+}
+
+/* ============================================================
+   ORDER TRACKING
+   ============================================================ */
+function trackOrder() {
+  const orderId = document.getElementById('track-id').value.trim().toUpperCase();
+  const phone = document.getElementById('track-phone').value.trim();
+  if (!orderId || !phone) { toast('Order ID aur phone dono bharo', 'error'); return; }
+
+  const orders = JSON.parse(localStorage.getItem('si-orders') || '[]');
+  const order = orders.find(o => o.id === orderId && o.phone === phone);
+  const result = document.getElementById('track-result');
+  result.style.display = 'block';
+
+  if (!order) {
+    result.innerHTML = `
+      <div class="empty-state" style="padding:30px 20px">
+        <div class="empty-icon">🔍</div>
+        <h3>Order nahi mila</h3>
+        <p>Order ID aur phone number dobara check karo</p>
+      </div>`;
+    return;
+  }
+
+  const statuses = ['Order Placed','Payment Verified','Processing','Shipped','Out for Delivery','Delivered'];
+  const curIdx = statuses.indexOf(order.status) !== -1
+    ? statuses.indexOf(order.status)
+    : order.status.includes('Verification') ? 0 : order.status.includes('COD') ? 1 : 0;
+
+  result.innerHTML = `
+    <div style="background:white;border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+        <div style="font-size:17px;font-weight:900">${order.id}</div>
+        <div class="order-status status-${order.status.toLowerCase().includes('deliver')?'delivered':order.status.toLowerCase().includes('ship')?'shipped':'pending'}">${order.status}</div>
+      </div>
+      <div style="font-size:12px;color:var(--text-muted);margin-bottom:16px">
+        ${order.items?.length||0} items · ₹${order.total?.toLocaleString('en-IN')} · ${new Date(order.createdAt).toLocaleDateString('en-IN')}
+      </div>
+      <div class="track-steps">
+        ${statuses.map((s,i) => `
+          <div class="track-step">
+            <div class="ts-line">
+              <div class="ts-dot${i<curIdx?' done':i===curIdx?' now':' wait'}"></div>
+              ${i<statuses.length-1?`<div class="ts-connector${i<curIdx?' done':' wait'}"></div>`:''}
+            </div>
+            <div class="ts-info" style="color:${i<=curIdx?'var(--text)':'var(--text-muted)'}">
+              <div class="ts-title">${s}</div>
+              <div class="ts-desc">${['Order received & being verified','Payment confirmed & processing','Packed & ready to dispatch','Package dispatched via courier','Out for last mile delivery','Delivered to your doorstep'][i]}</div>
+              ${i===curIdx?`<div class="ts-date">Current Status</div>`:''}
+            </div>
+          </div>`).join('')}
+      </div>
+      <button class="wa-order-btn" onclick="window.open('https://wa.me/${CONFIG.whatsapp}?text=Track order ${order.id}','_blank')" style="margin-top:12px">💬 WhatsApp Support</button>
+    </div>`;
+}
+
+/* ============================================================
+   ACCOUNT / AUTH
+   ============================================================ */
+function checkUserSession() {
+  if (currentUser) {
+    document.getElementById('acc-guest').style.display = 'none';
+    document.getElementById('acc-profile').style.display = 'block';
+    document.getElementById('acc-name').textContent = currentUser.name;
+    document.getElementById('acc-phone').textContent = '+91 ' + currentUser.phone;
+  } else {
+    document.getElementById('acc-guest').style.display = 'block';
+    document.getElementById('acc-profile').style.display = 'none';
+  }
+}
+
+function loginUser() {
+  const phone = document.getElementById('l-phone').value.trim();
+  const name = document.getElementById('l-name').value.trim() || 'Valued Customer';
+  if (phone.length !== 10 || !/^\d+$/.test(phone)) { toast('Valid 10-digit mobile number enter karo', 'error'); return; }
+  // In production: send OTP via SMS (Msg91, Exotel, etc.)
+  // TODO: const otpRes = await fetch('/api/auth/send-otp', { method:'POST', body:JSON.stringify({phone}) })
+  currentUser = { name, phone, createdAt: new Date().toISOString() };
+  localStorage.setItem('si-user', JSON.stringify(currentUser));
+  checkUserSession();
+  toast(`Welcome, ${name}! 🎉`, 'success');
+}
+
+function logoutUser() {
+  if (!confirm('Logout karna chahte ho?')) return;
+  currentUser = null;
+  localStorage.removeItem('si-user');
+  checkUserSession();
+  toast('Logged out');
+}
+
+function showMyOrders() {
+  const orders = JSON.parse(localStorage.getItem('si-orders') || '[]');
+  const el = document.getElementById('my-orders-list');
+  if (!orders.length) {
+    el.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text-muted)">Abhi tak koi order nahi</div>';
+    return;
+  }
+  el.innerHTML = `<div style="padding:14px 14px 8px;font-size:16px;font-weight:800">📦 My Orders</div>` +
+    [...orders].reverse().map(o => `
+      <div class="order-card">
+        <div class="order-card-header">
+          <div class="order-id">${o.id}</div>
+          <div class="order-status status-${o.status?.toLowerCase().includes('deliver')?'delivered':o.status?.toLowerCase().includes('ship')?'shipped':o.status?.toLowerCase().includes('cod')?'confirmed':'pending'}">${o.status||'Processing'}</div>
+        </div>
+        <div class="order-card-body">${o.items?.length||0} items · ₹${o.total?.toLocaleString('en-IN')} · ${new Date(o.createdAt).toLocaleDateString('en-IN')}</div>
+        <div class="order-card-footer">
+          <button class="oc-btn" onclick="showPage('page-track')">Track</button>
+          <button class="oc-btn primary" onclick="window.open('https://wa.me/${CONFIG.whatsapp}?text=Help with order ${o.id}','_blank')">WhatsApp</button>
+        </div>
+      </div>`).join('');
+}
+
+/* ============================================================
+   NEWSLETTER & CONTACT
+   ============================================================ */
+function subscribeNewsletter() {
+  const phone = document.getElementById('nl-phone').value.trim();
+  if (phone.length !== 10) { toast('Valid WhatsApp number enter karo', 'error'); return; }
+  // In production: POST to backend for newsletter list
+  // fetch('/api/subscribe', { method:'POST', body:JSON.stringify({phone}) })
+  toast('Subscribed! Exclusive deals aayenge WhatsApp pe 🎉', 'success');
+  document.getElementById('nl-phone').value = '';
+}
+
+function sendContactMsg() {
+  const name = document.getElementById('c-name').value.trim();
+  const phone = document.getElementById('c-phone').value.trim();
+  const msg = document.getElementById('c-msg').value.trim();
+  if (!name || !phone || !msg) { toast('Sab fields fill karo', 'error'); return; }
+  // In production: POST to backend or send WhatsApp
+  window.open(`https://wa.me/${CONFIG.whatsapp}?text=Hi! My name is ${name} (${phone}). ${msg}`, '_blank');
+  toast('Redirecting to WhatsApp... 💬', 'success');
+}
+
+/* ============================================================
+   UTILS
+   ============================================================ */
+function toast(msg, type='') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (type?' '+type:'');
+  clearTimeout(t._timeout);
+  t._timeout = setTimeout(() => t.classList.remove('show'), 3000);
+}
+</script>
+</body>
+</html>
